@@ -7,129 +7,79 @@
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050608;
-            --panel-bg: #11141a;
-            --copper-dark: #3a1c0d;
-            --copper-light: #ff8c00;
-            --neon-dark: #b36200;
-            --neon-light: #ffaa33;
-            --boxes-accent: #00d2ff;
-            --valves-accent: #ff8c00;
-            --light-accent: #fdd835;
-            --word-accent: #ff1744;
-            --flood-accent: #a200ff;
-            --towers-accent: #ff3399;
-            --findit-accent: #2962ff;
-            --text-color: #e0e6ed;
-            --hub-accent: #ff3366;
+            --bg-color: #050608; --panel-bg: #11141a; --copper-dark: #3a1c0d; --copper-light: #ff8c00;
+            --neon-dark: #b36200; --neon-light: #ffaa33; --boxes-accent: #00d2ff; --valves-accent: #ff8c00;
+            --light-accent: #fdd835; --word-accent: #ff1744; --flood-accent: #a200ff; --towers-accent: #ff3399;
+            --findit-accent: #2962ff; --switcheroo-accent: #76ff03; --text-color: #e0e6ed; --hub-accent: #ff3366;
             --grid-size: 4;
         }
-
         body {
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Rajdhani', sans-serif;
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
             height: 100vh; overflow: hidden; background-image: radial-gradient(circle at center, #11141a 0%, #050608 100%);
             overscroll-behavior: none; user-select: none;
         }
-
         header {
             width: 100%; display: flex; justify-content: center; align-items: center; padding: 12px 20px;
             box-sizing: border-box; background: linear-gradient(180deg, #1a1f2b 0%, #11141a 100%);
-            border-bottom: 3px solid var(--hub-accent); box-shadow: 0 4px 15px rgba(255, 51, 102, 0.2); z-index: 10; position: relative;
+            border-bottom: 3px solid var(--hub-accent); box-shadow: 0 4px 15px rgba(255,51,102,0.2); z-index: 10;
+            position: relative; flex-shrink: 0;
         }
-
         h1 {
             font-family: 'Black Ops One', cursive; font-size: 1.8em; margin: 0; letter-spacing: 3px;
             background: linear-gradient(to bottom, #ffffff, var(--hub-accent)); -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(255, 51, 102, 0.4); text-transform: uppercase;
+            -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(255,51,102,0.4); text-transform: uppercase;
         }
-
         .logs-btn {
             position: absolute; right: 15px; background: transparent; border: 2px solid var(--hub-accent);
             color: var(--hub-accent); border-radius: 6px; padding: 5px 10px; font-size: 0.8em;
-            font-family: 'Black Ops One', cursive; cursor: pointer; text-shadow: 0 0 5px rgba(255, 51, 102, 0.5); transition: all 0.2s;
+            font-family: 'Black Ops One', cursive; cursor: pointer; text-shadow: 0 0 5px rgba(255,51,102,0.5);
+            transition: all 0.2s;
         }
-
         .logs-btn:hover { background: var(--hub-accent); color: #fff; }
         button { font-family: 'Black Ops One', cursive; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
         .screen {
             display: none; flex-direction: column; align-items: center; width: 100%; max-width: 500px;
             flex-grow: 1; padding: 15px 20px; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;
         }
-
-        .active-screen { display: flex; animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-
-        /* --- HUB SCREEN --- */
+        .active-screen { display: flex; animation: fadeIn 0.4s cubic-bezier(0.2,0.8,0.2,1) forwards; }
         .mode-selector { display: flex; justify-content: center; gap: 20px; width: 100%; margin-bottom: 20px; border-bottom: 1px solid #2a3240; padding-bottom: 12px; flex-shrink: 0; }
         .mode-tab { font-size: 1.1em; font-weight: 700; color: #4a5568; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s, text-shadow 0.3s; position: relative; }
         .mode-tab::after { content: ''; position: absolute; bottom: -13px; left: 0; width: 100%; height: 3px; background: var(--hub-accent); transform: scaleX(0); transition: transform 0.3s; }
         .mode-tab.active { color: var(--text-color); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .mode-tab.active::after { transform: scaleX(1); }
-
-        .cards-container { display: flex; flex-direction: column; gap: 20px; width: 100%; padding-bottom: 20px; }
+        .cards-container { display: flex; flex-direction: column; gap: 20px; width: 100%; padding-bottom: 80px; }
         .game-card { background: linear-gradient(135deg, #181c24 0%, #0d1015 100%); border: 2px solid #333; border-radius: 16px; padding: 25px; width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; position: relative; overflow: hidden; transition: 0.3s; }
-
-        .card-valves { border-color: var(--valves-accent); box-shadow: 0 5px 20px rgba(255, 140, 0, 0.1); }
-        .card-boxes { border-color: var(--boxes-accent); box-shadow: 0 5px 20px rgba(0, 210, 255, 0.1); }
-        .card-light { border-color: var(--light-accent); box-shadow: 0 5px 20px rgba(253, 216, 53, 0.1); }
-        .card-word { border-color: var(--word-accent); box-shadow: 0 5px 20px rgba(255, 23, 68, 0.1); }
-        .card-flood { border-color: var(--flood-accent); box-shadow: 0 5px 20px rgba(162, 0, 255, 0.1); }
-        .card-towers { border-color: var(--towers-accent); box-shadow: 0 5px 20px rgba(255, 51, 153, 0.1); }
-        .card-findit { border-color: var(--findit-accent); box-shadow: 0 5px 20px rgba(41, 98, 255, 0.1); }
-
+        .card-valves { border-color: var(--valves-accent); box-shadow: 0 5px 20px rgba(255,140,0,0.1); }
+        .card-boxes { border-color: var(--boxes-accent); box-shadow: 0 5px 20px rgba(0,210,255,0.1); }
+        .card-light { border-color: var(--light-accent); box-shadow: 0 5px 20px rgba(253,216,53,0.1); }
+        .card-word { border-color: var(--word-accent); box-shadow: 0 5px 20px rgba(255,23,68,0.1); }
+        .card-flood { border-color: var(--flood-accent); box-shadow: 0 5px 20px rgba(162,0,255,0.1); }
+        .card-towers { border-color: var(--towers-accent); box-shadow: 0 5px 20px rgba(255,51,153,0.1); }
+        .card-findit { border-color: var(--findit-accent); box-shadow: 0 5px 20px rgba(41,98,255,0.1); }
+        .card-switcheroo { border-color: var(--switcheroo-accent); box-shadow: 0 5px 20px rgba(118,255,3,0.1); }
         .completed-card { filter: grayscale(100%); opacity: 0.5; }
         .check-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 5; background: rgba(0,0,0,0.4); pointer-events: none; }
         .completed-card .check-overlay { display: flex; }
-
         .logo-svg { width: 60px; height: 60px; margin-bottom: 10px; }
-        .card-valves .logo-svg { filter: drop-shadow(0 0 10px var(--valves-accent)); }
-        .card-boxes .logo-svg { filter: drop-shadow(0 0 10px var(--boxes-accent)); }
-        .card-light .logo-svg { filter: drop-shadow(0 0 10px var(--light-accent)); }
-        .card-word .logo-svg { filter: drop-shadow(0 0 10px var(--word-accent)); }
-        .card-flood .logo-svg { filter: drop-shadow(0 0 10px var(--flood-accent)); }
-        .card-towers .logo-svg { filter: drop-shadow(0 0 10px var(--towers-accent)); }
-        .card-findit .logo-svg { filter: drop-shadow(0 0 10px var(--findit-accent)); }
-
         .game-title { font-family: 'Black Ops One', cursive; font-size: 2em; margin: 0 0 15px 0; letter-spacing: 3px; text-align: center; }
-        .card-valves .game-title { color: var(--valves-accent); text-shadow: 0 0 10px rgba(255, 140, 0, 0.4); }
-        .card-boxes .game-title { color: var(--boxes-accent); text-shadow: 0 0 10px rgba(0, 210, 255, 0.4); }
-        .card-light .game-title { color: var(--light-accent); text-shadow: 0 0 10px rgba(253, 216, 53, 0.4); }
-        .card-word .game-title { color: var(--word-accent); text-shadow: 0 0 10px rgba(255, 23, 68, 0.4); }
-        .card-flood .game-title { color: var(--flood-accent); text-shadow: 0 0 10px rgba(162, 0, 255, 0.4); }
-        .card-towers .game-title { color: var(--towers-accent); text-shadow: 0 0 10px rgba(255, 51, 153, 0.4); }
-        .card-findit .game-title { color: var(--findit-accent); text-shadow: 0 0 10px rgba(41, 98, 255, 0.4); }
-
         .play-btn { color: var(--bg-color); border: none; padding: 12px 30px; border-radius: 8px; font-size: 1.3em; width: 100%; z-index: 2; position: relative; }
-        .btn-valves { background: var(--valves-accent); box-shadow: 0 0 15px rgba(255, 140, 0, 0.3); }
-        .btn-boxes { background: var(--boxes-accent); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
-        .btn-light { background: var(--light-accent); box-shadow: 0 0 15px rgba(253, 216, 53, 0.3); }
-        .btn-word { background: var(--word-accent); box-shadow: 0 0 15px rgba(255, 23, 68, 0.3); }
-        .btn-flood { background: var(--flood-accent); box-shadow: 0 0 15px rgba(162, 0, 255, 0.3); }
-        .btn-towers { background: var(--towers-accent); box-shadow: 0 0 15px rgba(255, 51, 153, 0.3); }
-        .btn-findit { background: var(--findit-accent); box-shadow: 0 0 15px rgba(41, 98, 255, 0.3); }
         .play-btn:disabled { display: none; }
-
-        /* --- POST TAB UI --- */
         .post-container { display: none; flex-direction: column; width: 100%; gap: 10px; animation: fadeIn 0.4s forwards; }
         .post-top-bar { display: flex; justify-content: flex-end; width: 100%; padding-bottom: 5px; }
-        .total-points-badge { background: #1a1f2b; padding: 6px 12px; border-radius: 8px; border: 2px solid var(--hub-accent); font-family: 'Black Ops One', cursive; font-size: 1em; color: #fff; box-shadow: 0 0 15px rgba(255, 51, 102, 0.3); letter-spacing: 1px; }
+        .total-points-badge { background: #1a1f2b; padding: 6px 12px; border-radius: 8px; border: 2px solid var(--hub-accent); font-family: 'Black Ops One', cursive; font-size: 1em; color: #fff; box-shadow: 0 0 15px rgba(255,51,102,0.3); letter-spacing: 1px; }
         .post-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; }
         .post-item { background: linear-gradient(135deg, #181c24 0%, #0d1015 100%); padding: 10px 5px; border-radius: 10px; border: 2px solid #2a3240; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.2s; box-shadow: inset 0 5px 15px rgba(0,0,0,0.5); }
         .post-item:hover { border-color: #4a5568; background: #1a1f2b; }
         .post-item .logo-svg { width: 40px; height: 40px; margin-bottom: 6px; }
         .post-score { font-family: 'Black Ops One', cursive; font-size: 1.5em; margin-top: 2px; }
-
-        .score-gold { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-        .score-gray { color: #b0bec5; text-shadow: 0 0 10px rgba(176, 190, 197, 0.2); }
-        .score-brown { color: #cd853f; text-shadow: 0 0 10px rgba(139, 69, 19, 0.5); }
-
-        /* --- MODAL POPUP --- */
+        .score-gold { color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.6); }
+        .score-gray { color: #b0bec5; text-shadow: 0 0 10px rgba(176,190,197,0.2); }
+        .score-brown { color: #cd853f; text-shadow: 0 0 10px rgba(139,69,19,0.5); }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--panel-bg); border: 3px solid var(--hub-accent); border-radius: 12px; padding: 30px; text-align: center; width: 80%; max-width: 320px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6); animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .modal-content { background: var(--panel-bg); border: 3px solid var(--hub-accent); border-radius: 12px; padding: 30px; text-align: center; width: 80%; max-width: 320px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6); animation: scaleIn 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards; }
         .modal-title { font-family: 'Black Ops One', cursive; font-size: 1.8em; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; }
         .modal-stat-row { display: flex; justify-content: space-between; font-size: 1.2em; color: #8a9bb3; margin: 10px 0; border-bottom: 1px solid #2a3240; padding-bottom: 5px; font-weight: bold; }
         .modal-stat-row span:last-child { color: #e0e6ed; font-family: 'Black Ops One', cursive; }
@@ -137,71 +87,38 @@
         .modal-score-val { font-size: 2em; display: block; margin-top: 5px; }
         .close-modal-btn { background: #2a3240; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 1.1em; margin-top: 25px; width: 100%; transition: 0.2s; }
         .close-modal-btn:hover { background: #4a5568; }
-
-        /* --- INSTRUCTIONS & LOGS --- */
         .instructions-box, .log-box { background: var(--panel-bg); border: 2px solid #333; border-radius: 12px; padding: 20px; width: 100%; box-sizing: border-box; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); margin-bottom: 20px; }
-        .inst-valves { border-color: var(--valves-accent); } .inst-boxes { border-color: var(--boxes-accent); }
-        .inst-light { border-color: var(--light-accent); } .inst-word { border-color: var(--word-accent); }
-        .inst-flood { border-color: var(--flood-accent); } .inst-towers { border-color: var(--towers-accent); }
-        .inst-findit { border-color: var(--findit-accent); }
-
         .instructions-box h2, .log-box h2 { font-family: 'Black Ops One', cursive; margin-top: 0; text-align: center; font-size: 1.6em; }
-        .inst-valves h2 { color: var(--valves-accent); } .inst-boxes h2 { color: var(--boxes-accent); }
-        .inst-light h2 { color: var(--light-accent); } .inst-word h2 { color: var(--word-accent); }
-        .inst-flood h2 { color: var(--flood-accent); } .inst-towers h2 { color: var(--towers-accent); }
-        .inst-findit h2 { color: var(--findit-accent); }
-
         .instructions-box p, .instructions-box ul, .instructions-box li { color: #b0bec5; font-size: 1em; line-height: 1.5; padding-left: 10px; }
         .log-entry { margin-bottom: 15px; border-bottom: 1px solid #2a3240; padding-bottom: 10px; }
         .log-date { font-family: 'Black Ops One', cursive; color: var(--hub-accent); font-size: 1.1em; }
         .log-desc { color: #8a9bb3; margin-top: 5px; }
         .developer-credit { text-align: center; font-weight: bold; color: #fff; margin-top: 20px; font-family: 'Black Ops One', cursive; }
-
         .start-game-btn { background: transparent; padding: 12px; border-radius: 8px; font-size: 1.3em; width: 100%; margin-top: 15px; }
-        .start-valves { color: var(--valves-accent); border: 2px solid var(--valves-accent); } .start-valves:hover { background: var(--valves-accent); color: var(--bg-color); }
-        .start-boxes { color: var(--boxes-accent); border: 2px solid var(--boxes-accent); } .start-boxes:hover { background: var(--boxes-accent); color: var(--bg-color); }
-        .start-light { color: var(--light-accent); border: 2px solid var(--light-accent); } .start-light:hover { background: var(--light-accent); color: var(--bg-color); }
-        .start-word { color: var(--word-accent); border: 2px solid var(--word-accent); } .start-word:hover { background: var(--word-accent); color: var(--bg-color); }
-        .start-flood { color: var(--flood-accent); border: 2px solid var(--flood-accent); } .start-flood:hover { background: var(--flood-accent); color: var(--bg-color); }
-        .start-towers { color: var(--towers-accent); border: 2px solid var(--towers-accent); } .start-towers:hover { background: var(--towers-accent); color: var(--bg-color); }
-        .start-findit { color: var(--findit-accent); border: 2px solid var(--findit-accent); } .start-findit:hover { background: var(--findit-accent); color: var(--bg-color); }
-
         .back-btn { background: #2a3240; color: #e0e6ed; border: none; padding: 10px 20px; border-radius: 6px; font-size: 1em; width: 100%; margin-top: 10px; }
-
-        /* --- SHARED GAME UI --- */
         .stats { display: flex; justify-content: space-between; width: 100%; max-width: 380px; background: #0d1015; padding: 10px 20px; border-radius: 10px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #2a3240; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5); }
         .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 0.9em; color: #6c7a8c; font-weight: 700; width: 33%; }
         .stat-value { font-family: 'Black Ops One', cursive; font-size: 1.4em; color: #fff; margin-top: 2px; }
         .board-frame { background: linear-gradient(135deg, #2a3240 0%, #181c24 100%); padding: 8px; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 100%; max-width: 380px; aspect-ratio: 1 / 1; box-sizing: border-box; margin-bottom: 10px; touch-action: none; position: relative; }
         .game-message { height: 30px; font-size: 1.4em; font-family: 'Black Ops One', cursive; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 10px; }
-
-        /* --- WORD SEARCH SPECIFIC --- */
         #word-target-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 10px; font-weight: bold; width: 100%; max-width: 380px; }
         .word-badge { background: #1a1f2b; border: 1px solid var(--word-accent); padding: 4px 8px; border-radius: 4px; color: #fff; font-size: 0.9em; transition: 0.3s; }
         .word-found { background: var(--word-accent); color: var(--bg-color); text-decoration: line-through; border-color: var(--word-accent); }
-
         #word-grid { display: grid; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(8, 1fr); gap: 2px; background-color: #090a0d; padding: 4px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; }
         .w-tile { background-color: #1e2430; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-family: 'Black Ops One', cursive; font-size: 1.3em; color: #fff; transition: 0.1s; position: relative; }
         .w-tile.highlight { background-color: rgba(255, 23, 68, 0.4); color: #fff; box-shadow: inset 0 0 10px var(--word-accent); }
-        .w-tile.found { background-color: rgba(255, 23, 68, 0.2); color: var(--word-accent); font-weight: bold; }
         .line-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
-
-        /* --- COLOR FLOOD SPECIFIC --- */
         #flood-grid { display: grid; grid-template-columns: repeat(var(--grid-size, 5), 1fr); grid-template-rows: repeat(var(--grid-size, 5), 1fr); gap: 2px; background-color: #090a0d; padding: 4px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; }
         .f-tile { border-radius: 2px; width: 100%; height: 100%; transition: background-color 0.2s; box-shadow: inset 0 0 5px rgba(0,0,0,0.3); }
         .flood-palette { display: flex; justify-content: space-between; width: 100%; max-width: 380px; margin-bottom: 15px; gap: 8px; }
         .f-btn { flex-grow: 1; height: 50px; border-radius: 8px; border: 3px solid #2a3240; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .f-btn:hover { transform: translateY(-3px); border-color: #fff; }
-
-        /* --- TOWERS SPECIFIC --- */
         #towers-container { display: flex; justify-content: space-evenly; align-items: flex-end; width: 100%; height: 100%; padding: 20px 0; box-sizing: border-box; background-color: #090a0d; border-radius: 8px;}
         .tower-col { display: flex; flex-direction: column-reverse; align-items: center; width: 22%; height: 100%; background: rgba(255,255,255,0.02); border-radius: 8px; border: 2px dashed #2a3240; position: relative; cursor: pointer; transition: 0.2s; }
         .tower-col.selected { border-color: var(--towers-accent); background: rgba(255, 51, 153, 0.1); box-shadow: 0 0 15px rgba(255, 51, 153, 0.3); }
         .twr-block { width: 90%; height: 15%; background: linear-gradient(135deg, var(--towers-accent) 0%, #b30059 100%); margin-bottom: 4px; border-radius: 6px; box-shadow: 0 4px 8px rgba(0,0,0,0.6); border: 1px solid #ff99cc; transition: transform 0.2s; }
         .tower-target { position: absolute; bottom: -35px; font-family: 'Black Ops One'; font-size: 1.5em; color: var(--towers-accent); text-shadow: 0 0 5px rgba(255, 51, 153, 0.5); }
         .tower-target.matched { color: #39ff14; text-shadow: 0 0 5px rgba(57, 255, 20, 0.5); }
-
-        /* --- FIND IT SPECIFIC --- */
         #findit-grid { display: grid; grid-template-columns: repeat(var(--grid-size, 6), 1fr); grid-template-rows: repeat(var(--grid-size, 6), 1fr); gap: 4px; background-color: #090a0d; padding: 6px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; perspective: 600px; }
         .fi-tile { width: 100%; height: 100%; cursor: pointer; position: relative; transform-style: preserve-3d; }
         .fi-inner { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1); }
@@ -209,16 +126,12 @@
         .fi-front, .fi-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; }
         .fi-front { background: #1e2430; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); border: 1px solid #2a3240; }
         .fi-back { background: #111; transform: rotateY(180deg); box-shadow: inset 0 0 15px rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; }
-
-        /* --- LIGHT, VALVES, BOXES SPECIFIC --- */
         #light-grid, #valves-grid, #boxes-grid { display: grid; grid-template-columns: repeat(var(--grid-size, 5), 1fr); grid-template-rows: repeat(var(--grid-size, 5), 1fr); gap: 3px; background-color: #090a0d; padding: 6px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; }
-
         .l-tile { background-color: #1e2430; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-family: 'Black Ops One', cursive; font-size: 1.5em; color: #fff; cursor: pointer; transition: 0.2s; position: relative; }
         .l-tile.wall { background-color: #0d1015; box-shadow: inset 0 0 10px rgba(0,0,0,0.9); cursor: default; border: 1px solid #2a3240; }
         .l-tile.lit { background-color: rgba(253, 216, 53, 0.2); box-shadow: inset 0 0 10px rgba(253, 216, 53, 0.1); }
         .l-tile.error { background-color: rgba(255, 51, 102, 0.5) !important; color: #ffebcc; box-shadow: inset 0 0 15px rgba(255, 51, 102, 0.8) !important; }
         .l-tile.bulb::after { content: ''; position: absolute; width: 35%; height: 35%; background: #fff; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); box-shadow: 0 0 10px 5px var(--light-accent), 0 0 25px 10px var(--light-accent); filter: drop-shadow(0 0 10px var(--light-accent)); }
-
         .v-tile { background-color: #1e2430; border-radius: 4px; position: relative; cursor: pointer; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); overflow: hidden; width: 100%; height: 100%; }
         .v-tile-inner { width: 100%; height: 100%; position: absolute; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .v-pipe { position: absolute; transition: 0.3s ease; }
@@ -230,15 +143,21 @@
         .filled .v-left, .filled .v-right { background: linear-gradient(180deg, var(--neon-dark) 0%, var(--neon-light) 50%, var(--neon-dark) 100%); }
         .filled .v-center { background: radial-gradient(circle, #ffffff 0%, var(--neon-light) 60%, var(--neon-dark) 100%); box-shadow: 0 0 15px var(--neon-light); }
         .v-source { position: absolute; width: 30%; height: 30%; background-color: #ffaa33; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; box-shadow: 0 0 12px #ffaa33; }
-
         .b-tile { background-color: #1e2430; border-radius: 2px; position: relative; display: flex; justify-content: center; align-items: center; font-family: 'Black Ops One', cursive; font-size: 1.5em; color: #fff; box-shadow: inset 0 0 8px rgba(0,0,0,0.8); pointer-events: none; }
         .b-tile.highlight { background-color: rgba(0, 210, 255, 0.3); box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.5); }
-        .b-tile.placed { background-color: rgba(0, 210, 255, 0.15); border: 2px solid var(--boxes-accent); box-shadow: inset 0 0 15px rgba(0, 210, 255, 0.2); }
+        #switcheroo-grid { display: grid; gap: 1px; background-color: #090a0d; padding: 3px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; }
+        .s-tile { background-color: #1e2430; border-radius: 3px; position: relative; display: flex; justify-content: center; align-items: center; }
+        .s-tile.wall { background-color: #0d1015; box-shadow: inset 0 0 8px rgba(0,0,0,0.9); }
+        .s-char { width: 55%; height: 55%; border-radius: 50%; position: absolute; z-index: 2; display: flex; justify-content: center; align-items: center; font-family: 'Black Ops One', cursive; color: #000; font-size: 0.9em; }
+        .s-dest { width: 55%; height: 55%; border-radius: 50%; border: 2px dashed; position: absolute; z-index: 1; }
+        .sw-arrows { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+        .sw-arrow-btn { width: 40px; height: 40px; background: var(--switcheroo-accent); border: none; border-radius: 8px; font-size: 1.4em; display: flex; align-items: center; justify-content: center; color: #000; box-shadow: 0 3px 8px rgba(118,255,3,0.3); }
+        .sw-arrow-btn:active { transform: scale(0.95); }
+        #sw-frame { max-width: 280px; padding: 6px; }
     </style>
 </head>
 <body>
-
-    <header>
+    <header id="main-header">
         <h1>MINDFLEX 2</h1>
         <button class="logs-btn" onclick="showScreen('logs-screen')">LOGS</button>
     </header>
@@ -248,9 +167,7 @@
             <div id="modal-title" class="modal-title"></div>
             <div class="modal-stat-row">MOVES <span><span id="modal-moves"></span></span></div>
             <div class="modal-stat-row">TIME <span><span id="modal-time"></span>s</span></div>
-            <div class="modal-score-row">
-                SCORE <span id="modal-score" class="modal-score-val"></span>
-            </div>
+            <div class="modal-score-row">SCORE <span id="modal-score" class="modal-score-val"></span></div>
             <button class="close-modal-btn" onclick="closeModal()">CLOSE</button>
         </div>
     </div>
@@ -261,114 +178,20 @@
             <div class="mode-tab" id="tab-post" onclick="switchMode('post')">Post</div>
             <div class="mode-tab" id="tab-infinite" onclick="switchMode('infinite')">Infinite</div>
         </div>
-
         <div id="post-container" class="post-container">
-            <div class="post-top-bar">
-                <div class="total-points-badge">TOTAL: <span id="post-total-val">0</span></div>
-            </div>
-            <div class="post-grid">
-                <div class="post-item" onclick="openModal('word', 'var(--word-accent)', 'SEARCH')">
-                    <svg class="logo-svg card-word" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="none" stroke="var(--word-accent)" stroke-width="4" opacity="0.3"/><line x1="20" y1="40" x2="80" y2="40" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="20" y1="60" x2="80" y2="60" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="40" y1="20" x2="40" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="60" y1="20" x2="60" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="25" y1="25" x2="75" y2="75" stroke="var(--word-accent)" stroke-width="8" stroke-linecap="round"/><circle cx="25" cy="25" r="5" fill="#fff"/><circle cx="75" cy="75" r="5" fill="#fff"/></svg>
-                    <div class="post-score" id="post-score-word">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('valves', 'var(--valves-accent)', 'VALVES')">
-                    <svg class="logo-svg card-valves" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--valves-accent)" stroke-width="8"/><circle cx="50" cy="50" r="15" fill="var(--valves-accent)"/><line x1="50" y1="50" x2="50" y2="8" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="13" y2="70" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="87" y2="70" stroke="var(--valves-accent)" stroke-width="8"/></svg>
-                    <div class="post-score" id="post-score-valves">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('boxes', 'var(--boxes-accent)', 'BOXES')">
-                    <svg class="logo-svg card-boxes" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><line x1="15" y1="38" x2="85" y2="38" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="15" y1="62" x2="85" y2="62" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="38" y1="15" x2="38" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="62" y1="15" x2="62" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><rect x="38" y="38" width="47" height="24" fill="var(--boxes-accent)" opacity="0.2"/><rect x="38" y="38" width="47" height="24" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><text x="62" y="55" fill="#fff" font-family="Black Ops One" font-size="14" text-anchor="middle">2</text></svg>
-                    <div class="post-score" id="post-score-boxes">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('flood', 'var(--flood-accent)', 'COLOR FLOOD')">
-                    <svg class="logo-svg card-flood" viewBox="0 0 100 100"><rect x="10" y="10" width="35" height="35" fill="var(--flood-accent)" opacity="1"/><rect x="50" y="10" width="40" height="35" fill="var(--flood-accent)" opacity="0.6"/><rect x="10" y="50" width="35" height="40" fill="var(--flood-accent)" opacity="0.6"/><rect x="50" y="50" width="40" height="40" fill="var(--flood-accent)" opacity="0.2"/><path d="M 30 30 L 70 30 L 70 70 M 30 30 L 30 70 L 70 70" fill="none" stroke="#fff" stroke-width="4" opacity="0.5"/></svg>
-                    <div class="post-score" id="post-score-flood">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('light', 'var(--light-accent)', 'LIGHT EM UP')">
-                    <svg class="logo-svg card-light" viewBox="0 0 100 100"><path d="M 35 58 C 15 35 30 15 50 15 C 70 15 85 35 65 58 L 60 72 L 40 72 Z" fill="none" stroke="var(--light-accent)" stroke-width="6"/><rect x="42" y="75" width="16" height="10" fill="var(--light-accent)"/><line x1="50" y1="2" x2="50" y2="10" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="15" y1="20" x2="25" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="85" y1="20" x2="75" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/></svg>
-                    <div class="post-score" id="post-score-light">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('towers', 'var(--towers-accent)', 'TOWERS')">
-                    <svg class="logo-svg card-towers" viewBox="0 0 100 100"><rect x="40" y="60" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><rect x="40" y="35" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><text x="50" y="95" fill="var(--towers-accent)" font-family="Black Ops One" font-size="20" text-anchor="middle">2</text></svg>
-                    <div class="post-score" id="post-score-towers">0</div>
-                </div>
-
-                <div class="post-item" onclick="openModal('findit', 'var(--findit-accent)', 'FIND IT')">
-                    <svg class="logo-svg card-findit" viewBox="0 0 100 100">
-                        <rect x="15" y="15" width="30" height="30" fill="#111"/>
-                        <rect x="55" y="15" width="30" height="30" fill="#fdd835"/>
-                        <rect x="15" y="55" width="30" height="30" fill="#ff1744"/>
-                        <rect x="55" y="55" width="30" height="30" fill="#39ff14"/>
-                    </svg>
-                    <div class="post-score" id="post-score-findit">0</div>
-                </div>
-            </div>
+            <div class="post-top-bar"><div class="total-points-badge">TOTAL: <span id="post-total-val">0</span></div></div>
+            <div class="post-grid" id="post-grid"></div>
         </div>
-
-        <div id="cards-container" class="cards-container">
-            <div class="game-card card-word" id="card-word">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="none" stroke="var(--word-accent)" stroke-width="4" opacity="0.3"/><line x1="20" y1="40" x2="80" y2="40" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="20" y1="60" x2="80" y2="60" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="40" y1="20" x2="40" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="60" y1="20" x2="60" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="25" y1="25" x2="75" y2="75" stroke="var(--word-accent)" stroke-width="8" stroke-linecap="round"/><circle cx="25" cy="25" r="5" fill="#fff"/><circle cx="75" cy="75" r="5" fill="#fff"/></svg>
-                <h2 class="game-title">SEARCH</h2>
-                <button class="play-btn btn-word" id="btn-play-word" onclick="showScreen('word-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-towers" id="card-towers">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><rect x="40" y="60" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><rect x="40" y="35" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><text x="50" y="95" fill="var(--towers-accent)" font-family="Black Ops One" font-size="20" text-anchor="middle">2</text></svg>
-                <h2 class="game-title">TOWERS</h2>
-                <button class="play-btn btn-towers" id="btn-play-towers" onclick="showScreen('towers-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-findit" id="card-findit">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100">
-                    <rect x="15" y="15" width="30" height="30" fill="#111"/>
-                    <rect x="55" y="15" width="30" height="30" fill="#fdd835"/>
-                    <rect x="15" y="55" width="30" height="30" fill="#ff1744"/>
-                    <rect x="55" y="55" width="30" height="30" fill="#39ff14"/>
-                </svg>
-                <h2 class="game-title">FIND IT</h2>
-                <button class="play-btn btn-findit" id="btn-play-findit" onclick="showScreen('findit-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-flood" id="card-flood">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><rect x="10" y="10" width="35" height="35" fill="var(--flood-accent)" opacity="1"/><rect x="50" y="10" width="40" height="35" fill="var(--flood-accent)" opacity="0.6"/><rect x="10" y="50" width="35" height="40" fill="var(--flood-accent)" opacity="0.6"/><rect x="50" y="50" width="40" height="40" fill="var(--flood-accent)" opacity="0.2"/><path d="M 30 30 L 70 30 L 70 70 M 30 30 L 30 70 L 70 70" fill="none" stroke="#fff" stroke-width="4" opacity="0.5"/></svg>
-                <h2 class="game-title">COLOR FLOOD</h2>
-                <button class="play-btn btn-flood" id="btn-play-flood" onclick="showScreen('flood-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-valves" id="card-valves">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--valves-accent)" stroke-width="8"/><circle cx="50" cy="50" r="15" fill="var(--valves-accent)"/><line x1="50" y1="50" x2="50" y2="8" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="13" y2="70" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="87" y2="70" stroke="var(--valves-accent)" stroke-width="8"/></svg>
-                <h2 class="game-title">VALVES</h2>
-                <button class="play-btn btn-valves" id="btn-play-valves" onclick="showScreen('valves-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-boxes" id="card-boxes">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><line x1="15" y1="38" x2="85" y2="38" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="15" y1="62" x2="85" y2="62" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="38" y1="15" x2="38" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="62" y1="15" x2="62" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><rect x="38" y="38" width="47" height="24" fill="var(--boxes-accent)" opacity="0.2"/><rect x="38" y="38" width="47" height="24" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><text x="62" y="55" fill="#fff" font-family="Black Ops One" font-size="14" text-anchor="middle">2</text></svg>
-                <h2 class="game-title">BOXES</h2>
-                <button class="play-btn btn-boxes" id="btn-play-boxes" onclick="showScreen('boxes-instructions')">PLAY</button>
-            </div>
-
-            <div class="game-card card-light" id="card-light">
-                <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <svg class="logo-svg" viewBox="0 0 100 100"><path d="M 35 58 C 15 35 30 15 50 15 C 70 15 85 35 65 58 L 60 72 L 40 72 Z" fill="none" stroke="var(--light-accent)" stroke-width="6"/><rect x="42" y="75" width="16" height="10" fill="var(--light-accent)"/><line x1="50" y1="2" x2="50" y2="10" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="15" y1="20" x2="25" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="85" y1="20" x2="75" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/></svg>
-                <h2 class="game-title">LIGHT EM' UP</h2>
-                <button class="play-btn btn-light" id="btn-play-light" onclick="showScreen('light-instructions')">PLAY</button>
-            </div>
-        </div>
+        <div id="cards-container" class="cards-container"></div>
     </main>
 
     <main id="logs-screen" class="screen">
         <div class="log-box">
             <h2>LOGS</h2>
+            <div class="log-entry">
+                <div class="log-date">v1.1 | Jun 8 2026</div>
+                <div class="log-desc">- New game: Switcheroo</div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">v1.0 | Jun 7 2026</div>
                 <div class="log-desc">- Base game</div>
@@ -379,193 +202,98 @@
     </main>
 
     <main id="word-instructions" class="screen">
-        <div class="instructions-box inst-word">
-            <h2>RULES: SEARCH</h2>
-            <ul>
-                <li>Locate the target words hidden in the 8x8 data grid.</li>
-                <li>Words can be structured horizontally, vertically, diagonally, forwards, or backwards.</li>
-                <li>Scoring: 50/50 Time and Moves. Lose 1 point every 15 seconds, and 1 point for every incorrect drag.</li>
-            </ul>
-            <button class="start-game-btn start-word" onclick="startWord()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
+        <div class="instructions-box inst-word"><h2>RULES: SEARCH</h2><ul><li>Locate the target words hidden in the 8x8 grid.</li><li>Words can be horizontal, vertical, diagonal, forwards or backwards.</li><li>Scoring: 50/50 Time and Moves. Lose 1 point every 15 seconds, and 1 point per incorrect drag.</li><li>Each found word is highlighted with a unique color.</li></ul><button class="start-game-btn start-word" onclick="startWord()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
     </main>
-
-    <main id="towers-instructions" class="screen">
-        <div class="instructions-box inst-towers">
-            <h2>RULES: TOWERS</h2>
-            <ul>
-                <li>Each tower has a target number underneath it (1-4).</li>
-                <li>Move blocks so that every tower holds exactly the number of blocks indicated.</li>
-                <li>Tap a tower to select its top block, then tap another tower to move it there.</li>
-                <li>Scoring: 1 point lost per 6 moves and per 5 seconds.</li>
-            </ul>
-            <button class="start-game-btn start-towers" onclick="startTowers()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
-    <main id="findit-instructions" class="screen">
-        <div class="instructions-box inst-findit">
-            <h2>RULES: FIND IT</h2>
-            <ul>
-                <li>Tap a tile to reveal what's underneath. Your goal is to find the <strong>GREEN</strong> tile.</li>
-                <li>Yellow: target is 1 tile away (diagonals included).</li>
-                <li>Red: target is 2 tiles away.</li>
-                <li>Black: target is 3 or more tiles away.</li>
-                <li>Tiles flip back after 1 second. Memorize the heat map!</li>
-                <li>Scoring: 1 point lost per 5 moves and per 5 seconds.</li>
-            </ul>
-            <button class="start-game-btn start-findit" onclick="startFindIt()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
-    <main id="flood-instructions" class="screen">
-        <div class="instructions-box inst-flood">
-            <h2>RULES: COLOR FLOOD</h2>
-            <p>Your goal is to turn the entire grid into a single color.</p>
-            <ul>
-                <li>You always start from the top-left group of tiles.</li>
-                <li>Tap a color on the palette to change your group's color and absorb neighbors.</li>
-                <li>Scoring: Heavily prioritizes minimum moves (90%) over time (10%).</li>
-            </ul>
-            <button class="start-game-btn start-flood" onclick="startFlood()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
-    <main id="valves-instructions" class="screen">
-        <div class="instructions-box inst-valves">
-            <h2>RULES: VALVES</h2>
-            <ul>
-                <li>Tap to rotate a valve tile 90°.</li>
-                <li>Connect all tiles to each other, running from the main source.</li>
-                <li>Leave ZERO open leaks in the system.</li>
-            </ul>
-            <button class="start-game-btn start-valves" onclick="startValves()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
-    <main id="boxes-instructions" class="screen">
-        <div class="instructions-box inst-boxes">
-            <h2>RULES: BOXES</h2>
-            <p>Fill the grid with rectangular boxes so that each box contains exactly ONE number, and its area equals that number.</p>
-            <ul>
-                <li>Drag over the grid to create a box.</li>
-                <li>The area number can be anywhere inside the box.</li>
-                <li>Tap an existing box to delete it.</li>
-            </ul>
-            <button class="start-game-btn start-boxes" onclick="startBoxes()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
-    <main id="light-instructions" class="screen">
-        <div class="instructions-box inst-light">
-            <h2>RULES: LIGHT EM' UP</h2>
-            <ul>
-                <li>Tap an open cell to place or remove a radiant light.</li>
-                <li>A light illuminates every open cell in its row/column until blocked.</li>
-                <li>Numbered walls require exactly that many lights in the four adjacent cells.</li>
-                <li>Puzzle is solved when all open cells are lit, and no lights shine on each other.</li>
-            </ul>
-            <button class="start-game-btn start-light" onclick="startLight()">PLAY</button>
-            <button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button>
-        </div>
-    </main>
-
     <main id="word-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MISSES <div class="stat-value" style="color:var(--word-accent)" id="w-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--word-accent)" id="w-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="w-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MISSES <div class="stat-value" style="color:var(--word-accent)" id="w-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--word-accent)" id="w-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="w-score">---</div></div></div>
         <div id="word-target-list"></div>
-        <div class="board-frame" id="word-frame">
-            <div id="word-grid"></div>
-            <canvas id="word-canvas" class="line-canvas"></canvas>
-        </div>
+        <div class="board-frame" id="word-frame"><div id="word-grid"></div><canvas id="word-canvas" class="line-canvas"></canvas></div>
         <div class="game-message" style="color:var(--word-accent)" id="w-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="towers-instructions" class="screen">
+        <div class="instructions-box inst-towers"><h2>RULES: TOWERS</h2><ul><li>Move blocks so that every tower holds exactly the target number.</li><li>Tap a tower to select its top block, then tap another tower to move it.</li><li>Scoring: 1 point lost per 6 moves and per 5 seconds.</li></ul><button class="start-game-btn start-towers" onclick="startTowers()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="towers-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--towers-accent)" id="twr-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--towers-accent)" id="twr-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="twr-score">---</div></div>
-        </div>
-        <div class="board-frame" style="aspect-ratio: auto; height: 320px; max-width: 400px; margin-top: 10px;">
-            <div id="towers-container"></div>
-        </div>
-        <div class="game-message" style="color:var(--towers-accent); margin-top: 20px;" id="twr-msg"></div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--towers-accent)" id="twr-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--towers-accent)" id="twr-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="twr-score">---</div></div></div>
+        <div class="board-frame" style="aspect-ratio:auto;height:320px;max-width:400px;margin-top:10px;"><div id="towers-container"></div></div>
+        <div class="game-message" style="color:var(--towers-accent);margin-top:20px;" id="twr-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="findit-instructions" class="screen">
+        <div class="instructions-box inst-findit"><h2>RULES: FIND IT</h2><ul><li>Tap a tile to reveal what's underneath. Find the <strong>GREEN</strong> tile.</li><li>Yellow: target is 1 tile away. Red: 2 tiles away. Black: 3+ away.</li><li>Tiles flip back after 1 second.</li><li>Scoring: 1 point lost per 5 moves and per 5 seconds.</li></ul><button class="start-game-btn start-findit" onclick="startFindIt()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="findit-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--findit-accent)" id="fi-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--findit-accent)" id="fi-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="fi-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--findit-accent)" id="fi-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--findit-accent)" id="fi-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="fi-score">---</div></div></div>
         <div class="board-frame" id="findit-frame"><div id="findit-grid"></div></div>
         <div class="game-message" style="color:var(--findit-accent)" id="fi-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="flood-instructions" class="screen">
+        <div class="instructions-box inst-flood"><h2>RULES: COLOR FLOOD</h2><p>Turn the entire grid into a single color.</p><ul><li>Start from top-left group.</li><li>Tap a color to change your group and absorb neighbors.</li></ul><button class="start-game-btn start-flood" onclick="startFlood()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="flood-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--flood-accent)" id="f-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--flood-accent)" id="f-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="f-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--flood-accent)" id="f-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--flood-accent)" id="f-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="f-score">---</div></div></div>
         <div class="board-frame" id="flood-frame"><div id="flood-grid"></div></div>
         <div class="flood-palette" id="flood-palette"></div>
         <div class="game-message" style="color:var(--flood-accent)" id="f-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="valves-instructions" class="screen">
+        <div class="instructions-box inst-valves"><h2>RULES: VALVES</h2><ul><li>Tap to rotate a valve tile 90°.</li><li>Connect all tiles to the main source, no leaks.</li></ul><button class="start-game-btn start-valves" onclick="startValves()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="valves-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--valves-accent)" id="v-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--valves-accent)" id="v-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="v-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--valves-accent)" id="v-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--valves-accent)" id="v-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="v-score">---</div></div></div>
         <div class="board-frame"><div id="valves-grid"></div></div>
         <div class="game-message" style="color:var(--valves-accent)" id="v-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="boxes-instructions" class="screen">
+        <div class="instructions-box inst-boxes"><h2>RULES: BOXES</h2><p>Fill the grid with rectangles so each contains exactly one number, and its area equals that number.</p><ul><li>Drag to create a box. Tap an existing box to delete it.</li><li>Each box has a unique color for easy distinction.</li></ul><button class="start-game-btn start-boxes" onclick="startBoxes()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="boxes-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--boxes-accent)" id="b-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--boxes-accent)" id="b-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="b-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--boxes-accent)" id="b-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--boxes-accent)" id="b-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="b-score">---</div></div></div>
         <div class="board-frame" id="boxes-frame"><div id="boxes-grid"></div></div>
         <div class="game-message" style="color:var(--boxes-accent)" id="b-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="light-instructions" class="screen">
+        <div class="instructions-box inst-light"><h2>RULES: LIGHT EM' UP</h2><ul><li>Tap an open cell to place/remove a light.</li><li>A light illuminates its row/column until a wall.</li><li>Numbered walls require exactly that many lights in adjacent cells.</li></ul><button class="start-game-btn start-light" onclick="startLight()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
     <main id="light-game" class="screen">
-        <div class="stats">
-            <div class="stat-item">MOVES <div class="stat-value" style="color:var(--light-accent)" id="l-moves">0</div></div>
-            <div class="stat-item">TIME <div class="stat-value" style="color:var(--light-accent)" id="l-time">0</div></div>
-            <div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="l-score">---</div></div>
-        </div>
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--light-accent)" id="l-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--light-accent)" id="l-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="l-score">---</div></div></div>
         <div class="board-frame"><div id="light-grid"></div></div>
         <div class="game-message" style="color:var(--light-accent)" id="l-msg"></div>
         <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
     </main>
 
+    <main id="switcheroo-instructions" class="screen">
+        <div class="instructions-box inst-switcheroo"><h2>RULES: SWITCHEROO</h2><ul><li>Move all colored characters onto their matching dashed rings.</li><li>Arrow buttons move <strong>every</strong> character at once.</li><li>Characters can't walk through walls or each other.</li><li>4x4 (Medium) or 5x5 (Hard).</li></ul><button class="start-game-btn start-switcheroo" onclick="startSwitcheroo()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div>
+    </main>
+    <main id="switcheroo-game" class="screen">
+        <div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--switcheroo-accent)" id="sw-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--switcheroo-accent)" id="sw-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="sw-score">---</div></div></div>
+        <div class="board-frame" id="sw-frame"><div id="switcheroo-grid"></div></div>
+        <div class="sw-arrows">
+            <button class="sw-arrow-btn" onclick="swMove('left')">◄</button>
+            <button class="sw-arrow-btn" onclick="swMove('up')">▲</button>
+            <button class="sw-arrow-btn" onclick="swMove('down')">▼</button>
+            <button class="sw-arrow-btn" onclick="swMove('right')">►</button>
+        </div>
+        <div class="game-message" style="color:var(--switcheroo-accent)" id="sw-msg"></div>
+        <button class="back-btn" onclick="showScreen('hub-screen')">BACK</button>
+    </main>
+
     <script>
-        // --- GLOBAL STATE ---
+        // ==================== GLOBAL STATE ====================
         let currentMode = 'daily';
         let todayDateStr = new Date().toDateString();
         let timerInterval;
-
         let seed = 1;
         function random() {
             if (currentMode === 'infinite') return Math.random();
@@ -578,53 +306,30 @@
             let d = new Date();
             seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
         }
-
         function saveGameStats(game, score, moves, time) {
-            if(currentMode !== 'daily') return;
+            if (currentMode !== 'daily') return;
             localStorage.setItem(`mindflex2_daily_${game}_score_${todayDateStr}`, score);
             localStorage.setItem(`mindflex2_daily_${game}_moves_${todayDateStr}`, moves);
             localStorage.setItem(`mindflex2_daily_${game}_time_${todayDateStr}`, time);
         }
-
-        // --- HUB LOGIC ---
-        function switchMode(mode) {
-            currentMode = mode;
-            document.getElementById('tab-daily').classList.toggle('active', mode === 'daily');
-            document.getElementById('tab-post').classList.toggle('active', mode === 'post');
-            document.getElementById('tab-infinite').classList.toggle('active', mode === 'infinite');
-            if (mode === 'post') {
-                document.getElementById('cards-container').style.display = 'none';
-                document.getElementById('post-container').style.display = 'flex';
-                updatePostTab();
-            } else {
-                document.getElementById('cards-container').style.display = 'flex';
-                document.getElementById('post-container').style.display = 'none';
-                updateHubCards();
-            }
-        }
-
         function getScoreColorClass(score) {
             if (score === 0) return 'score-brown';
             if (score >= 80) return 'score-gold';
             if (score >= 60) return 'score-gray';
             return 'score-brown';
         }
-
-        function updatePostTab() {
-            let total = 0;
-            ['word', 'valves', 'boxes', 'flood', 'light', 'towers', 'findit'].forEach(game => {
-                let scoreStr = localStorage.getItem(`mindflex2_daily_${game}_score_${todayDateStr}`);
-                let score = scoreStr ? parseInt(scoreStr) : 0;
-                total += score;
-                let scoreEl = document.getElementById(`post-score-${game}`);
-                if(scoreEl) {
-                    scoreEl.innerText = score;
-                    scoreEl.className = 'post-score ' + getScoreColorClass(score);
-                }
-            });
-            document.getElementById('post-total-val').innerText = total;
+        function showScreen(screenId) {
+            clearInterval(timerInterval);
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            const target = document.getElementById(screenId);
+            if (target) target.classList.add('active-screen');
+            const header = document.getElementById('main-header');
+            header.style.display = (screenId === 'hub-screen' || screenId === 'logs-screen') ? 'flex' : 'none';
+            if (screenId === 'hub-screen') {
+                if (currentMode === 'post') updatePostTab();
+                else renderHubCards();
+            }
         }
-
         function openModal(game, color, title) {
             let scoreStr = localStorage.getItem(`mindflex2_daily_${game}_score_${todayDateStr}`) || '0';
             let movesStr = localStorage.getItem(`mindflex2_daily_${game}_moves_${todayDateStr}`) || '--';
@@ -638,657 +343,637 @@
             document.getElementById('modal-time').innerText = timeStr;
             document.getElementById('stats-modal').style.display = 'flex';
         }
-
         function closeModal() { document.getElementById('stats-modal').style.display = 'none'; }
 
-        function updateHubCards() {
-            ['word', 'valves', 'boxes', 'flood', 'light', 'towers', 'findit'].forEach(game => {
-                let btn = document.getElementById(`btn-play-${game}`);
-                let card = document.getElementById(`card-${game}`);
-                if (!btn || !card) return;
-                if (currentMode === 'daily') {
-                    let savedScore = localStorage.getItem(`mindflex2_daily_${game}_score_${todayDateStr}`);
-                    if (savedScore) { btn.disabled = true; card.classList.add('completed-card'); }
-                    else { btn.disabled = false; card.classList.remove('completed-card'); btn.innerText = "PLAY DAILY"; }
-                } else {
-                    btn.disabled = false; card.classList.remove('completed-card'); btn.innerText = "PLAY INFINITE";
-                }
-            });
-        }
+        // ==================== GAME CARD DATA ====================
+        const gameList = [
+            { id: 'word', accent: 'var(--word-accent)', title: 'SEARCH', cardClass: 'card-word', btnClass: 'btn-word',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="none" stroke="var(--word-accent)" stroke-width="4" opacity="0.3"/><line x1="20" y1="40" x2="80" y2="40" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="20" y1="60" x2="80" y2="60" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="40" y1="20" x2="40" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="60" y1="20" x2="60" y2="80" stroke="var(--word-accent)" stroke-width="2" opacity="0.3"/><line x1="25" y1="25" x2="75" y2="75" stroke="var(--word-accent)" stroke-width="8" stroke-linecap="round"/><circle cx="25" cy="25" r="5" fill="#fff"/><circle cx="75" cy="75" r="5" fill="#fff"/></svg>` },
+            { id: 'towers', accent: 'var(--towers-accent)', title: 'TOWERS', cardClass: 'card-towers', btnClass: 'btn-towers',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><rect x="40" y="60" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><rect x="40" y="35" width="20" height="20" fill="var(--towers-accent)" stroke="#fff" stroke-width="2"/><text x="50" y="95" fill="var(--towers-accent)" font-family="Black Ops One" font-size="20" text-anchor="middle">2</text></svg>` },
+            { id: 'findit', accent: 'var(--findit-accent)', title: 'FIND IT', cardClass: 'card-findit', btnClass: 'btn-findit',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><rect x="15" y="15" width="30" height="30" fill="#111"/><rect x="55" y="15" width="30" height="30" fill="#fdd835"/><rect x="15" y="55" width="30" height="30" fill="#ff1744"/><rect x="55" y="55" width="30" height="30" fill="#39ff14"/></svg>` },
+            { id: 'flood', accent: 'var(--flood-accent)', title: 'COLOR FLOOD', cardClass: 'card-flood', btnClass: 'btn-flood',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><rect x="10" y="10" width="35" height="35" fill="var(--flood-accent)" opacity="1"/><rect x="50" y="10" width="40" height="35" fill="var(--flood-accent)" opacity="0.6"/><rect x="10" y="50" width="35" height="40" fill="var(--flood-accent)" opacity="0.6"/><rect x="50" y="50" width="40" height="40" fill="var(--flood-accent)" opacity="0.2"/><path d="M 30 30 L 70 30 L 70 70 M 30 30 L 30 70 L 70 70" fill="none" stroke="#fff" stroke-width="4" opacity="0.5"/></svg>` },
+            { id: 'valves', accent: 'var(--valves-accent)', title: 'VALVES', cardClass: 'card-valves', btnClass: 'btn-valves',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--valves-accent)" stroke-width="8"/><circle cx="50" cy="50" r="15" fill="var(--valves-accent)"/><line x1="50" y1="50" x2="50" y2="8" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="13" y2="70" stroke="var(--valves-accent)" stroke-width="8"/><line x1="50" y1="50" x2="87" y2="70" stroke="var(--valves-accent)" stroke-width="8"/></svg>` },
+            { id: 'boxes', accent: 'var(--boxes-accent)', title: 'BOXES', cardClass: 'card-boxes', btnClass: 'btn-boxes',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><line x1="15" y1="38" x2="85" y2="38" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="15" y1="62" x2="85" y2="62" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="38" y1="15" x2="38" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><line x1="62" y1="15" x2="62" y2="85" stroke="var(--boxes-accent)" stroke-width="3" opacity="0.3"/><rect x="38" y="38" width="47" height="24" fill="var(--boxes-accent)" opacity="0.2"/><rect x="38" y="38" width="47" height="24" fill="none" stroke="var(--boxes-accent)" stroke-width="4"/><text x="62" y="55" fill="#fff" font-family="Black Ops One" font-size="14" text-anchor="middle">2</text></svg>` },
+            { id: 'light', accent: 'var(--light-accent)', title: 'LIGHT EM\' UP', cardClass: 'card-light', btnClass: 'btn-light',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><path d="M 35 58 C 15 35 30 15 50 15 C 70 15 85 35 65 58 L 60 72 L 40 72 Z" fill="none" stroke="var(--light-accent)" stroke-width="6"/><rect x="42" y="75" width="16" height="10" fill="var(--light-accent)"/><line x1="50" y1="2" x2="50" y2="10" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="15" y1="20" x2="25" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/><line x1="85" y1="20" x2="75" y2="28" stroke="var(--light-accent)" stroke-width="4" stroke-linecap="round"/></svg>` },
+            { id: 'switcheroo', accent: 'var(--switcheroo-accent)', title: 'SWITCHEROO', cardClass: 'card-switcheroo', btnClass: 'btn-switcheroo',
+                icon: `<svg class="logo-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="var(--switcheroo-accent)" stroke-width="6" stroke-dasharray="8 6"/><text x="50" y="62" fill="var(--switcheroo-accent)" font-family="Black Ops One" font-size="40" text-anchor="middle">S</text></svg>` }
+        ];
 
-        function showScreen(screenId) {
-            clearInterval(timerInterval);
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
-            document.getElementById(screenId).classList.add('active-screen');
-            if (screenId === 'hub-screen') {
-                if (currentMode === 'post') updatePostTab();
-                else updateHubCards();
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('tab-daily').classList.toggle('active', mode === 'daily');
+            document.getElementById('tab-post').classList.toggle('active', mode === 'post');
+            document.getElementById('tab-infinite').classList.toggle('active', mode === 'infinite');
+            if (mode === 'post') {
+                document.getElementById('cards-container').style.display = 'none';
+                document.getElementById('post-container').style.display = 'flex';
+                updatePostTab();
+            } else {
+                document.getElementById('cards-container').style.display = 'flex';
+                document.getElementById('post-container').style.display = 'none';
+                renderHubCards();
             }
         }
 
-        // --- SEARCH ENGINE ---
+        function renderHubCards() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            let orderedList = [...gameList];
+            if (currentMode === 'daily') {
+                for (let i = orderedList.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [orderedList[i], orderedList[j]] = [orderedList[j], orderedList[i]];
+                }
+            }
+            orderedList.forEach(game => {
+                let saved = currentMode === 'daily' ? localStorage.getItem(`mindflex2_daily_${game.id}_score_${todayDateStr}`) : null;
+                let completed = !!saved;
+                let card = document.createElement('div');
+                card.className = `game-card ${game.cardClass}${completed ? ' completed-card' : ''}`;
+                card.id = `card-${game.id}`;
+                card.innerHTML = `
+                    <div class="check-overlay"><svg viewBox="0 0 100 100" width="100" height="100"><path d="M20 50 L40 70 L80 20" fill="none" stroke="#2a3240" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    ${game.icon}
+                    <h2 class="game-title">${game.title}</h2>
+                    <button class="play-btn ${game.btnClass}" id="btn-play-${game.id}" ${completed ? 'disabled' : ''} onclick="showScreen('${game.id}-instructions')">${currentMode === 'daily' ? 'PLAY DAILY' : 'PLAY INFINITE'}</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+        function updateHubCards() { renderHubCards(); }
+        function updatePostTab() {
+            const grid = document.getElementById('post-grid');
+            grid.innerHTML = '';
+            let total = 0;
+            const postGames = ['word','valves','boxes','flood','light','towers','findit','switcheroo'];
+            postGames.forEach(gameId => {
+                let game = gameList.find(g => g.id === gameId);
+                if (!game) return;
+                let scoreStr = localStorage.getItem(`mindflex2_daily_${gameId}_score_${todayDateStr}`);
+                let score = scoreStr ? parseInt(scoreStr) : 0;
+                total += score;
+                let item = document.createElement('div');
+                item.className = 'post-item';
+                item.onclick = () => openModal(gameId, game.accent, game.title);
+                item.innerHTML = `${game.icon.replace('class="logo-svg"', 'class="logo-svg" style="width:40px;height:40px;"')}<div class="post-score ${getScoreColorClass(score)}">${score}</div>`;
+                grid.appendChild(item);
+            });
+            document.getElementById('post-total-val').innerText = total;
+        }
+
+        // ==================== WORD SEARCH ====================
         const wordPool = ["QUANTUM","MATRIX","NEON","LASER","CYBER","ROBOT","SYSTEM","PLASMA","ENGINE","WIZARD","DRAGON","PLANET","GALAXY","METEOR","COSMOS","ORBIT","COMET","NEBULA","QUASAR","PULSAR","STELLAR","ASTRAL","ZENITH","VORTEX","MYSTIC","SHADOW","SPIRIT","PHANTOM","SPECTRE","ENIGMA","CIPHER","SECRETS","HIDDEN","COVERT","STEALTH","SHIELD","ARMOR","WEAPON","BLADE","SWORD","DAGGER","ARROW","HUNTER","RANGER","KNIGHT","CASTLE","TOWER","TEMPLE","SHRINE","PORTAL","BEACON"];
-        let wGrid = [], wBoard = [], wTargetWords = [], wFoundWords = [];
-        let wActive = false, wTime = 0, wWrongMoves = 0, wIsDragging = false, wDragStart = null, wDragCurrent = null;
+        const wordColors = ['#ff1744','#00e5ff','#fdd835','#ff8c00','#a200ff','#76ff03','#ff6699','#00bcd4'];
+        let wGrid=[], wBoard=[], wTargetWords=[], wFoundWords=[], wActive=false, wTime=0, wWrongMoves=0, wIsDragging=false, wDragStart=null, wDragCurrent=null, wFoundLines=[];
         function startWord() {
             showScreen('word-game'); setSeedForToday();
-            let numWords = [4, 6, 8][Math.floor(random() * 3)];
+            let numWords = [4,6,8][Math.floor(random()*3)];
             let availableWords = [...wordPool];
-            for(let i = availableWords.length - 1; i > 0; i--) {
-                const j = Math.floor(random() * (i + 1));
-                [availableWords[i], availableWords[j]] = [availableWords[j], availableWords[i]];
-            }
-            wTargetWords = availableWords.slice(0, numWords);
-            wFoundWords = []; wGrid = []; wWrongMoves = 0; wTime = 0; wActive = true; wIsDragging = false;
-            document.getElementById('w-time').innerText = '0'; document.getElementById('w-moves').innerText = '0';
-            document.getElementById('w-score').innerText = '---'; document.getElementById('w-msg').innerText = '';
+            for(let i=availableWords.length-1; i>0; i--) { const j=Math.floor(random()*(i+1)); [availableWords[i],availableWords[j]]=[availableWords[j],availableWords[i]]; }
+            wTargetWords = availableWords.slice(0,numWords);
+            wFoundWords=[]; wGrid=[]; wWrongMoves=0; wTime=0; wActive=true; wIsDragging=false; wFoundLines=[];
+            document.getElementById('w-time').innerText='0'; document.getElementById('w-moves').innerText='0';
+            document.getElementById('w-score').innerText='---'; document.getElementById('w-msg').innerText='';
             generateWordGrid();
-            let listEl = document.getElementById('word-target-list'); listEl.innerHTML = '';
-            wTargetWords.forEach(w => {
-                let badge = document.createElement('div'); badge.className = 'word-badge'; badge.innerText = w; badge.id = 'badge-' + w;
-                listEl.appendChild(badge);
-            });
+            let listEl = document.getElementById('word-target-list'); listEl.innerHTML='';
+            wTargetWords.forEach(w => { let badge=document.createElement('div'); badge.className='word-badge'; badge.innerText=w; badge.id='badge-'+w; listEl.appendChild(badge); });
             renderWordGrid(); setupWordDragging(); resizeCanvas();
-            timerInterval = setInterval(() => { if (wActive) { wTime++; document.getElementById('w-time').innerText = wTime; } }, 1000);
+            timerInterval = setInterval(()=>{ if(wActive){ wTime++; document.getElementById('w-time').innerText=wTime; } },1000);
         }
         function generateWordGrid() {
-            let attemptTotal = 0; let success = false;
-            let dirs = [[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]];
-            while (!success && attemptTotal < 20) {
-                attemptTotal++; wBoard = Array(64).fill('');
-                let allPlaced = true;
-                for (let word of wTargetWords) {
-                    let placed = false; let attempts = 0;
-                    while (!placed && attempts < 200) {
-                        attempts++;
-                        let dir = dirs[Math.floor(random() * dirs.length)];
-                        let r = Math.floor(random() * 8), c = Math.floor(random() * 8);
-                        let canPlace = true;
-                        for (let i = 0; i < word.length; i++) {
-                            let nr = r + dir[0] * i, nc = c + dir[1] * i;
-                            if (nr < 0 || nr > 7 || nc < 0 || nc > 7) { canPlace = false; break; }
-                            let existing = wBoard[nr * 8 + nc];
-                            if (existing !== '' && existing !== word[i]) { canPlace = false; break; }
+            let dirs=[[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]];
+            let success=false;
+            for(let attempt=0; attempt<20; attempt++){
+                wBoard=Array(64).fill('');
+                let allPlaced=true;
+                for(let word of wTargetWords){
+                    let placed=false;
+                    for(let tries=0; tries<200; tries++){
+                        let dir=dirs[Math.floor(random()*dirs.length)];
+                        let r=Math.floor(random()*8), c=Math.floor(random()*8);
+                        let can=true;
+                        for(let i=0;i<word.length;i++){
+                            let nr=r+dir[0]*i, nc=c+dir[1]*i;
+                            if(nr<0||nr>7||nc<0||nc>7){ can=false; break; }
+                            if(wBoard[nr*8+nc]!=='' && wBoard[nr*8+nc]!==word[i]){ can=false; break; }
                         }
-                        if (canPlace) {
-                            for (let i = 0; i < word.length; i++) wBoard[(r + dir[0] * i) * 8 + (c + dir[1] * i)] = word[i];
-                            placed = true;
-                        }
+                        if(can){ for(let i=0;i<word.length;i++) wBoard[(r+dir[0]*i)*8+(c+dir[1]*i)]=word[i]; placed=true; break; }
                     }
-                    if (!placed) { allPlaced = false; break; }
+                    if(!placed){ allPlaced=false; break; }
                 }
-                if (allPlaced) success = true;
+                if(allPlaced){ success=true; break; }
             }
-            if (!success) {
-                for (let i = wTargetWords.length - 1; i >= 0; i--) {
-                    let word = wTargetWords[i];
-                    if (!wBoard.includes(word[0])) wTargetWords.splice(i, 1);
-                }
-            }
-            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            for (let i = 0; i < 64; i++) if (wBoard[i] === '') wBoard[i] = letters[Math.floor(random() * 26)];
+            if(!success) wTargetWords = wTargetWords.filter(w => wBoard.includes(w[0]));
+            const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for(let i=0;i<64;i++) if(wBoard[i]==='') wBoard[i]=letters[Math.floor(random()*26)];
         }
-        function renderWordGrid() {
-            const container = document.getElementById('word-grid'); container.innerHTML = ''; wGrid = [];
-            for (let i = 0; i < 64; i++) {
-                let tile = document.createElement('div'); tile.className = 'w-tile';
-                tile.innerText = wBoard[i]; tile.dataset.r = Math.floor(i / 8); tile.dataset.c = i % 8;
-                wGrid.push(tile); container.appendChild(tile);
-            }
+        function renderWordGrid(){
+            const container=document.getElementById('word-grid'); container.innerHTML=''; wGrid=[];
+            for(let i=0;i<64;i++){ let tile=document.createElement('div'); tile.className='w-tile'; tile.innerText=wBoard[i]; tile.dataset.r=Math.floor(i/8); tile.dataset.c=i%8; wGrid.push(tile); container.appendChild(tile); }
+            drawAllFoundLines();
         }
-        function setupWordDragging() {
-            const frame = document.getElementById('word-frame'); const newFrame = frame.cloneNode(true);
-            frame.parentNode.replaceChild(newFrame, frame);
-            wGrid = Array.from(newFrame.querySelectorAll('.w-tile'));
-            const handleStart = (x, y) => {
-                if (!wActive) return; let cell = getWGridCell(x, y); if (!cell) return;
-                wIsDragging = true; wDragStart = { r: parseInt(cell.dataset.r), c: parseInt(cell.dataset.c) };
-                wDragCurrent = wDragStart; drawWordLine();
+        function setupWordDragging(){
+            const frame=document.getElementById('word-frame'); const newFrame=frame.cloneNode(true); frame.parentNode.replaceChild(newFrame,frame);
+            wGrid=Array.from(newFrame.querySelectorAll('.w-tile'));
+            const handleStart=(x,y)=>{
+                if(!wActive)return; let cell=getWGridCell(x,y); if(!cell)return;
+                wIsDragging=true; wDragStart={r:parseInt(cell.dataset.r),c:parseInt(cell.dataset.c)}; wDragCurrent=wDragStart; drawWordLine();
             };
-            const handleMove = (x, y) => {
-                if (!wIsDragging || !wActive) return; let cell = getWGridCell(x, y); if (!cell) return;
-                let cR = parseInt(cell.dataset.r), cC = parseInt(cell.dataset.c);
-                let dr = Math.abs(cR - wDragStart.r), dc = Math.abs(cC - wDragStart.c);
-                if (dr === 0 || dc === 0 || dr === dc) { wDragCurrent = { r: cR, c: cC }; drawWordLine(); }
+            const handleMove=(x,y)=>{
+                if(!wIsDragging||!wActive)return; let cell=getWGridCell(x,y); if(!cell)return;
+                let cR=parseInt(cell.dataset.r),cC=parseInt(cell.dataset.c);
+                let dr=Math.abs(cR-wDragStart.r),dc=Math.abs(cC-wDragStart.c);
+                if(dr===0||dc===0||dr===dc){ wDragCurrent={r:cR,c:cC}; drawWordLine(); }
             };
-            const handleEnd = () => {
-                if (!wIsDragging || !wActive) return; wIsDragging = false; clearCanvas();
-                if (wDragStart && wDragCurrent && (wDragStart.r !== wDragCurrent.r || wDragStart.c !== wDragCurrent.c)) {
-                    checkWordSelection();
-                }
-                wDragStart = null; wDragCurrent = null; updateWordTiles();
+            const handleEnd=()=>{
+                if(!wIsDragging||!wActive)return; wIsDragging=false; clearCanvas();
+                if(wDragStart&&wDragCurrent&&(wDragStart.r!==wDragCurrent.r||wDragStart.c!==wDragCurrent.c)) checkWordSelection();
+                wDragStart=null; wDragCurrent=null; updateWordTiles();
             };
-            newFrame.addEventListener('touchstart', (e) => { e.preventDefault(); handleStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
-            newFrame.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
-            newFrame.addEventListener('touchend', (e) => { e.preventDefault(); handleEnd(); }, {passive: false});
-            newFrame.addEventListener('mousedown', (e) => handleStart(e.clientX, e.clientY));
-            window.addEventListener('mousemove', (e) => { if(wIsDragging) handleMove(e.clientX, e.clientY); });
-            window.addEventListener('mouseup', handleEnd); window.addEventListener('resize', resizeCanvas);
+            newFrame.addEventListener('touchstart',(e)=>{e.preventDefault(); handleStart(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+            newFrame.addEventListener('touchmove',(e)=>{e.preventDefault(); handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+            newFrame.addEventListener('touchend',(e)=>{e.preventDefault(); handleEnd();},{passive:false});
+            newFrame.addEventListener('mousedown',(e)=>handleStart(e.clientX,e.clientY));
+            window.addEventListener('mousemove',(e)=>{if(wIsDragging)handleMove(e.clientX,e.clientY);});
+            window.addEventListener('mouseup',handleEnd);
+            window.addEventListener('resize',resizeCanvas);
         }
-        function getWGridCell(x, y) {
-            const gridEl = document.getElementById('word-grid'); const rect = gridEl.getBoundingClientRect();
-            if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return null;
-            const cR = Math.max(0, Math.min(Math.floor((y - rect.top) / (rect.height / 8)), 7));
-            const cC = Math.max(0, Math.min(Math.floor((x - rect.left) / (rect.width / 8)), 7));
-            return wGrid[cR * 8 + cC];
+        function getWGridCell(x,y){
+            const gridEl=document.getElementById('word-grid'); const rect=gridEl.getBoundingClientRect();
+            if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return null;
+            const cR=Math.max(0,Math.min(Math.floor((y-rect.top)/(rect.height/8)),7));
+            const cC=Math.max(0,Math.min(Math.floor((x-rect.left)/(rect.width/8)),7));
+            return wGrid[cR*8+cC];
         }
-        function resizeCanvas() {
-            const canvas = document.getElementById('word-canvas'); const gridEl = document.getElementById('word-grid');
-            if(!canvas || !gridEl) return;
-            canvas.width = gridEl.offsetWidth; canvas.height = gridEl.offsetHeight;
-            if(wIsDragging) drawWordLine();
+        function resizeCanvas(){ const canvas=document.getElementById('word-canvas'); const gridEl=document.getElementById('word-grid'); if(!canvas||!gridEl)return; canvas.width=gridEl.offsetWidth; canvas.height=gridEl.offsetHeight; drawAllFoundLines(); if(wIsDragging)drawWordLine(); }
+        function clearCanvas(){ const canvas=document.getElementById('word-canvas'); if(!canvas)return; canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); }
+        function drawWordLine(){
+            if(!wDragStart||!wDragCurrent)return;
+            const canvas=document.getElementById('word-canvas'); const ctx=canvas.getContext('2d');
+            const cw=canvas.width/8, ch=canvas.height/8;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            drawAllFoundLines();
+            let startX=wDragStart.c*cw+cw/2, startY=wDragStart.r*ch+ch/2, endX=wDragCurrent.c*cw+cw/2, endY=wDragCurrent.r*ch+ch/2;
+            ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(endX,endY);
+            ctx.strokeStyle='rgba(255,23,68,0.6)'; ctx.lineWidth=cw*0.5; ctx.lineCap='round'; ctx.stroke();
+            wGrid.forEach(t=>t.classList.remove('highlight'));
+            let steps=Math.max(Math.abs(wDragCurrent.r-wDragStart.r),Math.abs(wDragCurrent.c-wDragStart.c));
+            let rStep=(wDragCurrent.r-wDragStart.r)/steps, cStep=(wDragCurrent.c-wDragStart.c)/steps;
+            for(let i=0;i<=steps;i++) wGrid[Math.round(wDragStart.r+rStep*i)*8+Math.round(wDragStart.c+cStep*i)].classList.add('highlight');
         }
-        function clearCanvas() {
-            const canvas = document.getElementById('word-canvas');
-            if(!canvas) return; canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        }
-        function drawWordLine() {
-            if(!wDragStart || !wDragCurrent) return;
-            const canvas = document.getElementById('word-canvas'); const ctx = canvas.getContext('2d');
-            const cw = canvas.width / 8, ch = canvas.height / 8;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            let startX = wDragStart.c * cw + cw/2, startY = wDragStart.r * ch + ch/2;
-            let endX = wDragCurrent.c * cw + cw/2, endY = wDragCurrent.r * ch + ch/2;
-            ctx.beginPath(); ctx.moveTo(startX, startY); ctx.lineTo(endX, endY);
-            ctx.strokeStyle = 'rgba(255, 23, 68, 0.6)'; ctx.lineWidth = cw * 0.5; ctx.lineCap = 'round'; ctx.stroke();
-            wGrid.forEach(t => t.classList.remove('highlight'));
-            let steps = Math.max(Math.abs(wDragCurrent.r - wDragStart.r), Math.abs(wDragCurrent.c - wDragStart.c));
-            let rStep = (wDragCurrent.r - wDragStart.r) / steps, cStep = (wDragCurrent.c - wDragStart.c) / steps;
-            for(let i=0; i<=steps; i++) wGrid[Math.round(wDragStart.r + rStep*i)*8 + Math.round(wDragStart.c + cStep*i)].classList.add('highlight');
-        }
-        function checkWordSelection() {
-            let steps = Math.max(Math.abs(wDragCurrent.r - wDragStart.r), Math.abs(wDragCurrent.c - wDragStart.c));
-            let rStep = (wDragCurrent.r - wDragStart.r) / steps, cStep = (wDragCurrent.c - wDragStart.c) / steps;
-            let selectedWord = "", selectedIndices = [];
-            for(let i=0; i<=steps; i++) {
-                let r = Math.round(wDragStart.r + rStep*i), c = Math.round(wDragStart.c + cStep*i);
-                selectedWord += wBoard[r*8+c]; selectedIndices.push(r*8+c);
+        function drawAllFoundLines(){
+            const canvas=document.getElementById('word-canvas'); const ctx=canvas.getContext('2d'); if(!canvas)return;
+            const cw=canvas.width/8, ch=canvas.height/8;
+            for(let line of wFoundLines){
+                let startX=line.startC*cw+cw/2, startY=line.startR*ch+ch/2, endX=line.endC*cw+cw/2, endY=line.endR*ch+ch/2;
+                ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(endX,endY);
+                ctx.strokeStyle=line.color; ctx.lineWidth=cw*0.4; ctx.lineCap='round'; ctx.stroke();
             }
-            let revWord = selectedWord.split('').reverse().join('');
-            let found = wTargetWords.find(w => w === selectedWord || w === revWord);
-            if(found && !wFoundWords.includes(found)) {
+        }
+        function checkWordSelection(){
+            let steps=Math.max(Math.abs(wDragCurrent.r-wDragStart.r),Math.abs(wDragCurrent.c-wDragStart.c));
+            let rStep=(wDragCurrent.r-wDragStart.r)/steps, cStep=(wDragCurrent.c-wDragStart.c)/steps;
+            let selectedWord="", selectedIndices=[];
+            for(let i=0;i<=steps;i++){ let r=Math.round(wDragStart.r+rStep*i), c=Math.round(wDragStart.c+cStep*i); selectedWord+=wBoard[r*8+c]; selectedIndices.push(r*8+c); }
+            let revWord=selectedWord.split('').reverse().join('');
+            let found=wTargetWords.find(w=>w===selectedWord||w===revWord);
+            if(found&&!wFoundWords.includes(found)){
                 wFoundWords.push(found);
-                let badge = document.getElementById('badge-' + found);
-                if (badge) badge.classList.add('word-found');
-                selectedIndices.forEach(idx => wGrid[idx].classList.add('found'));
-                if(wFoundWords.length === wTargetWords.length) finishWordSearch();
-            } else {
-                wWrongMoves++; document.getElementById('w-moves').innerText = wWrongMoves;
-            }
+                let color=wordColors[(wFoundWords.length-1)%wordColors.length];
+                wFoundLines.push({word:found, startR:wDragStart.r, startC:wDragStart.c, endR:wDragCurrent.r, endC:wDragCurrent.c, color});
+                let badge=document.getElementById('badge-'+found); if(badge)badge.classList.add('word-found');
+                selectedIndices.forEach(idx=>{ wGrid[idx].style.backgroundColor=color+'40'; wGrid[idx].style.color='#fff'; });
+                if(wFoundWords.length===wTargetWords.length) finishWordSearch();
+            } else { wWrongMoves++; document.getElementById('w-moves').innerText=wWrongMoves; }
         }
-        function updateWordTiles() { wGrid.forEach(t => t.classList.remove('highlight')); }
-        function finishWordSearch() {
-            wActive = false; clearInterval(timerInterval);
-            let moveScore = Math.max(0, 50 - wWrongMoves);
-            let timeScore = Math.max(0, 50 - Math.floor(wTime/15));
-            let finalScore = Math.round(moveScore + timeScore);
-            document.getElementById('w-score').innerText = finalScore; document.getElementById('w-msg').innerText = "SOLVED";
-            saveGameStats('word', finalScore, wWrongMoves, wTime);
+        function updateWordTiles(){ wGrid.forEach(t=>t.classList.remove('highlight')); }
+        function finishWordSearch(){
+            wActive=false; clearInterval(timerInterval);
+            let finalScore=Math.round(Math.max(0,50-wWrongMoves)+Math.max(0,50-Math.floor(wTime/15)));
+            document.getElementById('w-score').innerText=finalScore; document.getElementById('w-msg').innerText="SOLVED";
+            saveGameStats('word',finalScore,wWrongMoves,wTime);
         }
 
-        // --- TOWERS ENGINE ---
-        let twrTowers = [], twrTargets = [], twrActive = false, twrTime = 0, twrMoves = 0, twrSelected = -1, numTowers = 4;
-        function startTowers() {
+        // ==================== TOWERS ====================
+        let twrTowers=[], twrTargets=[], twrActive=false, twrTime=0, twrMoves=0, twrSelected=-1, numTowers=4;
+        function startTowers(){
             showScreen('towers-game'); setSeedForToday();
-            numTowers = [3, 4, 5][Math.floor(random() * 3)];
-            const container = document.getElementById('towers-container'); container.innerHTML = '';
-            twrTowers = []; twrTargets = []; twrTime = 0; twrMoves = 0; twrSelected = -1; twrActive = true;
-            document.getElementById('twr-time').innerText = '0'; document.getElementById('twr-moves').innerText = '0';
-            document.getElementById('twr-score').innerText = '---'; document.getElementById('twr-msg').innerText = '';
-            let totalBlocks = 0;
-            for(let i=0; i<numTowers; i++) {
-                let t = Math.floor(random() * 4) + 1;
-                twrTargets.push(t); totalBlocks += t; twrTowers.push([]);
-            }
-            for(let i=0; i<totalBlocks; i++) twrTowers[Math.floor(random() * numTowers)].push(i);
-            for(let i=0; i<numTowers; i++) {
-                let col = document.createElement('div'); col.className = 'tower-col'; col.id = 'twr-col-' + i;
-                col.onclick = () => handleTowerClick(i);
-                let targetLbl = document.createElement('div'); targetLbl.className = 'tower-target';
-                targetLbl.id = 'twr-tgt-' + i; targetLbl.innerText = twrTargets[i];
-                col.appendChild(targetLbl);
-                container.appendChild(col);
+            numTowers=[3,4,5][Math.floor(random()*3)];
+            const container=document.getElementById('towers-container'); container.innerHTML='';
+            twrTowers=[]; twrTargets=[]; twrTime=0; twrMoves=0; twrSelected=-1; twrActive=true;
+            document.getElementById('twr-time').innerText='0'; document.getElementById('twr-moves').innerText='0';
+            document.getElementById('twr-score').innerText='---'; document.getElementById('twr-msg').innerText='';
+            let totalBlocks=0;
+            for(let i=0;i<numTowers;i++){ let t=Math.floor(random()*4)+1; twrTargets.push(t); totalBlocks+=t; twrTowers.push([]); }
+            for(let i=0;i<totalBlocks;i++) twrTowers[Math.floor(random()*numTowers)].push(i);
+            for(let i=0;i<numTowers;i++){
+                let col=document.createElement('div'); col.className='tower-col'; col.id='twr-col-'+i; col.onclick=()=>handleTowerClick(i);
+                let targetLbl=document.createElement('div'); targetLbl.className='tower-target'; targetLbl.id='twr-tgt-'+i; targetLbl.innerText=twrTargets[i];
+                col.appendChild(targetLbl); container.appendChild(col);
             }
             renderTowers();
-            timerInterval = setInterval(() => { if (twrActive) { twrTime++; document.getElementById('twr-time').innerText = twrTime; } }, 1000);
+            timerInterval=setInterval(()=>{ if(twrActive){ twrTime++; document.getElementById('twr-time').innerText=twrTime; } },1000);
         }
-        function renderTowers() {
-            for(let i=0; i<numTowers; i++) {
-                let col = document.getElementById('twr-col-' + i);
-                let tgt = document.getElementById('twr-tgt-' + i);
-                Array.from(col.querySelectorAll('.twr-block')).forEach(el => el.remove());
-                twrTowers[i].forEach(blk => {
-                    let b = document.createElement('div'); b.className = 'twr-block';
-                    col.appendChild(b);
-                });
-                col.classList.toggle('selected', twrSelected === i);
-                if (twrTowers[i].length === twrTargets[i]) tgt.classList.add('matched');
-                else tgt.classList.remove('matched');
+        function renderTowers(){
+            for(let i=0;i<numTowers;i++){
+                let col=document.getElementById('twr-col-'+i), tgt=document.getElementById('twr-tgt-'+i);
+                Array.from(col.querySelectorAll('.twr-block')).forEach(el=>el.remove());
+                twrTowers[i].forEach(blk=>{ let b=document.createElement('div'); b.className='twr-block'; col.appendChild(b); });
+                col.classList.toggle('selected',twrSelected===i);
+                tgt.classList.toggle('matched',twrTowers[i].length===twrTargets[i]);
             }
         }
-        function handleTowerClick(idx) {
-            if(!twrActive) return;
-            if(twrSelected === -1) {
-                if(twrTowers[idx].length > 0) { twrSelected = idx; renderTowers(); }
-            } else {
-                if(twrSelected === idx) { twrSelected = -1; renderTowers(); return; }
-                let block = twrTowers[twrSelected].pop();
-                twrTowers[idx].push(block);
-                twrSelected = -1; twrMoves++; document.getElementById('twr-moves').innerText = twrMoves;
+        function handleTowerClick(idx){
+            if(!twrActive)return;
+            if(twrSelected===-1){ if(twrTowers[idx].length>0){ twrSelected=idx; renderTowers(); } }
+            else {
+                if(twrSelected===idx){ twrSelected=-1; renderTowers(); return; }
+                let block=twrTowers[twrSelected].pop(); twrTowers[idx].push(block);
+                twrSelected=-1; twrMoves++; document.getElementById('twr-moves').innerText=twrMoves;
                 renderTowers(); checkTowersWin();
             }
         }
-        function checkTowersWin() {
-            let win = true;
-            for(let i=0; i<numTowers; i++) { if(twrTowers[i].length !== twrTargets[i]) win = false; }
-            if(win) {
-                twrActive = false; clearInterval(timerInterval);
-                let totalPenalty = Math.floor(twrMoves/6) + Math.floor(twrTime/5);
-                let finalScore = Math.max(0, 100 - totalPenalty);
-                document.getElementById('twr-score').innerText = finalScore;
-                document.getElementById('twr-msg').innerText = "SOLVED";
-                saveGameStats('towers', finalScore, twrMoves, twrTime);
+        function checkTowersWin(){
+            if(twrTowers.every((t,i)=>t.length===twrTargets[i])){
+                twrActive=false; clearInterval(timerInterval);
+                let totalPenalty=Math.floor(twrMoves/6)+Math.floor(twrTime/5);
+                let finalScore=Math.max(0,100-totalPenalty);
+                document.getElementById('twr-score').innerText=finalScore; document.getElementById('twr-msg').innerText="SOLVED";
+                saveGameStats('towers',finalScore,twrMoves,twrTime);
             }
         }
 
-        // --- FIND IT ENGINE ---
-        let fiGrid = [], fiActive = false, fiTime = 0, fiMoves = 0, fiTarget = {r:0, c:0}, fiSize = 6;
-        function startFindIt() {
+        // ==================== FIND IT ====================
+        let fiGrid=[], fiActive=false, fiTime=0, fiMoves=0, fiTarget={r:0,c:0}, fiSize=6;
+        function startFindIt(){
             showScreen('findit-game'); setSeedForToday();
-            fiSize = [5, 6, 8][Math.floor(random() * 3)];
-            document.documentElement.style.setProperty('--grid-size', fiSize);
-            const container = document.getElementById('findit-grid'); container.innerHTML = '';
-            fiGrid = []; fiTime = 0; fiMoves = 0; fiActive = true;
-            document.getElementById('fi-time').innerText = '0'; document.getElementById('fi-moves').innerText = '0';
-            document.getElementById('fi-score').innerText = '---'; document.getElementById('fi-msg').innerText = '';
-            fiTarget.r = Math.floor(random() * fiSize); fiTarget.c = Math.floor(random() * fiSize);
-            for (let i = 0; i < fiSize * fiSize; i++) {
-                let r = Math.floor(i / fiSize), c = i % fiSize;
-                let tile = document.createElement('div'); tile.className = 'fi-tile';
-                let inner = document.createElement('div'); inner.className = 'fi-inner';
-                let front = document.createElement('div'); front.className = 'fi-front';
-                let back = document.createElement('div'); back.className = 'fi-back';
+            fiSize=[5,6,8][Math.floor(random()*3)];
+            document.documentElement.style.setProperty('--grid-size',fiSize);
+            const container=document.getElementById('findit-grid'); container.innerHTML='';
+            fiGrid=[]; fiTime=0; fiMoves=0; fiActive=true;
+            document.getElementById('fi-time').innerText='0'; document.getElementById('fi-moves').innerText='0';
+            document.getElementById('fi-score').innerText='---'; document.getElementById('fi-msg').innerText='';
+            fiTarget.r=Math.floor(random()*fiSize); fiTarget.c=Math.floor(random()*fiSize);
+            for(let i=0;i<fiSize*fiSize;i++){
+                let r=Math.floor(i/fiSize),c=i%fiSize;
+                let tile=document.createElement('div'); tile.className='fi-tile';
+                let inner=document.createElement('div'); inner.className='fi-inner';
+                let front=document.createElement('div'); front.className='fi-front';
+                let back=document.createElement('div'); back.className='fi-back';
                 inner.appendChild(front); inner.appendChild(back); tile.appendChild(inner);
-                tile.onclick = () => handleFindItClick(i, r, c, inner, back);
-                fiGrid.push({el: tile, inner: inner}); container.appendChild(tile);
+                tile.onclick=()=>handleFindItClick(i,r,c,inner,back);
+                fiGrid.push({el:tile,inner:inner}); container.appendChild(tile);
             }
-            timerInterval = setInterval(() => { if (fiActive) { fiTime++; document.getElementById('fi-time').innerText = fiTime; } }, 1000);
+            timerInterval=setInterval(()=>{ if(fiActive){ fiTime++; document.getElementById('fi-time').innerText=fiTime; } },1000);
         }
-        function handleFindItClick(i, r, c, inner, back) {
-            if(!fiActive || inner.classList.contains('flipped')) return;
-            fiMoves++; document.getElementById('fi-moves').innerText = fiMoves;
-            let dist = Math.max(Math.abs(r - fiTarget.r), Math.abs(c - fiTarget.c));
-            let color = dist === 0 ? '#39ff14' : dist === 1 ? '#fdd835' : dist === 2 ? '#ff1744' : '#111';
-            back.style.backgroundColor = color;
-            if(dist === 0) back.style.boxShadow = "inset 0 0 20px rgba(57, 255, 20, 0.8)";
+        function handleFindItClick(i,r,c,inner,back){
+            if(!fiActive||inner.classList.contains('flipped'))return;
+            fiMoves++; document.getElementById('fi-moves').innerText=fiMoves;
+            let dist=Math.max(Math.abs(r-fiTarget.r),Math.abs(c-fiTarget.c));
+            let color=dist===0?'#39ff14':dist===1?'#fdd835':dist===2?'#ff1744':'#111';
+            back.style.backgroundColor=color;
+            if(dist===0)back.style.boxShadow="inset 0 0 20px rgba(57,255,20,0.8)";
             inner.classList.add('flipped');
-            if(dist === 0) {
-                fiActive = false; clearInterval(timerInterval);
-                let totalPenalty = Math.floor(fiMoves/5) + Math.floor(fiTime/5);
-                let finalScore = Math.max(0, 100 - totalPenalty);
-                document.getElementById('fi-score').innerText = finalScore;
-                document.getElementById('fi-msg').innerText = "SOLVED";
-                saveGameStats('findit', finalScore, fiMoves, fiTime);
-            } else {
-                setTimeout(() => { if(fiActive) inner.classList.remove('flipped'); }, 1000);
-            }
+            if(dist===0){
+                fiActive=false; clearInterval(timerInterval);
+                let totalPenalty=Math.floor(fiMoves/5)+Math.floor(fiTime/5);
+                let finalScore=Math.max(0,100-totalPenalty);
+                document.getElementById('fi-score').innerText=finalScore; document.getElementById('fi-msg').innerText="SOLVED";
+                saveGameStats('findit',finalScore,fiMoves,fiTime);
+            } else { setTimeout(()=>{ if(fiActive)inner.classList.remove('flipped'); },1000); }
         }
 
-        // --- COLOR FLOOD ENGINE ---
-        let fGrid = [], fBoard = [], fActive = false, fTime = 0, fMoves = 0, fSize = 5;
-        const fColors = ['#ff1744', '#00e5ff', '#39ff14', '#fdd835', '#ff8c00', '#a200ff'];
-        function startFlood() {
+        // ==================== COLOR FLOOD ====================
+        let fGrid=[], fBoard=[], fActive=false, fTime=0, fMoves=0, fSize=5;
+        const fColors=['#ff1744','#00e5ff','#39ff14','#fdd835','#ff8c00','#a200ff'];
+        function startFlood(){
             showScreen('flood-game'); setSeedForToday();
-            fSize = [3, 5, 8][Math.floor(random() * 3)];
-            document.documentElement.style.setProperty('--grid-size', fSize);
-            const container = document.getElementById('flood-grid'); container.innerHTML = '';
-            fGrid = []; fBoard = []; fTime = 0; fMoves = 0; fActive = true;
-            document.getElementById('f-time').innerText = '0'; document.getElementById('f-moves').innerText = '0';
-            document.getElementById('f-score').innerText = '---'; document.getElementById('f-msg').innerText = '';
-            for (let i = 0; i < fSize * fSize; i++) {
-                let colorIdx = Math.floor(random() * fColors.length); fBoard.push(colorIdx);
-                let tile = document.createElement('div'); tile.className = 'f-tile';
-                tile.style.backgroundColor = fColors[colorIdx];
-                fGrid.push(tile); container.appendChild(tile);
-            }
-            const palette = document.getElementById('flood-palette'); palette.innerHTML = '';
-            fColors.forEach((color, idx) => {
-                let btn = document.createElement('div'); btn.className = 'f-btn'; btn.style.backgroundColor = color;
-                btn.onclick = () => doFloodFill(idx); palette.appendChild(btn);
-            });
-            timerInterval = setInterval(() => { if (fActive) { fTime++; document.getElementById('f-time').innerText = fTime; } }, 1000);
+            fSize=[3,5,8][Math.floor(random()*3)];
+            document.documentElement.style.setProperty('--grid-size',fSize);
+            const container=document.getElementById('flood-grid'); container.innerHTML='';
+            fGrid=[]; fBoard=[]; fTime=0; fMoves=0; fActive=true;
+            document.getElementById('f-time').innerText='0'; document.getElementById('f-moves').innerText='0';
+            document.getElementById('f-score').innerText='---'; document.getElementById('f-msg').innerText='';
+            for(let i=0;i<fSize*fSize;i++){ let colorIdx=Math.floor(random()*fColors.length); fBoard.push(colorIdx); let tile=document.createElement('div'); tile.className='f-tile'; tile.style.backgroundColor=fColors[colorIdx]; fGrid.push(tile); container.appendChild(tile); }
+            const palette=document.getElementById('flood-palette'); palette.innerHTML='';
+            fColors.forEach((color,idx)=>{ let btn=document.createElement('div'); btn.className='f-btn'; btn.style.backgroundColor=color; btn.onclick=()=>doFloodFill(idx); palette.appendChild(btn); });
+            timerInterval=setInterval(()=>{ if(fActive){ fTime++; document.getElementById('f-time').innerText=fTime; } },1000);
         }
-        function doFloodFill(newColorIdx) {
-            if (!fActive) return; let targetColorIdx = fBoard[0];
-            if (targetColorIdx === newColorIdx) return;
-            fMoves++; document.getElementById('f-moves').innerText = fMoves;
-            let queue = [0]; let visited = new Set([0]);
-            while (queue.length > 0) {
-                let curr = queue.shift(); fBoard[curr] = newColorIdx; fGrid[curr].style.backgroundColor = fColors[newColorIdx];
-                let r = Math.floor(curr / fSize), c = curr % fSize;
-                let nb = [{r: r-1, c: c, i: curr-fSize}, {r: r+1, c: c, i: curr+fSize}, {r: r, c: c-1, i: curr-1}, {r: r, c: c+1, i: curr+1}];
-                for (let n of nb) {
-                    if (n.r >= 0 && n.r < fSize && n.c >= 0 && n.c < fSize && !visited.has(n.i)) {
-                        if (fBoard[n.i] === targetColorIdx) { visited.add(n.i); queue.push(n.i); }
-                    }
-                }
+        function doFloodFill(newColorIdx){
+            if(!fActive)return; let targetColorIdx=fBoard[0];
+            if(targetColorIdx===newColorIdx)return;
+            fMoves++; document.getElementById('f-moves').innerText=fMoves;
+            let queue=[0], visited=new Set([0]);
+            while(queue.length>0){
+                let curr=queue.shift(); fBoard[curr]=newColorIdx; fGrid[curr].style.backgroundColor=fColors[newColorIdx];
+                let r=Math.floor(curr/fSize),c=curr%fSize;
+                let nb=[{r:r-1,c:c,i:curr-fSize},{r:r+1,c:c,i:curr+fSize},{r:r,c:c-1,i:curr-1},{r:r,c:c+1,i:curr+1}];
+                for(let n of nb){ if(n.r>=0&&n.r<fSize&&n.c>=0&&n.c<fSize&&!visited.has(n.i)&&fBoard[n.i]===targetColorIdx){ visited.add(n.i); queue.push(n.i); } }
             }
-            checkFloodWin();
-        }
-        function checkFloodWin() {
-            if (fBoard.every(c => c === fBoard[0])) {
-                fActive = false; clearInterval(timerInterval);
-                let baseMoves = fSize === 3 ? 5 : (fSize === 5 ? 12 : 22);
-                let moveScore = Math.max(0, 100 - Math.max(0, fMoves - baseMoves) * 6);
-                let timeScore = Math.max(0, 100 - Math.floor(fTime / 2));
-                let finalScore = Math.round((moveScore * 0.90) + (timeScore * 0.10));
-                document.getElementById('f-score').innerText = finalScore; document.getElementById('f-msg').innerText = "SOLVED";
-                saveGameStats('flood', finalScore, fMoves, fTime);
+            if(fBoard.every(c=>c===fBoard[0])){
+                fActive=false; clearInterval(timerInterval);
+                let baseMoves=fSize===3?5:(fSize===5?12:22);
+                let moveScore=Math.max(0,100-Math.max(0,fMoves-baseMoves)*6);
+                let timeScore=Math.max(0,100-Math.floor(fTime/2));
+                let finalScore=Math.round(moveScore*0.9+timeScore*0.1);
+                document.getElementById('f-score').innerText=finalScore; document.getElementById('f-msg').innerText="SOLVED";
+                saveGameStats('flood',finalScore,fMoves,fTime);
             }
         }
 
-        // --- VALVES ENGINE ---
-        let vGrid = [], vMoves = 0, vTime = 0, vActive = false, vSize = 3;
-        function startValves() {
-            showScreen('valves-game'); setSeedForToday(); vSize = [3, 4, 5][Math.floor(random() * 3)];
-            document.documentElement.style.setProperty('--grid-size', vSize);
-            const container = document.getElementById('valves-grid'); container.innerHTML = ''; vGrid = []; vMoves = 0; vTime = 0; vActive = true;
-            document.getElementById('v-moves').innerText = '0'; document.getElementById('v-time').innerText = '0';
-            document.getElementById('v-score').innerText = '---'; document.getElementById('v-msg').innerText = '';
-            let layouts = generateValvesLayout(vSize);
-            for (let i = 0; i < vSize * vSize; i++) {
-                let ports = layouts[i], rot = Math.floor(random() * 4);
-                vGrid.push({ basePorts: ports, rotation: rot, filled: false, el: null, inner: null });
-                const tile = document.createElement('div'); tile.className = 'v-tile';
-                const inner = document.createElement('div'); inner.className = 'v-tile-inner';
-                let html = '<div class="v-pipe v-center"></div>';
-                if (ports[0]) html += '<div class="v-pipe v-top"></div>'; if (ports[1]) html += '<div class="v-pipe v-right"></div>';
-                if (ports[2]) html += '<div class="v-pipe v-bot"></div>'; if (ports[3]) html += '<div class="v-pipe v-left"></div>';
-                inner.innerHTML = html; inner.style.transform = `rotate(${rot * 90}deg)`;
-                if (i === 0) inner.innerHTML += '<div class="v-source"></div>';
-                tile.appendChild(inner); tile.onclick = () => rotateValve(i);
-                vGrid[i].el = tile; vGrid[i].inner = inner; container.appendChild(tile);
+        // ==================== VALVES ====================
+        let vGrid=[], vMoves=0, vTime=0, vActive=false, vSize=3;
+        function startValves(){
+            showScreen('valves-game'); setSeedForToday(); vSize=[3,4,5][Math.floor(random()*3)];
+            document.documentElement.style.setProperty('--grid-size',vSize);
+            const container=document.getElementById('valves-grid'); container.innerHTML=''; vGrid=[]; vMoves=0; vTime=0; vActive=true;
+            document.getElementById('v-moves').innerText='0'; document.getElementById('v-time').innerText='0';
+            document.getElementById('v-score').innerText='---'; document.getElementById('v-msg').innerText='';
+            let layouts=generateValvesLayout(vSize);
+            for(let i=0;i<vSize*vSize;i++){
+                let ports=layouts[i], rot=Math.floor(random()*4);
+                vGrid.push({basePorts:ports,rotation:rot,filled:false,el:null,inner:null});
+                const tile=document.createElement('div'); tile.className='v-tile';
+                const inner=document.createElement('div'); inner.className='v-tile-inner';
+                let html='<div class="v-pipe v-center"></div>';
+                if(ports[0])html+='<div class="v-pipe v-top"></div>'; if(ports[1])html+='<div class="v-pipe v-right"></div>';
+                if(ports[2])html+='<div class="v-pipe v-bot"></div>'; if(ports[3])html+='<div class="v-pipe v-left"></div>';
+                inner.innerHTML=html; inner.style.transform=`rotate(${rot*90}deg)`;
+                if(i===0)inner.innerHTML+='<div class="v-source"></div>';
+                tile.appendChild(inner); tile.onclick=()=>rotateValve(i);
+                vGrid[i].el=tile; vGrid[i].inner=inner; container.appendChild(tile);
             }
-            timerInterval = setInterval(() => { if (vActive) { vTime++; document.getElementById('v-time').innerText = vTime; } }, 1000);
-            setTimeout(calcValvesFlow, 100);
+            timerInterval=setInterval(()=>{ if(vActive){ vTime++; document.getElementById('v-time').innerText=vTime; } },1000);
+            setTimeout(calcValvesFlow,100);
         }
-        function generateValvesLayout(size) {
-            let h = Array(size).fill().map(() => Array(size - 1).fill(0)), v = Array(size - 1).fill().map(() => Array(size).fill(0));
-            for(let r=0; r<size; r++) for(let c=0; c<size-1; c++) h[r][c] = random() > 0.35 ? 1 : 0;
-            for(let r=0; r<size-1; r++) for(let c=0; c<size; c++) v[r][c] = random() > 0.35 ? 1 : 0;
-            for (let r=0; r<size; r++) {
-                for (let c=0; c<size; c++) {
-                    let deg = 0;
-                    if (r>0 && v[r-1][c]) deg++; if (r<size-1 && v[r][c]) deg++;
-                    if (c>0 && h[r][c-1]) deg++; if (c<size-1 && h[r][c]) deg++;
-                    let pot = [];
-                    if (r>0 && !v[r-1][c]) pot.push({t:'v',r:r-1,c:c}); if (r<size-1 && !v[r][c]) pot.push({t:'v',r:r,c:c});
-                    if (c>0 && !h[r][c-1]) pot.push({t:'h',r:r,c:c-1}); if (c<size-1 && !h[r][c]) pot.push({t:'h',r:r,c:c});
-                    while (deg < 2 && pot.length > 0) {
-                        let e = pot.splice(Math.floor(random()*pot.length), 1)[0];
-                        if (e.t==='v') v[e.r][e.c]=1; if (e.t==='h') h[e.r][e.c]=1; deg++;
-                    }
-                }
+        function generateValvesLayout(size){
+            let h=Array(size).fill().map(()=>Array(size-1).fill(0)), v=Array(size-1).fill().map(()=>Array(size).fill(0));
+            for(let r=0;r<size;r++)for(let c=0;c<size-1;c++)h[r][c]=random()>0.35?1:0;
+            for(let r=0;r<size-1;r++)for(let c=0;c<size;c++)v[r][c]=random()>0.35?1:0;
+            for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+                let deg=0;
+                if(r>0&&v[r-1][c])deg++; if(r<size-1&&v[r][c])deg++;
+                if(c>0&&h[r][c-1])deg++; if(c<size-1&&h[r][c])deg++;
+                let pot=[];
+                if(r>0&&!v[r-1][c])pot.push({t:'v',r:r-1,c:c}); if(r<size-1&&!v[r][c])pot.push({t:'v',r:r,c:c});
+                if(c>0&&!h[r][c-1])pot.push({t:'h',r:r,c:c-1}); if(c<size-1&&!h[r][c])pot.push({t:'h',r:r,c:c});
+                while(deg<2&&pot.length>0){ let e=pot.splice(Math.floor(random()*pot.length),1)[0]; if(e.t==='v')v[e.r][e.c]=1; if(e.t==='h')h[e.r][e.c]=1; deg++; }
             }
-            let lays = [];
-            for (let i = 0; i < size * size; i++) {
-                let r = Math.floor(i/size), c = i%size;
-                lays.push([r>0?v[r-1][c]:0, c<size-1?h[r][c]:0, r<size-1?v[r][c]:0, c>0?h[r][c-1]:0]);
+            let lays=[];
+            for(let i=0;i<size*size;i++){ let r=Math.floor(i/size),c=i%size; lays.push([r>0?v[r-1][c]:0,c<size-1?h[r][c]:0,r<size-1?v[r][c]:0,c>0?h[r][c-1]:0]); }
+            let vis=Array(size*size).fill(false),q=[0],count=0; vis[0]=true;
+            while(q.length>0){ let curr=q.shift(),r=Math.floor(curr/size),c=curr%size,p=lays[curr]; count++;
+                let nb=[{i:curr-size,c:p[0]&&r>0},{i:curr+1,c:p[1]&&c<size-1},{i:curr+size,c:p[2]&&r<size-1},{i:curr-1,c:p[3]&&c>0}];
+                for(let n of nb)if(n.c&&!vis[n.i]){ vis[n.i]=true; q.push(n.i); }
             }
-            let vis = Array(size*size).fill(false), q = [0], count = 0; vis[0] = true;
-            while(q.length > 0) {
-                let curr = q.shift(), r = Math.floor(curr/size), c = curr%size, p = lays[curr]; count++;
-                let nb = [{i:curr-size, c:p[0]&&r>0}, {i:curr+1, c:p[1]&&c<size-1}, {i:curr+size, c:p[2]&&r<size-1}, {i:curr-1, c:p[3]&&c>0}];
-                for(let n of nb) if(n.c && !vis[n.i]) { vis[n.i] = true; q.push(n.i); }
-            }
-            return (count === size*size) ? lays : generateValvesLayout(size);
+            return count===size*size?lays:generateValvesLayout(size);
         }
-        function getValvePorts(i) { let p = [...vGrid[i].basePorts]; for(let k=0; k<vGrid[i].rotation; k++) p.unshift(p.pop()); return p; }
-        function rotateValve(i) {
-            if (!vActive) return; vMoves++; document.getElementById('v-moves').innerText = vMoves;
-            vGrid[i].rotation = (vGrid[i].rotation + 1) % 4;
-            let currentDeg = parseInt(vGrid[i].inner.style.transform.replace(/[^\d-]/g, '')) || 0;
-            vGrid[i].inner.style.transform = `rotate(${currentDeg + 90}deg)`; calcValvesFlow();
+        function getValvePorts(i){ let p=[...vGrid[i].basePorts]; for(let k=0;k<vGrid[i].rotation;k++)p.unshift(p.pop()); return p; }
+        function rotateValve(i){
+            if(!vActive)return; vMoves++; document.getElementById('v-moves').innerText=vMoves;
+            vGrid[i].rotation=(vGrid[i].rotation+1)%4;
+            let currentDeg=parseInt(vGrid[i].inner.style.transform.replace(/[^\d-]/g,''))||0;
+            vGrid[i].inner.style.transform=`rotate(${currentDeg+90}deg)`; calcValvesFlow();
         }
-        function calcValvesFlow() {
-            vGrid.forEach(t => { t.filled = false; t.el.classList.remove('filled'); });
-            let q = [0]; vGrid[0].filled = true; vGrid[0].el.classList.add('filled');
-            while (q.length > 0) {
-                let curr = q.shift(), p = getValvePorts(curr), r = Math.floor(curr/vSize), c = curr%vSize;
-                let nb = [{d:0, i:curr-vSize, c:r>0, o:2}, {d:1, i:curr+1, c:c<vSize-1, o:3}, {d:2, i:curr+vSize, c:r<vSize-1, o:0}, {d:3, i:curr-1, c:c>0, o:1}];
-                for (let n of nb) {
-                    if (p[n.d] && n.c) {
-                        if (getValvePorts(n.i)[n.o] && !vGrid[n.i].filled) {
-                            vGrid[n.i].filled = true; vGrid[n.i].el.classList.add('filled'); q.push(n.i);
-                        }
-                    }
-                }
+        function calcValvesFlow(){
+            vGrid.forEach(t=>{ t.filled=false; t.el.classList.remove('filled'); });
+            let q=[0]; vGrid[0].filled=true; vGrid[0].el.classList.add('filled');
+            while(q.length>0){ let curr=q.shift(),p=getValvePorts(curr),r=Math.floor(curr/vSize),c=curr%vSize;
+                let nb=[{d:0,i:curr-vSize,c:r>0,o:2},{d:1,i:curr+1,c:c<vSize-1,o:3},{d:2,i:curr+vSize,c:r<vSize-1,o:0},{d:3,i:curr-1,c:c>0,o:1}];
+                for(let n of nb)if(p[n.d]&&n.c&&getValvePorts(n.i)[n.o]&&!vGrid[n.i].filled){ vGrid[n.i].filled=true; vGrid[n.i].el.classList.add('filled'); q.push(n.i); }
             }
-            let win = vGrid.every(t => t.filled), leaks = 0;
-            for (let i=0; i<vGrid.length; i++) {
-                let p = getValvePorts(i), r = Math.floor(i/vSize), c = i%vSize;
-                let nb = [{d:0, i:i-vSize, c:r>0, o:2}, {d:1, i:i+1, c:c<vSize-1, o:3}, {d:2, i:i+vSize, c:r<vSize-1, o:0}, {d:3, i:i-1, c:c>0, o:1}];
-                for (let n of nb) { if (p[n.d] && (!n.c || !getValvePorts(n.i)[n.o])) leaks++; }
+            let win=vGrid.every(t=>t.filled),leaks=0;
+            for(let i=0;i<vGrid.length;i++){ let p=getValvePorts(i),r=Math.floor(i/vSize),c=i%vSize;
+                let nb=[{d:0,i:i-vSize,c:r>0,o:2},{d:1,i:i+1,c:c<vSize-1,o:3},{d:2,i:i+vSize,c:r<vSize-1,o:0},{d:3,i:i-1,c:c>0,o:1}];
+                for(let n of nb)if(p[n.d]&&(!n.c||!getValvePorts(n.i)[n.o]))leaks++;
             }
-            if (win && leaks === 0) {
-                vActive = false; clearInterval(timerInterval);
-                let score = Math.max(0, 80 - Math.max(0, vMoves - vSize*vSize*1.5)*0.5) + Math.max(0, 20 - Math.floor(vTime/5));
-                document.getElementById('v-score').innerText = Math.round(score); document.getElementById('v-msg').innerText = "SOLVED";
-                saveGameStats('valves', Math.round(score), vMoves, vTime);
+            if(win&&leaks===0){ vActive=false; clearInterval(timerInterval);
+                let score=Math.max(0,80-Math.max(0,vMoves-vSize*vSize*1.5)*0.5)+Math.max(0,20-Math.floor(vTime/5));
+                document.getElementById('v-score').innerText=Math.round(score); document.getElementById('v-msg').innerText="SOLVED";
+                saveGameStats('valves',Math.round(score),vMoves,vTime);
             }
         }
 
-        // --- BOXES ENGINE ---
-        let bGrid = [], bSize = 5, bActive = false, bTime = 0, bMoves = 0, placedBoxes = [], boxTarget = 0;
-        let isDragging = false, dragStart = null, currentDragArea = null;
-        function startBoxes() {
+        // ==================== BOXES ====================
+        let bGrid=[], bSize=5, bActive=false, bTime=0, bMoves=0, placedBoxes=[], boxTarget=0, isDragging=false, dragStart=null, currentDragArea=null;
+        const boxColors=['#ff8c00','#00e5ff','#a200ff','#76ff03','#fdd835','#ff1744','#ff6699','#00bcd4'];
+        let placedBoxColors={};
+        function startBoxes(){
             showScreen('boxes-game'); setSeedForToday();
-            let diffIdx = Math.floor(random() * 3);
-            if (diffIdx === 0) { bSize = 5; boxTarget = 6; } else if (diffIdx === 1) { bSize = 6; boxTarget = Math.floor(random() * 4) + 7; } else { bSize = 7; boxTarget = Math.floor(random() * 5) + 11; }
-            document.documentElement.style.setProperty('--grid-size', bSize);
-            const container = document.getElementById('boxes-grid'); container.innerHTML = '';
-            bGrid = []; placedBoxes = []; bTime = 0; bMoves = 0; bActive = true; isDragging = false;
-            document.getElementById('b-time').innerText = '0'; document.getElementById('b-moves').innerText = '0';
-            document.getElementById('b-score').innerText = '---'; document.getElementById('b-msg').innerText = '';
-            let rects = [{r: 0, c: 0, w: bSize, h: bSize}];
-            while (rects.length < boxTarget) {
-                let validSplits = [];
-                for (let i = 0; i < rects.length; i++) {
-                    let rct = rects[i];
-                    for (let pt = 1; pt < rct.h; pt++) if (rct.w * pt > 1 && rct.w * (rct.h - pt) > 1) validSplits.push({ idx: i, dir: 'H', pt: pt });
-                    for (let pt = 1; pt < rct.w; pt++) if (pt * rct.h > 1 && (rct.w - pt) * rct.h > 1) validSplits.push({ idx: i, dir: 'V', pt: pt });
+            let diffIdx=Math.floor(random()*3); if(diffIdx===0){bSize=5; boxTarget=6;} else if(diffIdx===1){bSize=6; boxTarget=Math.floor(random()*4)+7;} else {bSize=7; boxTarget=Math.floor(random()*5)+11;}
+            document.documentElement.style.setProperty('--grid-size',bSize);
+            const container=document.getElementById('boxes-grid'); container.innerHTML='';
+            bGrid=[]; placedBoxes=[]; bTime=0; bMoves=0; bActive=true; isDragging=false; placedBoxColors={};
+            document.getElementById('b-time').innerText='0'; document.getElementById('b-moves').innerText='0';
+            document.getElementById('b-score').innerText='---'; document.getElementById('b-msg').innerText='';
+            let rects=[{r:0,c:0,w:bSize,h:bSize}];
+            while(rects.length<boxTarget){
+                let validSplits=[];
+                for(let i=0;i<rects.length;i++){ let rct=rects[i];
+                    for(let pt=1;pt<rct.h;pt++)if(rct.w*pt>1&&rct.w*(rct.h-pt)>1)validSplits.push({idx:i,dir:'H',pt});
+                    for(let pt=1;pt<rct.w;pt++)if(pt*rct.h>1&&(rct.w-pt)*rct.h>1)validSplits.push({idx:i,dir:'V',pt});
                 }
-                if (validSplits.length === 0) break;
-                let split = validSplits[Math.floor(random() * validSplits.length)];
-                let rct = rects[split.idx];
-                if (split.dir === 'H') rects.splice(split.idx, 1, {r: rct.r, c: rct.c, w: rct.w, h: split.pt}, {r: rct.r + split.pt, c: rct.c, w: rct.w, h: rct.h - split.pt});
-                else rects.splice(split.idx, 1, {r: rct.r, c: rct.c, w: split.pt, h: rct.h}, {r: rct.r, c: rct.c + split.pt, w: rct.w - split.pt, h: rct.h});
+                if(validSplits.length===0)break;
+                let split=validSplits[Math.floor(random()*validSplits.length)], rct=rects[split.idx];
+                if(split.dir==='H')rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:rct.w,h:split.pt},{r:rct.r+split.pt,c:rct.c,w:rct.w,h:rct.h-split.pt});
+                else rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:split.pt,h:rct.h},{r:rct.r,c:rct.c+split.pt,w:rct.w-split.pt,h:rct.h});
             }
-            let values = Array(bSize*bSize).fill(0);
-            rects.forEach(rct => {
-                let tr = rct.r + Math.floor(random() * rct.h), tc = rct.c + Math.floor(random() * rct.w);
-                values[tr * bSize + tc] = rct.w * rct.h;
-            });
-            for (let i=0; i<bSize*bSize; i++) {
-                let tile = document.createElement('div'); tile.className = 'b-tile';
-                if (values[i] > 0) tile.innerText = values[i];
-                tile.dataset.r = Math.floor(i/bSize); tile.dataset.c = i%bSize; tile.dataset.val = values[i];
-                bGrid.push(tile); container.appendChild(tile);
-            }
+            let values=Array(bSize*bSize).fill(0);
+            rects.forEach(rct=>{ let tr=rct.r+Math.floor(random()*rct.h),tc=rct.c+Math.floor(random()*rct.w); values[tr*bSize+tc]=rct.w*rct.h; });
+            for(let i=0;i<bSize*bSize;i++){ let tile=document.createElement('div'); tile.className='b-tile'; if(values[i]>0)tile.innerText=values[i]; tile.dataset.r=Math.floor(i/bSize); tile.dataset.c=i%bSize; tile.dataset.val=values[i]; bGrid.push(tile); container.appendChild(tile); }
             setupBoxDragging();
-            timerInterval = setInterval(() => { if (bActive) { bTime++; document.getElementById('b-time').innerText = bTime; } }, 1000);
+            timerInterval=setInterval(()=>{ if(bActive){ bTime++; document.getElementById('b-time').innerText=bTime; } },1000);
         }
-        function setupBoxDragging() {
-            const frame = document.getElementById('boxes-frame'); const newFrame = frame.cloneNode(true);
-            frame.parentNode.replaceChild(newFrame, frame); bGrid = Array.from(newFrame.querySelectorAll('.b-tile'));
-            const handleStart = (clientX, clientY) => {
-                if (!bActive) return; let cell = getGridCell(clientX, clientY); if (!cell) return;
-                let r = parseInt(cell.dataset.r), c = parseInt(cell.dataset.c);
-                let clickedBoxIdx = placedBoxes.findIndex(bx => r >= bx.r1 && r <= bx.r2 && c >= bx.c1 && c <= bx.c2);
-                if (clickedBoxIdx !== -1) { placedBoxes.splice(clickedBoxIdx, 1); bMoves++; document.getElementById('b-moves').innerText = bMoves; renderBoxes(); return; }
-                isDragging = true; dragStart = { r: r, c: c }; currentDragArea = { r1: r, c1: c, r2: r, c2: c }; renderBoxes();
+        function setupBoxDragging(){
+            const frame=document.getElementById('boxes-frame'); const newFrame=frame.cloneNode(true); frame.parentNode.replaceChild(newFrame,frame); bGrid=Array.from(newFrame.querySelectorAll('.b-tile'));
+            const handleStart=(clientX,clientY)=>{
+                if(!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return;
+                let r=parseInt(cell.dataset.r),c=parseInt(cell.dataset.c);
+                let clickedBoxIdx=placedBoxes.findIndex(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2);
+                if(clickedBoxIdx!==-1){ delete placedBoxColors[clickedBoxIdx]; placedBoxes.splice(clickedBoxIdx,1); bMoves++; document.getElementById('b-moves').innerText=bMoves; renderBoxes(); return; }
+                isDragging=true; dragStart={r,c}; currentDragArea={r1:r,c1:c,r2:r,c2:c}; renderBoxes();
             };
-            const handleMove = (clientX, clientY) => {
-                if (!isDragging || !bActive) return; let cell = getGridCell(clientX, clientY); if (!cell) return;
-                let currR = parseInt(cell.dataset.r), currC = parseInt(cell.dataset.c);
-                currentDragArea = { r1: Math.min(dragStart.r, currR), c1: Math.min(dragStart.c, currC), r2: Math.max(dragStart.r, currR), c2: Math.max(dragStart.c, currC) };
+            const handleMove=(clientX,clientY)=>{
+                if(!isDragging||!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return;
+                let currR=parseInt(cell.dataset.r),currC=parseInt(cell.dataset.c);
+                currentDragArea={r1:Math.min(dragStart.r,currR),c1:Math.min(dragStart.c,currC),r2:Math.max(dragStart.r,currR),c2:Math.max(dragStart.c,currC)};
                 renderBoxes();
             };
-            const handleEnd = () => {
-                if (!isDragging || !bActive) return; isDragging = false;
-                if (currentDragArea) {
-                    let area = (currentDragArea.r2 - currentDragArea.r1 + 1) * (currentDragArea.c2 - currentDragArea.c1 + 1);
-                    let numCount = 0; let targetVal = 0; let overlap = false;
-                    for (let r=currentDragArea.r1; r<=currentDragArea.r2; r++) {
-                        for (let c=currentDragArea.c1; c<=currentDragArea.c2; c++) {
-                            let v = parseInt(bGrid[r*bSize+c].dataset.val);
-                            if (v > 0) { numCount++; targetVal = v; }
-                            if (placedBoxes.some(bx => r >= bx.r1 && r <= bx.r2 && c >= bx.c1 && c <= bx.c2)) overlap = true;
-                        }
+            const handleEnd=()=>{
+                if(!isDragging||!bActive)return; isDragging=false;
+                if(currentDragArea){
+                    let area=(currentDragArea.r2-currentDragArea.r1+1)*(currentDragArea.c2-currentDragArea.c1+1), numCount=0, targetVal=0, overlap=false;
+                    for(let r=currentDragArea.r1;r<=currentDragArea.r2;r++)for(let c=currentDragArea.c1;c<=currentDragArea.c2;c++){
+                        let v=parseInt(bGrid[r*bSize+c].dataset.val); if(v>0){ numCount++; targetVal=v; }
+                        if(placedBoxes.some(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2))overlap=true;
                     }
-                    if (!overlap && numCount === 1 && area === targetVal) { placedBoxes.push(currentDragArea); bMoves++; document.getElementById('b-moves').innerText = bMoves; }
+                    if(!overlap&&numCount===1&&area===targetVal){ placedBoxes.push(currentDragArea); placedBoxColors[placedBoxes.length-1]=boxColors[(placedBoxes.length-1)%boxColors.length]; bMoves++; document.getElementById('b-moves').innerText=bMoves; }
                 }
-                currentDragArea = null; renderBoxes(); checkBoxWin();
+                currentDragArea=null; renderBoxes(); checkBoxWin();
             };
-            newFrame.addEventListener('touchstart', (e) => { e.preventDefault(); handleStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
-            newFrame.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
-            newFrame.addEventListener('touchend', (e) => { e.preventDefault(); handleEnd(); }, {passive: false});
-            newFrame.addEventListener('mousedown', (e) => handleStart(e.clientX, e.clientY));
-            window.addEventListener('mousemove', (e) => { if(isDragging) handleMove(e.clientX, e.clientY); }); window.addEventListener('mouseup', handleEnd);
+            newFrame.addEventListener('touchstart',(e)=>{e.preventDefault(); handleStart(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+            newFrame.addEventListener('touchmove',(e)=>{e.preventDefault(); handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+            newFrame.addEventListener('touchend',(e)=>{e.preventDefault(); handleEnd();},{passive:false});
+            newFrame.addEventListener('mousedown',(e)=>handleStart(e.clientX,e.clientY));
+            window.addEventListener('mousemove',(e)=>{if(isDragging)handleMove(e.clientX,e.clientY);}); window.addEventListener('mouseup',handleEnd);
         }
-        function getGridCell(x, y) {
-            const gridEl = document.getElementById('boxes-grid'); const rect = gridEl.getBoundingClientRect();
-            if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return null;
-            const cR = Math.max(0, Math.min(Math.floor((y - rect.top) / (rect.height / bSize)), bSize - 1));
-            const cC = Math.max(0, Math.min(Math.floor((x - rect.left) / (rect.width / bSize)), bSize - 1));
-            return bGrid[cR * bSize + cC];
+        function getGridCell(x,y){
+            const gridEl=document.getElementById('boxes-grid'); const rect=gridEl.getBoundingClientRect();
+            if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return null;
+            const cR=Math.max(0,Math.min(Math.floor((y-rect.top)/(rect.height/bSize)),bSize-1));
+            const cC=Math.max(0,Math.min(Math.floor((x-rect.left)/(rect.width/bSize)),bSize-1));
+            return bGrid[cR*bSize+cC];
         }
-        function renderBoxes() {
-            bGrid.forEach(t => { t.className = 'b-tile'; t.style.borderTop = t.style.borderRight = t.style.borderBottom = t.style.borderLeft = ''; });
-            placedBoxes.forEach(bx => {
-                for (let r=bx.r1; r<=bx.r2; r++) {
-                    for (let c=bx.c1; c<=bx.c2; c++) {
-                        let t = bGrid[r*bSize+c]; t.classList.add('placed');
-                        if (r === bx.r1) t.style.borderTop = '2px solid var(--boxes-accent)';
-                        if (r === bx.r2) t.style.borderBottom = '2px solid var(--boxes-accent)';
-                        if (c === bx.c1) t.style.borderLeft = '2px solid var(--boxes-accent)';
-                        if (c === bx.c2) t.style.borderRight = '2px solid var(--boxes-accent)';
-                    }
+        function renderBoxes(){
+            bGrid.forEach(t=>{ t.className='b-tile'; t.style.borderTop=t.style.borderRight=t.style.borderBottom=t.style.borderLeft=''; });
+            placedBoxes.forEach((bx,idx)=>{
+                let color=placedBoxColors[idx]||'#fff';
+                for(let r=bx.r1;r<=bx.r2;r++)for(let c=bx.c1;c<=bx.c2;c++){
+                    let t=bGrid[r*bSize+c];
+                    if(r===bx.r1)t.style.borderTop=`2px solid ${color}`;
+                    if(r===bx.r2)t.style.borderBottom=`2px solid ${color}`;
+                    if(c===bx.c1)t.style.borderLeft=`2px solid ${color}`;
+                    if(c===bx.c2)t.style.borderRight=`2px solid ${color}`;
                 }
             });
-            if (isDragging && currentDragArea) {
-                for (let r=currentDragArea.r1; r<=currentDragArea.r2; r++) for (let c=currentDragArea.c1; c<=currentDragArea.c2; c++) bGrid[r*bSize+c].classList.add('highlight');
-            }
+            if(isDragging&&currentDragArea) for(let r=currentDragArea.r1;r<=currentDragArea.r2;r++)for(let c=currentDragArea.c1;c<=currentDragArea.c2;c++)bGrid[r*bSize+c].classList.add('highlight');
         }
-        function checkBoxWin() {
-            let totalCovered = 0;
-            placedBoxes.forEach(bx => { totalCovered += (bx.r2 - bx.r1 + 1) * (bx.c2 - bx.c1 + 1); });
-            if (totalCovered === bSize * bSize) {
-                bActive = false; clearInterval(timerInterval);
-                let moveScore = Math.max(0, 100 - Math.max(0, bMoves - boxTarget) * 5);
-                let timeScore = Math.max(0, 100 - Math.floor(bTime / 2));
-                let finalScore = Math.round((moveScore * 0.60) + (timeScore * 0.40));
-                document.getElementById('b-score').innerText = finalScore; document.getElementById('b-msg').innerText = "SOLVED";
-                saveGameStats('boxes', finalScore, bMoves, bTime);
+        function checkBoxWin(){
+            let totalCovered=0; placedBoxes.forEach(bx=>{ totalCovered+=(bx.r2-bx.r1+1)*(bx.c2-bx.c1+1); });
+            if(totalCovered===bSize*bSize){ bActive=false; clearInterval(timerInterval);
+                let moveScore=Math.max(0,100-Math.max(0,bMoves-boxTarget)*5), timeScore=Math.max(0,100-Math.floor(bTime/2));
+                let finalScore=Math.round(moveScore*0.6+timeScore*0.4);
+                document.getElementById('b-score').innerText=finalScore; document.getElementById('b-msg').innerText="SOLVED";
+                saveGameStats('boxes',finalScore,bMoves,bTime);
             }
         }
 
-        // --- LIGHT EM UP ENGINE ---
-        let lGrid = [], lBoard = [], lActive = false, lTime = 0, lMoves = 0;
-        function generateLightUp() {
-            let maxLoops = 1000;
-            while(maxLoops-- > 0) {
-                let tempBoard = Array(25).fill(0).map(() => ({ type: 'empty', val: null, bulb: false }));
-                let wallCount = 0; let targetWalls = 5 + Math.floor(random()*3);
-                while(wallCount < targetWalls) {
-                    let idx = Math.floor(random()*25);
-                    if (tempBoard[idx].type === 'empty') { tempBoard[idx].type = 'wall'; wallCount++; }
-                }
-                let emptyCells = [];
-                for(let i=0; i<25; i++) if(tempBoard[i].type === 'empty') emptyCells.push(i);
-                for(let i = emptyCells.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [emptyCells[i], emptyCells[j]] = [emptyCells[j], emptyCells[i]]; }
-                let lit = Array(25).fill(false);
-                for(let idx of emptyCells) {
-                    if (!lit[idx]) {
-                        tempBoard[idx].bulb = true; lit[idx] = true;
-                        let r = Math.floor(idx/5), c = idx%5;
-                        for(let i=r-1; i>=0; i--) { if(tempBoard[i*5+c].type === 'wall') break; lit[i*5+c] = true; }
-                        for(let i=r+1; i<5; i++) { if(tempBoard[i*5+c].type === 'wall') break; lit[i*5+c] = true; }
-                        for(let i=c-1; i>=0; i--) { if(tempBoard[r*5+i].type === 'wall') break; lit[r*5+i] = true; }
-                        for(let i=c+1; i<5; i++) { if(tempBoard[r*5+i].type === 'wall') break; lit[r*5+i] = true; }
+        // ==================== LIGHT EM UP ====================
+        let lGrid=[], lBoard=[], lActive=false, lTime=0, lMoves=0;
+        function generateLightUp(){
+            for(let maxLoops=1000;maxLoops>0;maxLoops--){
+                let tempBoard=Array(25).fill().map(()=>({type:'empty',val:null,bulb:false})), wallCount=0, targetWalls=5+Math.floor(random()*3);
+                while(wallCount<targetWalls){ let idx=Math.floor(random()*25); if(tempBoard[idx].type==='empty'){ tempBoard[idx].type='wall'; wallCount++; } }
+                let emptyCells=[]; for(let i=0;i<25;i++)if(tempBoard[i].type==='empty')emptyCells.push(i);
+                for(let i=emptyCells.length-1;i>0;i--){ const j=Math.floor(random()*(i+1)); [emptyCells[i],emptyCells[j]]=[emptyCells[j],emptyCells[i]]; }
+                let lit=Array(25).fill(false);
+                for(let idx of emptyCells){
+                    if(!lit[idx]){ tempBoard[idx].bulb=true; lit[idx]=true; let r=Math.floor(idx/5),c=idx%5;
+                        for(let i=r-1;i>=0;i--){ if(tempBoard[i*5+c].type==='wall')break; lit[i*5+c]=true; }
+                        for(let i=r+1;i<5;i++){ if(tempBoard[i*5+c].type==='wall')break; lit[i*5+c]=true; }
+                        for(let i=c-1;i>=0;i--){ if(tempBoard[r*5+i].type==='wall')break; lit[r*5+i]=true; }
+                        for(let i=c+1;i<5;i++){ if(tempBoard[r*5+i].type==='wall')break; lit[r*5+i]=true; }
                     }
                 }
-                let allLit = true;
-                for(let i=0; i<25; i++) if(tempBoard[i].type === 'empty' && !lit[i]) allLit = false;
-                if (allLit) {
-                    for(let i=0; i<25; i++) {
-                        if (tempBoard[i].type === 'wall') {
-                            let r = Math.floor(i/5), c = i%5; let count = 0;
-                            if (r>0 && tempBoard[(r-1)*5+c].bulb) count++; if (r<4 && tempBoard[(r+1)*5+c].bulb) count++;
-                            if (c>0 && tempBoard[r*5+c-1].bulb) count++; if (c<4 && tempBoard[r*5+c+1].bulb) count++;
-                            if (random() > 0.4) tempBoard[i].val = count;
-                        }
+                if(emptyCells.every(i=>lit[i])){
+                    for(let i=0;i<25;i++) if(tempBoard[i].type==='wall'){ let r=Math.floor(i/5),c=i%5,count=0;
+                        if(r>0&&tempBoard[(r-1)*5+c].bulb)count++; if(r<4&&tempBoard[(r+1)*5+c].bulb)count++;
+                        if(c>0&&tempBoard[r*5+c-1].bulb)count++; if(c<4&&tempBoard[r*5+c+1].bulb)count++;
+                        if(random()>0.4)tempBoard[i].val=count;
                     }
-                    for(let i=0; i<25; i++) tempBoard[i].bulb = false;
-                    return tempBoard;
+                    tempBoard.forEach(t=>t.bulb=false); return tempBoard;
                 }
             }
-            return Array(25).fill(0).map(() => ({ type: 'empty', val: null, bulb: false }));
+            return Array(25).fill().map(()=>({type:'empty',val:null,bulb:false}));
         }
-        function startLight() {
-            showScreen('light-game'); setSeedForToday(); document.documentElement.style.setProperty('--grid-size', 5);
-            const container = document.getElementById('light-grid'); container.innerHTML = '';
-            lGrid = []; lTime = 0; lMoves = 0; lActive = true; lBoard = generateLightUp();
-            document.getElementById('l-time').innerText = '0'; document.getElementById('l-moves').innerText = '0';
-            document.getElementById('l-score').innerText = '---'; document.getElementById('l-msg').innerText = '';
-            for(let i=0; i<25; i++) {
-                let tile = document.createElement('div'); tile.className = 'l-tile' + (lBoard[i].type === 'wall' ? ' wall' : '');
-                if(lBoard[i].type === 'wall' && lBoard[i].val !== null) tile.innerText = lBoard[i].val;
-                tile.onclick = () => toggleBulb(i); lGrid.push(tile); container.appendChild(tile);
-            }
-            updateLightState(); timerInterval = setInterval(() => { if (lActive) { lTime++; document.getElementById('l-time').innerText = lTime; } }, 1000);
+        function startLight(){
+            showScreen('light-game'); setSeedForToday(); document.documentElement.style.setProperty('--grid-size',5);
+            const container=document.getElementById('light-grid'); container.innerHTML=''; lGrid=[]; lTime=0; lMoves=0; lActive=true; lBoard=generateLightUp();
+            document.getElementById('l-time').innerText='0'; document.getElementById('l-moves').innerText='0';
+            document.getElementById('l-score').innerText='---'; document.getElementById('l-msg').innerText='';
+            for(let i=0;i<25;i++){ let tile=document.createElement('div'); tile.className='l-tile'+(lBoard[i].type==='wall'?' wall':''); if(lBoard[i].type==='wall'&&lBoard[i].val!==null)tile.innerText=lBoard[i].val; tile.onclick=()=>toggleBulb(i); lGrid.push(tile); container.appendChild(tile); }
+            updateLightState(); timerInterval=setInterval(()=>{ if(lActive){ lTime++; document.getElementById('l-time').innerText=lTime; } },1000);
         }
-        function toggleBulb(i) {
-            if(!lActive || lBoard[i].type === 'wall') return;
-            lBoard[i].bulb = !lBoard[i].bulb; lMoves++; document.getElementById('l-moves').innerText = lMoves; updateLightState();
-        }
-        function updateLightState() {
-            let litGrid = Array(25).fill(false), errorGrid = Array(25).fill(false), errors = 0;
-            for(let i=0; i<25; i++) {
-                if(lBoard[i].type === 'empty' && lBoard[i].bulb) {
-                    litGrid[i] = true; let r = Math.floor(i/5), c = i%5;
-                    for(let k=r-1; k>=0; k--) { let idx = k*5+c; if(lBoard[idx].type === 'wall') break; litGrid[idx] = true; if(lBoard[idx].bulb) { errorGrid[i] = true; errorGrid[idx] = true; errors++; } }
-                    for(let k=r+1; k<5; k++) { let idx = k*5+c; if(lBoard[idx].type === 'wall') break; litGrid[idx] = true; if(lBoard[idx].bulb) { errorGrid[i] = true; errorGrid[idx] = true; errors++; } }
-                    for(let k=c-1; k>=0; k--) { let idx = r*5+k; if(lBoard[idx].type === 'wall') break; litGrid[idx] = true; if(lBoard[idx].bulb) { errorGrid[i] = true; errorGrid[idx] = true; errors++; } }
-                    for(let k=c+1; k<5; k++) { let idx = r*5+k; if(lBoard[idx].type === 'wall') break; litGrid[idx] = true; if(lBoard[idx].bulb) { errorGrid[i] = true; errorGrid[idx] = true; errors++; } }
-                }
-            }
-            for(let i=0; i<25; i++) if(lBoard[i].type === 'empty') lGrid[i].className = 'l-tile' + (lBoard[i].bulb ? ' bulb' : '') + (litGrid[i] ? ' lit' : '') + (errorGrid[i] ? ' error' : '');
-            let wallsSatisfied = true;
-            for(let i=0; i<25; i++) {
-                if(lBoard[i].type === 'wall' && lBoard[i].val !== null) {
-                    let r = Math.floor(i/5), c = i%5; let count = 0;
-                    if(r>0 && lBoard[(r-1)*5+c].bulb) count++; if(r<4 && lBoard[(r+1)*5+c].bulb) count++;
-                    if(c>0 && lBoard[r*5+c-1].bulb) count++; if(c<4 && lBoard[r*5+c+1].bulb) count++;
-                    if(count > lBoard[i].val) { lGrid[i].classList.add('error'); errors++; wallsSatisfied = false; }
-                    else if(count < lBoard[i].val) { lGrid[i].classList.remove('error'); wallsSatisfied = false; }
-                    else lGrid[i].classList.remove('error');
-                }
-            }
-            let allLit = true;
-            for(let i=0; i<25; i++) if(lBoard[i].type === 'empty' && !litGrid[i] && !lBoard[i].bulb) allLit = false;
-            if(allLit && errors === 0 && wallsSatisfied) {
-                lActive = false; clearInterval(timerInterval);
-                let moveScore = Math.max(0, 100 - Math.max(0, lMoves - 10) * 3);
-                let timeScore = Math.max(0, 100 - Math.floor(lTime / 3));
-                let finalScore = Math.round((moveScore * 0.70) + (timeScore * 0.30));
-                document.getElementById('l-score').innerText = finalScore; document.getElementById('l-msg').innerText = "SOLVED";
-                saveGameStats('light', finalScore, lMoves, lTime);
+        function toggleBulb(i){ if(!lActive||lBoard[i].type==='wall')return; lBoard[i].bulb=!lBoard[i].bulb; lMoves++; document.getElementById('l-moves').innerText=lMoves; updateLightState(); }
+        function updateLightState(){
+            let litGrid=Array(25).fill(false), errorGrid=Array(25).fill(false), errors=0;
+            for(let i=0;i<25;i++){ if(lBoard[i].type==='empty'&&lBoard[i].bulb){ litGrid[i]=true; let r=Math.floor(i/5),c=i%5;
+                for(let k=r-1;k>=0;k--){ let idx=k*5+c; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } }
+                for(let k=r+1;k<5;k++){ let idx=k*5+c; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } }
+                for(let k=c-1;k>=0;k--){ let idx=r*5+k; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } }
+                for(let k=c+1;k<5;k++){ let idx=r*5+k; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } }
+            }}
+            for(let i=0;i<25;i++) if(lBoard[i].type==='empty') lGrid[i].className='l-tile'+(lBoard[i].bulb?' bulb':'')+(litGrid[i]?' lit':'')+(errorGrid[i]?' error':'');
+            let wallsSatisfied=true;
+            for(let i=0;i<25;i++){ if(lBoard[i].type==='wall'&&lBoard[i].val!==null){ let r=Math.floor(i/5),c=i%5,count=0;
+                if(r>0&&lBoard[(r-1)*5+c].bulb)count++; if(r<4&&lBoard[(r+1)*5+c].bulb)count++;
+                if(c>0&&lBoard[r*5+c-1].bulb)count++; if(c<4&&lBoard[r*5+c+1].bulb)count++;
+                if(count>lBoard[i].val){ lGrid[i].classList.add('error'); errors++; wallsSatisfied=false; }
+                else if(count<lBoard[i].val){ lGrid[i].classList.remove('error'); wallsSatisfied=false; }
+                else lGrid[i].classList.remove('error');
+            }}
+            if(errors===0&&wallsSatisfied&&!Array(25).fill().some((_,i)=>lBoard[i].type==='empty'&&!litGrid[i]&&!lBoard[i].bulb)){
+                lActive=false; clearInterval(timerInterval);
+                let moveScore=Math.max(0,100-Math.max(0,lMoves-10)*3), timeScore=Math.max(0,100-Math.floor(lTime/3));
+                let finalScore=Math.round(moveScore*0.7+timeScore*0.3);
+                document.getElementById('l-score').innerText=finalScore; document.getElementById('l-msg').innerText="SOLVED";
+                saveGameStats('light',finalScore,lMoves,lTime);
             }
         }
 
-        // Initialize Hub
-        updateHubCards();
+        // ==================== SWITCHEROO ====================
+        const swColors=['#ff1744','#00e5ff','#fdd835','#ff8c00','#a200ff','#76ff03','#ff6699','#00bcd4'];
+        let swGridSize=4, swGrid=[], swChars=[], swDests=[], swActive=false, swTime=0, swMoves=0;
+        function startSwitcheroo(){
+            showScreen('switcheroo-game'); swGridSize=Math.floor(random()*2)+4;
+            document.getElementById('switcheroo-grid').style.gridTemplateColumns=`repeat(${swGridSize},1fr)`;
+            document.getElementById('switcheroo-grid').style.gridTemplateRows=`repeat(${swGridSize},1fr)`;
+            swGrid=Array(swGridSize*swGridSize).fill().map(()=>({type:'empty',char:-1,dest:-1}));
+            for(let i=0;i<swGridSize*swGridSize;i++) if(random()<0.2)swGrid[i].type='wall';
+            let numPairs=Math.min(4,Math.floor(swGridSize*swGridSize*0.1)+1); swChars=[]; swDests=[];
+            let emptyCells=[]; for(let i=0;i<swGridSize*swGridSize;i++)if(swGrid[i].type==='empty')emptyCells.push(i);
+            for(let i=emptyCells.length-1;i>0;i--){ const j=Math.floor(random()*(i+1)); [emptyCells[i],emptyCells[j]]=[emptyCells[j],emptyCells[i]]; }
+            for(let p=0;p<numPairs;p++){ if(emptyCells.length<2)break; let charIdx=emptyCells.pop(), destIdx=emptyCells.pop(), colorIdx=p%swColors.length;
+                swChars.push({r:Math.floor(charIdx/swGridSize),c:charIdx%swGridSize,colorIdx});
+                swDests.push({r:Math.floor(destIdx/swGridSize),c:destIdx%swGridSize,colorIdx});
+                swGrid[charIdx].char=p; swGrid[destIdx].dest=p; }
+            swActive=true; swTime=0; swMoves=0;
+            document.getElementById('sw-time').innerText='0'; document.getElementById('sw-moves').innerText='0';
+            document.getElementById('sw-score').innerText='---'; document.getElementById('sw-msg').innerText='';
+            renderSwitcheroo(); clearInterval(timerInterval);
+            timerInterval=setInterval(()=>{ if(swActive){ swTime++; document.getElementById('sw-time').innerText=swTime; } },1000);
+        }
+        function renderSwitcheroo(){
+            const container=document.getElementById('switcheroo-grid'); container.innerHTML='';
+            for(let i=0;i<swGridSize*swGridSize;i++){
+                let tile=document.createElement('div'); tile.className='s-tile'+(swGrid[i].type==='wall'?' wall':'');
+                if(swGrid[i].dest!==-1){ let destDiv=document.createElement('div'); destDiv.className='s-dest'; destDiv.style.borderColor=swColors[swDests[swGrid[i].dest].colorIdx]; tile.appendChild(destDiv); }
+                if(swGrid[i].char!==-1){ let charDiv=document.createElement('div'); charDiv.className='s-char'; charDiv.style.backgroundColor=swColors[swChars[swGrid[i].char].colorIdx]; charDiv.innerText='C'; tile.appendChild(charDiv); }
+                container.appendChild(tile);
+            }
+        }
+        function swMove(dir){
+            if(!swActive)return; let dr=dir==='up'?-1:(dir==='down'?1:0), dc=dir==='left'?-1:(dir==='right'?1:0);
+            let moves=[], occupiedTarget=new Set();
+            for(let c=0;c<swChars.length;c++){
+                let char=swChars[c], newR=char.r+dr, newC=char.c+dc, targetIdx=newR*swGridSize+newC;
+                if(newR<0||newR>=swGridSize||newC<0||newC>=swGridSize)continue;
+                if(swGrid[targetIdx].type==='wall')continue;
+                let occupied=false; for(let o=0;o<swChars.length;o++)if(o!==c&&swChars[o].r===newR&&swChars[o].c===newC)occupied=true;
+                if(occupied||occupiedTarget.has(targetIdx))continue;
+                moves.push({fromIdx:char.r*swGridSize+char.c,toIdx:targetIdx,charIdx:c}); occupiedTarget.add(targetIdx);
+            }
+            if(moves.length===0)return; swMoves++; document.getElementById('sw-moves').innerText=swMoves;
+            for(let m of moves){ swGrid[m.fromIdx].char=-1; swGrid[m.toIdx].char=m.charIdx; swChars[m.charIdx].r=Math.floor(m.toIdx/swGridSize); swChars[m.charIdx].c=m.toIdx%swGridSize; }
+            renderSwitcheroo(); checkSwitcherooWin();
+        }
+        function checkSwitcherooWin(){
+            let solved=swChars.every((c,i)=>c.r===swDests[i].r&&c.c===swDests[i].c);
+            if(solved){ swActive=false; clearInterval(timerInterval);
+                let timeScore=Math.max(0,100-Math.floor(swTime/2)), moveScore=Math.max(0,100-swMoves*3);
+                let finalScore=Math.round(timeScore*0.75+moveScore*0.25);
+                document.getElementById('sw-score').innerText=finalScore; document.getElementById('sw-msg').innerText="SOLVED";
+                saveGameStats('switcheroo',finalScore,swMoves,swTime); }
+        }
+
+        // Initialize
+        renderHubCards();
     </script>
 </body>
 </html>
