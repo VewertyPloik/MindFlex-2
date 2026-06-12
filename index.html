@@ -209,15 +209,15 @@
         .sw-arrow-btn:active { transform: scale(0.95); }
         #sw-frame { max-width: 280px; padding: 6px; }
         /* HintWords styles */
-        .hw-clue-container { display: flex; gap: 15px; justify-content: center; width: 100%; max-width: 380px; margin-bottom: 15px; flex-wrap: wrap; }
-        .hw-clue-word { background: #1a1f2b; border: 2px solid var(--hintwords-accent); border-radius: 10px; padding: 15px 25px; font-family: 'Black Ops One', cursive; font-size: 1.6em; color: var(--hintwords-accent); text-align: center; text-shadow: 0 0 10px rgba(0,150,36,0.4); min-width: 100px; }
-        .hw-connector { font-family: 'Black Ops One', cursive; font-size: 1.6em; color: #fff; display: flex; align-items: center; }
-        .hw-input-row { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 10px; }
-        .hw-input { flex-grow: 1; background: #1a1f2b; border: 2px solid var(--hintwords-accent); border-radius: 8px; padding: 12px 15px; font-family: 'Black Ops One', cursive; font-size: 1.4em; color: #fff; text-align: center; text-transform: uppercase; outline: none; letter-spacing: 2px; }
+        .hw-clue-container { display: flex; gap: 10px; justify-content: center; width: 100%; max-width: 380px; margin-bottom: 10px; flex-wrap: wrap; }
+        .hw-clue-word { background: #1a1f2b; border: 2px solid var(--hintwords-accent); border-radius: 10px; padding: 10px 15px; font-family: 'Black Ops One', cursive; font-size: 1.2em; color: var(--hintwords-accent); text-align: center; text-shadow: 0 0 10px rgba(0,150,36,0.4); min-width: 80px; }
+        .hw-connector { font-family: 'Black Ops One', cursive; font-size: 1.2em; color: #fff; display: flex; align-items: center; }
+        .hw-input-row { display: flex; gap: 10px; width: 100%; max-width: 380px; margin-bottom: 8px; }
+        .hw-input { flex-grow: 1; background: #1a1f2b; border: 2px solid var(--hintwords-accent); border-radius: 8px; padding: 10px 12px; font-family: 'Black Ops One', cursive; font-size: 1em; color: #fff; text-align: center; text-transform: uppercase; outline: none; letter-spacing: 2px; }
         .hw-input:focus { border-color: #fff; box-shadow: 0 0 15px rgba(0,150,36,0.3); }
-        .hw-submit-btn { background: var(--hintwords-accent); color: #000; border: none; border-radius: 8px; padding: 12px 20px; font-size: 1.2em; }
-        .hw-feedback { height: 24px; font-size: 1em; color: #ff1744; text-align: center; margin-bottom: 5px; }
-        .hw-progress { font-family: 'Black Ops One', cursive; font-size: 1.2em; color: var(--hintwords-accent); margin-bottom: 5px; }
+        .hw-submit-btn { background: var(--hintwords-accent); color: #000; border: none; border-radius: 8px; padding: 10px 15px; font-size: 1em; }
+        .hw-feedback { height: 20px; font-size: 0.9em; color: #ff1744; text-align: center; margin-bottom: 5px; }
+        .hw-progress { font-family: 'Black Ops One', cursive; font-size: 1em; color: var(--hintwords-accent); margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -269,7 +269,7 @@
         </div>
     </main>
 
-    <main id="word-instructions" class="screen"><div class="instructions-box inst-word"><h2>RULES: SEARCH</h2><ul><li>Locate the target words hidden in the 8x8 grid.</li><li>Words can be horizontal, vertical, diagonal, forwards or backwards.</li><li>Scoring: 50/50 Time and Moves. Lose 1 point every 15 seconds, and 1 point per incorrect drag.</li><li>Each found word is highlighted with a unique color.</li></ul><button class="start-game-btn start-word" onclick="startWord()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
+    <main id="word-instructions" class="screen"><div class="instructions-box inst-word"><h2>RULES: SEARCH</h2><ul><li>Locate the target words hidden in the 8x8 grid.</li><li>Words can be horizontal, vertical, diagonal, forwards or backwards.</li><li>Scoring: Lose 2 points per wrong drag and 1 point every 16 seconds.</li><li>Each found word is highlighted with a unique color.</li></ul><button class="start-game-btn start-word" onclick="startWord()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="word-game" class="screen"><div class="stats"><div class="stat-item">MISSES <div class="stat-value" style="color:var(--word-accent)" id="w-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--word-accent)" id="w-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="w-score">---</div></div></div><div id="word-target-list"></div><div class="board-frame" id="word-frame"><div id="word-grid"></div><canvas id="word-canvas" class="line-canvas"></canvas></div><div class="game-message" style="color:var(--word-accent)" id="w-msg"></div><button class="back-btn" id="back-word" onclick="showScreen('hub-screen')">BACK</button></main>
 
     <main id="towers-instructions" class="screen"><div class="instructions-box inst-towers"><h2>RULES: TOWERS</h2><ul><li>Move blocks so that every tower holds exactly the target number.</li><li>Tap a tower to select its top block, then tap another tower to move it.</li><li>Scoring: 1 point lost per 6 moves and per 5 seconds.</li></ul><button class="start-game-btn start-towers" onclick="startTowers()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
@@ -284,16 +284,16 @@
     <main id="valves-instructions" class="screen"><div class="instructions-box inst-valves"><h2>RULES: VALVES</h2><ul><li>Tap to rotate a valve tile 90°.</li><li>Connect all tiles to the main source, no leaks.</li></ul><button class="start-game-btn start-valves" onclick="startValves()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="valves-game" class="screen"><div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--valves-accent)" id="v-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--valves-accent)" id="v-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="v-score">---</div></div></div><div class="board-frame"><div id="valves-grid"></div></div><div class="game-message" style="color:var(--valves-accent)" id="v-msg"></div><button class="back-btn" id="back-valves" onclick="showScreen('hub-screen')">BACK</button></main>
 
-    <main id="boxes-instructions" class="screen"><div class="instructions-box inst-boxes"><h2>RULES: BOXES</h2><p>Fill the grid with rectangles so each contains exactly one number, and its area equals that number.</p><ul><li>Drag to create a box. Tap an existing box to delete it.</li><li>Each box has a unique color, and filled boxes are tinted for easy distinction.</li></ul><button class="start-game-btn start-boxes" onclick="startBoxes()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
+    <main id="boxes-instructions" class="screen"><div class="instructions-box inst-boxes"><h2>RULES: BOXES</h2><p>Fill the grid with rectangles so each contains exactly one number, and its area equals that number.</p><ul><li>Drag to create a box. Tap an existing box to delete it.</li><li>Scoring: lose 1 point every 10s and 1 point for every wrong move.</li></ul><button class="start-game-btn start-boxes" onclick="startBoxes()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="boxes-game" class="screen"><div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--boxes-accent)" id="b-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--boxes-accent)" id="b-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="b-score">---</div></div></div><div class="board-frame" id="boxes-frame"><div id="boxes-grid"></div></div><div class="game-message" style="color:var(--boxes-accent)" id="b-msg"></div><button class="back-btn" id="back-boxes" onclick="showScreen('hub-screen')">BACK</button></main>
 
     <main id="light-instructions" class="screen"><div class="instructions-box inst-light"><h2>RULES: LIGHT EM' UP</h2><ul><li>Place lights on empty cells. A light illuminates every empty cell in the same row and column until blocked by a wall.</li><li><strong>Numbered walls:</strong> the number indicates exactly how many lights must be placed in the four adjacent cells (up, down, left, right). The count must match.</li><li><strong>No two lights can see each other:</strong> if a light would illuminate another light, both cells turn red (invalid).</li><li>Solve the puzzle when every non‑wall cell is lit, all numbered walls are satisfied, and no lights conflict.</li></ul><button class="start-game-btn start-light" onclick="startLight()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="light-game" class="screen"><div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--light-accent)" id="l-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--light-accent)" id="l-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="l-score">---</div></div></div><div class="board-frame"><div id="light-grid"></div></div><div class="game-message" style="color:var(--light-accent)" id="l-msg"></div><button class="back-btn" id="back-light" onclick="showScreen('hub-screen')">BACK</button></main>
 
-    <main id="switcheroo-instructions" class="screen"><div class="instructions-box inst-switcheroo"><h2>RULES: SWITCHEROO</h2><ul><li>Move all colored characters onto their matching dashed rings.</li><li>Arrow buttons move <strong>every</strong> character at once.</li><li>Characters can't walk through walls or each other.</li><li>Easy: 3x3 with 2 circles | Medium: 4x4 with 3 circles</li></ul><button class="start-game-btn start-switcheroo" onclick="startSwitcheroo()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
+    <main id="switcheroo-instructions" class="screen"><div class="instructions-box inst-switcheroo"><h2>RULES: SWITCHEROO</h2><ul><li>Move all colored characters onto their matching dashed rings.</li><li>Arrow buttons move <strong>every</strong> character at once.</li><li>Characters can't walk through walls or each other.</li><li>Always 3x3 with 2 circles and at least 2 walls, always solvable.</li></ul><button class="start-game-btn start-switcheroo" onclick="startSwitcheroo()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="switcheroo-game" class="screen"><div class="stats"><div class="stat-item">MOVES <div class="stat-value" style="color:var(--switcheroo-accent)" id="sw-moves">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--switcheroo-accent)" id="sw-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="sw-score">---</div></div></div><div class="board-frame" id="sw-frame"><div id="switcheroo-grid"></div></div><div class="sw-arrows"><button class="sw-arrow-btn" onclick="swMove('left')">◄</button><button class="sw-arrow-btn" onclick="swMove('up')">▲</button><button class="sw-arrow-btn" onclick="swMove('down')">▼</button><button class="sw-arrow-btn" onclick="swMove('right')">►</button></div><div class="game-message" style="color:var(--switcheroo-accent)" id="sw-msg"></div><button class="back-btn" id="back-switcheroo" onclick="showScreen('hub-screen')">BACK</button></main>
 
-    <main id="hintwords-instructions" class="screen"><div class="instructions-box inst-hintwords"><h2>RULES: HINTWORDS</h2><ul><li>Three puzzles per day, each with two clue words. Find the single word that connects them.</li><li>Connections can be ideas, categories, associations, or compound words.</li><li>Type your answer and submit. You must solve each puzzle to unlock the next one.</li><li>Have Fun!</li></ul><button class="start-game-btn start-hintwords" onclick="startHintWords()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
+    <main id="hintwords-instructions" class="screen"><div class="instructions-box inst-hintwords"><h2>RULES: HINTWORDS</h2><ul><li>Three puzzles per day, each with two clue words. Find the single word that connects them.</li><li>Connections can be ideas, categories, associations, or compound words.</li><li>Type your answer and submit. You must solve each puzzle to unlock the next one.</li><li>Wrong guess: -1 point, reveals first letter of answer, that letter cannot be erased.</li><li>Lose 1 point every 15 seconds.</li></ul><button class="start-game-btn start-hintwords" onclick="startHintWords()">PLAY</button><button class="back-btn" onclick="showScreen('hub-screen')">RETURN TO HUB</button></div></main>
     <main id="hintwords-game" class="screen"><div class="stats"><div class="stat-item">GUESSES <div class="stat-value" style="color:var(--hintwords-accent)" id="hw-guesses">0</div></div><div class="stat-item">TIME <div class="stat-value" style="color:var(--hintwords-accent)" id="hw-time">0</div></div><div class="stat-item">SCORE <div class="stat-value" style="color:#ff3366" id="hw-score">---</div></div></div><div class="hw-progress" id="hw-progress">PUZZLE 1/3</div><div class="hw-clue-container"><div class="hw-clue-word" id="hw-clue1"></div><div class="hw-connector">+</div><div class="hw-clue-word" id="hw-clue2"></div></div><div class="hw-input-row"><input type="text" class="hw-input" id="hw-answer-input" placeholder="TYPE ANSWER" autocomplete="off" autocorrect="off" autocapitalize="characters"><button class="hw-submit-btn" id="hw-submit-btn" onclick="hwSubmit()">GO</button></div><div class="hw-feedback" id="hw-feedback"></div><div class="game-message" style="color:var(--hintwords-accent)" id="hw-msg"></div><button class="back-btn" id="back-hintwords" onclick="showScreen('hub-screen')">BACK</button></main>
 
     <script>
@@ -333,7 +333,7 @@
         const wordPool = ["QUANTUM","MATRIX","NEON","LASER","CYBER","ROBOT","SYSTEM","PLASMA","ENGINE","WIZARD","DRAGON","PLANET","GALAXY","METEOR","COSMOS","ORBIT","COMET","NEBULA","QUASAR","PULSAR","STELLAR","ASTRAL","ZENITH","VORTEX","MYSTIC","SHADOW","SPIRIT","PHANTOM","SPECTRE","ENIGMA","CIPHER","SECRETS","HIDDEN","COVERT","STEALTH","SHIELD","ARMOR","WEAPON","BLADE","SWORD","DAGGER","ARROW","HUNTER","RANGER","KNIGHT","CASTLE","TOWER","TEMPLE","SHRINE","PORTAL","BEACON"];
         const wordColors = ['#ff1744','#00e5ff','#fdd835','#ff8c00','#a200ff','#76ff03','#ff6699','#00bcd4'];
         let wGrid=[], wBoard=[], wTargetWords=[], wFoundWords=[], wActive=false, wTime=0, wWrongMoves=0, wIsDragging=false, wDragStart=null, wDragCurrent=null, wFoundLines=[];
-        function startWord() { showScreen('word-game'); setSeedForToday(); let numWords = [4,6,8][Math.floor(random()*3)]; let availableWords = [...wordPool]; for(let i=availableWords.length-1; i>0; i--) { const j=Math.floor(random()*(i+1)); [availableWords[i],availableWords[j]]=[availableWords[j],availableWords[i]]; } wTargetWords = availableWords.slice(0,numWords); wFoundWords=[]; wGrid=[]; wWrongMoves=0; wTime=0; wActive=true; wIsDragging=false; wFoundLines=[]; document.getElementById('w-time').innerText='0'; document.getElementById('w-moves').innerText='0'; document.getElementById('w-score').innerText='---'; document.getElementById('w-msg').innerText=''; generateWordGrid(); let listEl = document.getElementById('word-target-list'); listEl.innerHTML=''; wTargetWords.forEach(w => { let badge=document.createElement('div'); badge.className='word-badge'; badge.innerText=w; badge.id='badge-'+w; listEl.appendChild(badge); }); renderWordGrid(); setupWordDragging(); resizeCanvas(); timerInterval = setInterval(()=>{ if(wActive){ wTime++; document.getElementById('w-time').innerText=wTime; } },1000); }
+        function startWord() { showScreen('word-game'); setSeedForToday(); let numWords = [4,6,8][Math.floor(random()*3)]; let availableWords = [...wordPool]; for(let i=availableWords.length-1; i>0; i--) { const j=Math.floor(random()*(i+1)); [availableWords[i],availableWords[j]]=[availableWords[j],availableWords[i]]; } wTargetWords = availableWords.slice(0,numWords); wFoundWords=[]; wGrid=[]; wWrongMoves=0; wTime=0; wActive=true; wIsDragging=false; wFoundLines=[]; document.getElementById('w-time').innerText='0'; document.getElementById('w-moves').innerText='0'; document.getElementById('w-score').innerText='100'; document.getElementById('w-msg').innerText=''; generateWordGrid(); let listEl = document.getElementById('word-target-list'); listEl.innerHTML=''; wTargetWords.forEach(w => { let badge=document.createElement('div'); badge.className='word-badge'; badge.innerText=w; badge.id='badge-'+w; listEl.appendChild(badge); }); renderWordGrid(); setupWordDragging(); resizeCanvas(); timerInterval = setInterval(()=>{ if(wActive){ wTime++; document.getElementById('w-time').innerText=wTime; let score = Math.max(0, 100 - 2*wWrongMoves - Math.floor(wTime/16)); document.getElementById('w-score').innerText=score; } },1000); }
         function generateWordGrid() { let dirs=[[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]]; let success=false; for(let attempt=0; attempt<20; attempt++){ wBoard=Array(64).fill(''); let allPlaced=true; for(let word of wTargetWords){ let placed=false; for(let tries=0; tries<200; tries++){ let dir=dirs[Math.floor(random()*dirs.length)]; let r=Math.floor(random()*8), c=Math.floor(random()*8); let can=true; for(let i=0;i<word.length;i++){ let nr=r+dir[0]*i, nc=c+dir[1]*i; if(nr<0||nr>7||nc<0||nc>7){ can=false; break; } if(wBoard[nr*8+nc]!=='' && wBoard[nr*8+nc]!==word[i]){ can=false; break; } } if(can){ for(let i=0;i<word.length;i++) wBoard[(r+dir[0]*i)*8+(c+dir[1]*i)]=word[i]; placed=true; break; } } if(!placed){ allPlaced=false; break; } } if(allPlaced){ success=true; break; } } if(!success) wTargetWords = wTargetWords.filter(w => wBoard.includes(w[0])); const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"; for(let i=0;i<64;i++) if(wBoard[i]==='') wBoard[i]=letters[Math.floor(random()*26)]; }
         function renderWordGrid(){ const container=document.getElementById('word-grid'); container.innerHTML=''; wGrid=[]; for(let i=0;i<64;i++){ let tile=document.createElement('div'); tile.className='w-tile'; tile.innerText=wBoard[i]; tile.dataset.r=Math.floor(i/8); tile.dataset.c=i%8; wGrid.push(tile); container.appendChild(tile); } drawAllFoundLines(); }
         function setupWordDragging(){ const frame=document.getElementById('word-frame'); const newFrame=frame.cloneNode(true); frame.parentNode.replaceChild(newFrame,frame); wGrid=Array.from(newFrame.querySelectorAll('.w-tile')); const handleStart=(x,y)=>{ if(!wActive)return; let cell=getWGridCell(x,y); if(!cell)return; wIsDragging=true; wDragStart={r:parseInt(cell.dataset.r),c:parseInt(cell.dataset.c)}; wDragCurrent=wDragStart; drawWordLine(); }; const handleMove=(x,y)=>{ if(!wIsDragging||!wActive)return; let cell=getWGridCell(x,y); if(!cell)return; let cR=parseInt(cell.dataset.r),cC=parseInt(cell.dataset.c); let dr=Math.abs(cR-wDragStart.r),dc=Math.abs(cC-wDragStart.c); if(dr===0||dc===0||dr===dc){ wDragCurrent={r:cR,c:cC}; drawWordLine(); } }; const handleEnd=()=>{ if(!wIsDragging||!wActive)return; wIsDragging=false; clearCanvas(); if(wDragStart&&wDragCurrent&&(wDragStart.r!==wDragCurrent.r||wDragStart.c!==wDragCurrent.c)) checkWordSelection(); wDragStart=null; wDragCurrent=null; updateWordTiles(); }; newFrame.addEventListener('touchstart',(e)=>{e.preventDefault(); handleStart(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchmove',(e)=>{e.preventDefault(); handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchend',(e)=>{e.preventDefault(); handleEnd();},{passive:false}); newFrame.addEventListener('mousedown',(e)=>handleStart(e.clientX,e.clientY)); window.addEventListener('mousemove',(e)=>{if(wIsDragging)handleMove(e.clientX,e.clientY);}); window.addEventListener('mouseup',handleEnd); window.addEventListener('resize',resizeCanvas); }
@@ -342,9 +342,9 @@
         function clearCanvas(){ const canvas=document.getElementById('word-canvas'); if(!canvas)return; canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); }
         function drawWordLine(){ if(!wDragStart||!wDragCurrent)return; const canvas=document.getElementById('word-canvas'); const ctx=canvas.getContext('2d'); const cw=canvas.width/8, ch=canvas.height/8; ctx.clearRect(0,0,canvas.width,canvas.height); drawAllFoundLines(); let startX=wDragStart.c*cw+cw/2, startY=wDragStart.r*ch+ch/2, endX=wDragCurrent.c*cw+cw/2, endY=wDragCurrent.r*ch+ch/2; ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(endX,endY); ctx.strokeStyle='rgba(255,23,68,0.6)'; ctx.lineWidth=cw*0.5; ctx.lineCap='round'; ctx.stroke(); wGrid.forEach(t=>t.classList.remove('highlight')); let steps=Math.max(Math.abs(wDragCurrent.r-wDragStart.r),Math.abs(wDragCurrent.c-wDragStart.c)); let rStep=(wDragCurrent.r-wDragStart.r)/steps, cStep=(wDragCurrent.c-wDragStart.c)/steps; for(let i=0;i<=steps;i++) wGrid[Math.round(wDragStart.r+rStep*i)*8+Math.round(wDragStart.c+cStep*i)].classList.add('highlight'); }
         function drawAllFoundLines(){ const canvas=document.getElementById('word-canvas'); const ctx=canvas.getContext('2d'); if(!canvas)return; const cw=canvas.width/8, ch=canvas.height/8; for(let line of wFoundLines){ let startX=line.startC*cw+cw/2, startY=line.startR*ch+ch/2, endX=line.endC*cw+cw/2, endY=line.endR*ch+ch/2; ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(endX,endY); ctx.strokeStyle=line.color; ctx.lineWidth=cw*0.4; ctx.lineCap='round'; ctx.stroke(); } }
-        function checkWordSelection(){ let steps=Math.max(Math.abs(wDragCurrent.r-wDragStart.r),Math.abs(wDragCurrent.c-wDragStart.c)); let rStep=(wDragCurrent.r-wDragStart.r)/steps, cStep=(wDragCurrent.c-wDragStart.c)/steps; let selectedWord="", selectedIndices=[]; for(let i=0;i<=steps;i++){ let r=Math.round(wDragStart.r+rStep*i), c=Math.round(wDragStart.c+cStep*i); selectedWord+=wBoard[r*8+c]; selectedIndices.push(r*8+c); } let revWord=selectedWord.split('').reverse().join(''); let found=wTargetWords.find(w=>w===selectedWord||w===revWord); if(found&&!wFoundWords.includes(found)){ wFoundWords.push(found); let color=wordColors[(wFoundWords.length-1)%wordColors.length]; wFoundLines.push({word:found, startR:wDragStart.r, startC:wDragStart.c, endR:wDragCurrent.r, endC:wDragCurrent.c, color}); let badge=document.getElementById('badge-'+found); if(badge)badge.classList.add('word-found'); selectedIndices.forEach(idx=>{ wGrid[idx].style.backgroundColor=color+'40'; wGrid[idx].style.color='#fff'; }); if(wFoundWords.length===wTargetWords.length) finishWordSearch(); } else { wWrongMoves++; document.getElementById('w-moves').innerText=wWrongMoves; } }
+        function checkWordSelection(){ let steps=Math.max(Math.abs(wDragCurrent.r-wDragStart.r),Math.abs(wDragCurrent.c-wDragStart.c)); let rStep=(wDragCurrent.r-wDragStart.r)/steps, cStep=(wDragCurrent.c-wDragStart.c)/steps; let selectedWord="", selectedIndices=[]; for(let i=0;i<=steps;i++){ let r=Math.round(wDragStart.r+rStep*i), c=Math.round(wDragStart.c+cStep*i); selectedWord+=wBoard[r*8+c]; selectedIndices.push(r*8+c); } let revWord=selectedWord.split('').reverse().join(''); let found=wTargetWords.find(w=>w===selectedWord||w===revWord); if(found&&!wFoundWords.includes(found)){ wFoundWords.push(found); let color=wordColors[(wFoundWords.length-1)%wordColors.length]; wFoundLines.push({word:found, startR:wDragStart.r, startC:wDragStart.c, endR:wDragCurrent.r, endC:wDragCurrent.c, color}); let badge=document.getElementById('badge-'+found); if(badge)badge.classList.add('word-found'); selectedIndices.forEach(idx=>{ wGrid[idx].style.backgroundColor=color+'40'; wGrid[idx].style.color='#fff'; }); if(wFoundWords.length===wTargetWords.length) finishWordSearch(); } else { wWrongMoves++; document.getElementById('w-moves').innerText=wWrongMoves; let score = Math.max(0, 100 - 2*wWrongMoves - Math.floor(wTime/16)); document.getElementById('w-score').innerText=score; } }
         function updateWordTiles(){ wGrid.forEach(t=>t.classList.remove('highlight')); }
-        function finishWordSearch(){ wActive=false; clearInterval(timerInterval); let finalScore=Math.round(Math.max(0,50-wWrongMoves)+Math.max(0,50-Math.floor(wTime/15))); document.getElementById('w-score').innerText=finalScore; document.getElementById('w-msg').innerText="SOLVED"; saveGameStats('word',finalScore,wWrongMoves,wTime); showGameCompleteModal('word','var(--word-accent)','SEARCH',finalScore,wWrongMoves,wTime); }
+        function finishWordSearch(){ wActive=false; clearInterval(timerInterval); let finalScore = Math.max(0, 100 - 2*wWrongMoves - Math.floor(wTime/16)); document.getElementById('w-score').innerText=finalScore; document.getElementById('w-msg').innerText="SOLVED"; saveGameStats('word',finalScore,wWrongMoves,wTime); showGameCompleteModal('word','var(--word-accent)','SEARCH',finalScore,wWrongMoves,wTime); }
 
         // ==================== TOWERS ====================
         let twrTowers=[], twrTargets=[], twrActive=false, twrTime=0, twrMoves=0, twrSelected=-1, numTowers=4;
@@ -372,15 +372,15 @@
         function rotateValve(i){ if(!vActive)return; vMoves++; document.getElementById('v-moves').innerText=vMoves; vGrid[i].rotation=(vGrid[i].rotation+1)%4; let currentDeg=parseInt(vGrid[i].inner.style.transform.replace(/[^\d-]/g,''))||0; vGrid[i].inner.style.transform=`rotate(${currentDeg+90}deg)`; calcValvesFlow(); }
         function calcValvesFlow(){ vGrid.forEach(t=>{ t.filled=false; t.el.classList.remove('filled'); }); let q=[0]; vGrid[0].filled=true; vGrid[0].el.classList.add('filled'); while(q.length>0){ let curr=q.shift(),p=getValvePorts(curr),r=Math.floor(curr/vSize),c=curr%vSize; let nb=[{d:0,i:curr-vSize,c:r>0,o:2},{d:1,i:curr+1,c:c<vSize-1,o:3},{d:2,i:curr+vSize,c:r<vSize-1,o:0},{d:3,i:curr-1,c:c>0,o:1}]; for(let n of nb)if(p[n.d]&&n.c&&getValvePorts(n.i)[n.o]&&!vGrid[n.i].filled){ vGrid[n.i].filled=true; vGrid[n.i].el.classList.add('filled'); q.push(n.i); } } let win=vGrid.every(t=>t.filled),leaks=0; for(let i=0;i<vGrid.length;i++){ let p=getValvePorts(i),r=Math.floor(i/vSize),c=i%vSize; let nb=[{d:0,i:i-vSize,c:r>0,o:2},{d:1,i:i+1,c:c<vSize-1,o:3},{d:2,i:i+vSize,c:r<vSize-1,o:0},{d:3,i:i-1,c:c>0,o:1}]; for(let n of nb)if(p[n.d]&&(!n.c||!getValvePorts(n.i)[n.o]))leaks++; } if(win&&leaks===0){ vActive=false; clearInterval(timerInterval); let score=Math.max(0,80-Math.max(0,vMoves-vSize*vSize*1.5)*0.5)+Math.max(0,20-Math.floor(vTime/5)); document.getElementById('v-score').innerText=Math.round(score); document.getElementById('v-msg').innerText="SOLVED"; saveGameStats('valves',Math.round(score),vMoves,vTime); showGameCompleteModal('valves','var(--valves-accent)','VALVES',Math.round(score),vMoves,vTime); } }
 
-        // ==================== BOXES (tinted fill + 15% easier scoring) ====================
-        let bGrid=[], bSize=5, bActive=false, bTime=0, bMoves=0, placedBoxes=[], boxTarget=0, isDragging=false, dragStart=null, currentDragArea=null;
+        // ==================== BOXES (new scoring: -1 per wrong move, -1 per 10s) ====================
+        let bGrid=[], bSize=5, bActive=false, bTime=0, bMoves=0, bWrongMoves=0, placedBoxes=[], boxTarget=0, isDragging=false, dragStart=null, currentDragArea=null;
         const boxColors=['#ff8c00','#00e5ff','#a200ff','#76ff03','#fdd835','#ff1744','#ff6699','#00bcd4'];
         let placedBoxColors={};
-        function startBoxes(){ showScreen('boxes-game'); setSeedForToday(); let diffIdx=Math.floor(random()*3); if(diffIdx===0){bSize=5; boxTarget=6;} else if(diffIdx===1){bSize=6; boxTarget=Math.floor(random()*4)+7;} else {bSize=7; boxTarget=Math.floor(random()*5)+11;} document.documentElement.style.setProperty('--grid-size',bSize); const container=document.getElementById('boxes-grid'); container.innerHTML=''; bGrid=[]; placedBoxes=[]; bTime=0; bMoves=0; bActive=true; isDragging=false; placedBoxColors={}; document.getElementById('b-time').innerText='0'; document.getElementById('b-moves').innerText='0'; document.getElementById('b-score').innerText='---'; document.getElementById('b-msg').innerText=''; let rects=[{r:0,c:0,w:bSize,h:bSize}]; while(rects.length<boxTarget){ let validSplits=[]; for(let i=0;i<rects.length;i++){ let rct=rects[i]; for(let pt=1;pt<rct.h;pt++)if(rct.w*pt>1&&rct.w*(rct.h-pt)>1)validSplits.push({idx:i,dir:'H',pt}); for(let pt=1;pt<rct.w;pt++)if(pt*rct.h>1&&(rct.w-pt)*rct.h>1)validSplits.push({idx:i,dir:'V',pt}); } if(validSplits.length===0)break; let split=validSplits[Math.floor(random()*validSplits.length)], rct=rects[split.idx]; if(split.dir==='H')rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:rct.w,h:split.pt},{r:rct.r+split.pt,c:rct.c,w:rct.w,h:rct.h-split.pt}); else rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:split.pt,h:rct.h},{r:rct.r,c:rct.c+split.pt,w:rct.w-split.pt,h:rct.h}); } let values=Array(bSize*bSize).fill(0); rects.forEach(rct=>{ let tr=rct.r+Math.floor(random()*rct.h),tc=rct.c+Math.floor(random()*rct.w); values[tr*bSize+tc]=rct.w*rct.h; }); for(let i=0;i<bSize*bSize;i++){ let tile=document.createElement('div'); tile.className='b-tile'; if(values[i]>0)tile.innerText=values[i]; tile.dataset.r=Math.floor(i/bSize); tile.dataset.c=i%bSize; tile.dataset.val=values[i]; bGrid.push(tile); container.appendChild(tile); } setupBoxDragging(); timerInterval=setInterval(()=>{ if(bActive){ bTime++; document.getElementById('b-time').innerText=bTime; } },1000); }
-        function setupBoxDragging(){ const frame=document.getElementById('boxes-frame'); const newFrame=frame.cloneNode(true); frame.parentNode.replaceChild(newFrame,frame); bGrid=Array.from(newFrame.querySelectorAll('.b-tile')); const handleStart=(clientX,clientY)=>{ if(!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return; let r=parseInt(cell.dataset.r),c=parseInt(cell.dataset.c); let clickedBoxIdx=placedBoxes.findIndex(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2); if(clickedBoxIdx!==-1){ delete placedBoxColors[clickedBoxIdx]; placedBoxes.splice(clickedBoxIdx,1); bMoves++; document.getElementById('b-moves').innerText=bMoves; renderBoxes(); return; } isDragging=true; dragStart={r,c}; currentDragArea={r1:r,c1:c,r2:r,c2:c}; renderBoxes(); }; const handleMove=(clientX,clientY)=>{ if(!isDragging||!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return; let currR=parseInt(cell.dataset.r),currC=parseInt(cell.dataset.c); currentDragArea={r1:Math.min(dragStart.r,currR),c1:Math.min(dragStart.c,currC),r2:Math.max(dragStart.r,currR),c2:Math.max(dragStart.c,currC)}; renderBoxes(); }; const handleEnd=()=>{ if(!isDragging||!bActive)return; isDragging=false; if(currentDragArea){ let area=(currentDragArea.r2-currentDragArea.r1+1)*(currentDragArea.c2-currentDragArea.c1+1), numCount=0, targetVal=0, overlap=false; for(let r=currentDragArea.r1;r<=currentDragArea.r2;r++)for(let c=currentDragArea.c1;c<=currentDragArea.c2;c++){ let v=parseInt(bGrid[r*bSize+c].dataset.val); if(v>0){ numCount++; targetVal=v; } if(placedBoxes.some(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2))overlap=true; } if(!overlap&&numCount===1&&area===targetVal){ placedBoxes.push(currentDragArea); placedBoxColors[placedBoxes.length-1]=boxColors[(placedBoxes.length-1)%boxColors.length]; bMoves++; document.getElementById('b-moves').innerText=bMoves; } } currentDragArea=null; renderBoxes(); checkBoxWin(); }; newFrame.addEventListener('touchstart',(e)=>{e.preventDefault(); handleStart(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchmove',(e)=>{e.preventDefault(); handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchend',(e)=>{e.preventDefault(); handleEnd();},{passive:false}); newFrame.addEventListener('mousedown',(e)=>handleStart(e.clientX,e.clientY)); window.addEventListener('mousemove',(e)=>{if(isDragging)handleMove(e.clientX,e.clientY);}); window.addEventListener('mouseup',handleEnd); }
+        function startBoxes(){ showScreen('boxes-game'); setSeedForToday(); let diffIdx=Math.floor(random()*3); if(diffIdx===0){bSize=5; boxTarget=6;} else if(diffIdx===1){bSize=6; boxTarget=Math.floor(random()*4)+7;} else {bSize=7; boxTarget=Math.floor(random()*5)+11;} document.documentElement.style.setProperty('--grid-size',bSize); const container=document.getElementById('boxes-grid'); container.innerHTML=''; bGrid=[]; placedBoxes=[]; bTime=0; bMoves=0; bWrongMoves=0; bActive=true; isDragging=false; placedBoxColors={}; document.getElementById('b-time').innerText='0'; document.getElementById('b-moves').innerText='0'; document.getElementById('b-score').innerText='100'; document.getElementById('b-msg').innerText=''; let rects=[{r:0,c:0,w:bSize,h:bSize}]; while(rects.length<boxTarget){ let validSplits=[]; for(let i=0;i<rects.length;i++){ let rct=rects[i]; for(let pt=1;pt<rct.h;pt++)if(rct.w*pt>1&&rct.w*(rct.h-pt)>1)validSplits.push({idx:i,dir:'H',pt}); for(let pt=1;pt<rct.w;pt++)if(pt*rct.h>1&&(rct.w-pt)*rct.h>1)validSplits.push({idx:i,dir:'V',pt}); } if(validSplits.length===0)break; let split=validSplits[Math.floor(random()*validSplits.length)], rct=rects[split.idx]; if(split.dir==='H')rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:rct.w,h:split.pt},{r:rct.r+split.pt,c:rct.c,w:rct.w,h:rct.h-split.pt}); else rects.splice(split.idx,1,{r:rct.r,c:rct.c,w:split.pt,h:rct.h},{r:rct.r,c:rct.c+split.pt,w:rct.w-split.pt,h:rct.h}); } let values=Array(bSize*bSize).fill(0); rects.forEach(rct=>{ let tr=rct.r+Math.floor(random()*rct.h),tc=rct.c+Math.floor(random()*rct.w); values[tr*bSize+tc]=rct.w*rct.h; }); for(let i=0;i<bSize*bSize;i++){ let tile=document.createElement('div'); tile.className='b-tile'; if(values[i]>0)tile.innerText=values[i]; tile.dataset.r=Math.floor(i/bSize); tile.dataset.c=i%bSize; tile.dataset.val=values[i]; bGrid.push(tile); container.appendChild(tile); } setupBoxDragging(); timerInterval=setInterval(()=>{ if(bActive){ bTime++; document.getElementById('b-time').innerText=bTime; let score = Math.max(0, 100 - bWrongMoves - Math.floor(bTime/10)); document.getElementById('b-score').innerText=score; } },1000); }
+        function setupBoxDragging(){ const frame=document.getElementById('boxes-frame'); const newFrame=frame.cloneNode(true); frame.parentNode.replaceChild(newFrame,frame); bGrid=Array.from(newFrame.querySelectorAll('.b-tile')); const handleStart=(clientX,clientY)=>{ if(!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return; let r=parseInt(cell.dataset.r),c=parseInt(cell.dataset.c); let clickedBoxIdx=placedBoxes.findIndex(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2); if(clickedBoxIdx!==-1){ delete placedBoxColors[clickedBoxIdx]; placedBoxes.splice(clickedBoxIdx,1); bMoves++; document.getElementById('b-moves').innerText=bMoves; renderBoxes(); return; } isDragging=true; dragStart={r,c}; currentDragArea={r1:r,c1:c,r2:r,c2:c}; renderBoxes(); }; const handleMove=(clientX,clientY)=>{ if(!isDragging||!bActive)return; let cell=getGridCell(clientX,clientY); if(!cell)return; let currR=parseInt(cell.dataset.r),currC=parseInt(cell.dataset.c); currentDragArea={r1:Math.min(dragStart.r,currR),c1:Math.min(dragStart.c,currC),r2:Math.max(dragStart.r,currR),c2:Math.max(dragStart.c,currC)}; renderBoxes(); }; const handleEnd=()=>{ if(!isDragging||!bActive)return; isDragging=false; if(currentDragArea){ let area=(currentDragArea.r2-currentDragArea.r1+1)*(currentDragArea.c2-currentDragArea.c1+1), numCount=0, targetVal=0, overlap=false; for(let r=currentDragArea.r1;r<=currentDragArea.r2;r++)for(let c=currentDragArea.c1;c<=currentDragArea.c2;c++){ let v=parseInt(bGrid[r*bSize+c].dataset.val); if(v>0){ numCount++; targetVal=v; } if(placedBoxes.some(bx=>r>=bx.r1&&r<=bx.r2&&c>=bx.c1&&c<=bx.c2))overlap=true; } if(!overlap&&numCount===1&&area===targetVal){ placedBoxes.push(currentDragArea); placedBoxColors[placedBoxes.length-1]=boxColors[(placedBoxes.length-1)%boxColors.length]; bMoves++; document.getElementById('b-moves').innerText=bMoves; } else { bWrongMoves++; document.getElementById('b-moves').innerText=bWrongMoves; } } currentDragArea=null; renderBoxes(); checkBoxWin(); }; newFrame.addEventListener('touchstart',(e)=>{e.preventDefault(); handleStart(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchmove',(e)=>{e.preventDefault(); handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false}); newFrame.addEventListener('touchend',(e)=>{e.preventDefault(); handleEnd();},{passive:false}); newFrame.addEventListener('mousedown',(e)=>handleStart(e.clientX,e.clientY)); window.addEventListener('mousemove',(e)=>{if(isDragging)handleMove(e.clientX,e.clientY);}); window.addEventListener('mouseup',handleEnd); }
         function getGridCell(x,y){ const gridEl=document.getElementById('boxes-grid'); const rect=gridEl.getBoundingClientRect(); if(x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return null; const cR=Math.max(0,Math.min(Math.floor((y-rect.top)/(rect.height/bSize)),bSize-1)); const cC=Math.max(0,Math.min(Math.floor((x-rect.left)/(rect.width/bSize)),bSize-1)); return bGrid[cR*bSize+cC]; }
         function renderBoxes(){ bGrid.forEach(t=>{ t.className='b-tile'; t.style.backgroundColor=''; t.style.borderTop=t.style.borderRight=t.style.borderBottom=t.style.borderLeft=''; }); placedBoxes.forEach((bx,idx)=>{ let color=placedBoxColors[idx]||'#fff'; for(let r=bx.r1;r<=bx.r2;r++)for(let c=bx.c1;c<=bx.c2;c++){ let t=bGrid[r*bSize+c]; t.style.backgroundColor = color + '30'; if(r===bx.r1)t.style.borderTop=`2px solid ${color}`; if(r===bx.r2)t.style.borderBottom=`2px solid ${color}`; if(c===bx.c1)t.style.borderLeft=`2px solid ${color}`; if(c===bx.c2)t.style.borderRight=`2px solid ${color}`; } }); if(isDragging&&currentDragArea) for(let r=currentDragArea.r1;r<=currentDragArea.r2;r++)for(let c=currentDragArea.c1;c<=currentDragArea.c2;c++)bGrid[r*bSize+c].classList.add('highlight'); }
-        function checkBoxWin(){ let totalCovered=0; placedBoxes.forEach(bx=>{ totalCovered+=(bx.r2-bx.r1+1)*(bx.c2-bx.c1+1); }); if(totalCovered===bSize*bSize){ bActive=false; clearInterval(timerInterval); let moveScore = Math.max(0, 100 - Math.max(0, bMoves - boxTarget) * 4.25); let timeScore = Math.max(0, 100 - Math.floor(bTime / 2)); let finalScore = Math.round(moveScore * 0.6 + timeScore * 0.4); document.getElementById('b-score').innerText=finalScore; document.getElementById('b-msg').innerText="SOLVED"; saveGameStats('boxes',finalScore,bMoves,bTime); showGameCompleteModal('boxes','var(--boxes-accent)','BOXES',finalScore,bMoves,bTime); } }
+        function checkBoxWin(){ let totalCovered=0; placedBoxes.forEach(bx=>{ totalCovered+=(bx.r2-bx.r1+1)*(bx.c2-bx.c1+1); }); if(totalCovered===bSize*bSize){ bActive=false; clearInterval(timerInterval); let finalScore = Math.max(0, 100 - bWrongMoves - Math.floor(bTime/10)); document.getElementById('b-score').innerText=finalScore; document.getElementById('b-msg').innerText="SOLVED"; saveGameStats('boxes',finalScore,bMoves,bTime); showGameCompleteModal('boxes','var(--boxes-accent)','BOXES',finalScore,bMoves,bTime); } }
 
         // ==================== LIGHT EM UP ====================
         let lGrid=[], lBoard=[], lActive=false, lTime=0, lMoves=0;
@@ -389,15 +389,174 @@
         function toggleBulb(i){ if(!lActive||lBoard[i].type==='wall')return; lBoard[i].bulb=!lBoard[i].bulb; lMoves++; document.getElementById('l-moves').innerText=lMoves; updateLightState(); }
         function updateLightState(){ let litGrid=Array(25).fill(false), errorGrid=Array(25).fill(false), errors=0; for(let i=0;i<25;i++){ if(lBoard[i].type==='empty'&&lBoard[i].bulb){ litGrid[i]=true; let r=Math.floor(i/5),c=i%5; for(let k=r-1;k>=0;k--){ let idx=k*5+c; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } } for(let k=r+1;k<5;k++){ let idx=k*5+c; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } } for(let k=c-1;k>=0;k--){ let idx=r*5+k; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } } for(let k=c+1;k<5;k++){ let idx=r*5+k; if(lBoard[idx].type==='wall')break; litGrid[idx]=true; if(lBoard[idx].bulb){ errorGrid[i]=true; errorGrid[idx]=true; errors++; } } } } for(let i=0;i<25;i++) if(lBoard[i].type==='empty') lGrid[i].className='l-tile'+(lBoard[i].bulb?' bulb':'')+(litGrid[i]?' lit':'')+(errorGrid[i]?' error':''); let wallsSatisfied=true; for(let i=0;i<25;i++){ if(lBoard[i].type==='wall'&&lBoard[i].val!==null){ let r=Math.floor(i/5),c=i%5,count=0; if(r>0&&lBoard[(r-1)*5+c].bulb)count++; if(r<4&&lBoard[(r+1)*5+c].bulb)count++; if(c>0&&lBoard[r*5+c-1].bulb)count++; if(c<4&&lBoard[r*5+c+1].bulb)count++; if(count>lBoard[i].val){ lGrid[i].classList.add('error'); errors++; wallsSatisfied=false; } else if(count<lBoard[i].val){ lGrid[i].classList.remove('error'); wallsSatisfied=false; } else lGrid[i].classList.remove('error'); } } if(errors===0&&wallsSatisfied&&!Array(25).fill().some((_,i)=>lBoard[i].type==='empty'&&!litGrid[i]&&!lBoard[i].bulb)){ lActive=false; clearInterval(timerInterval); let moveScore=Math.max(0,100-Math.max(0,lMoves-10)*3), timeScore=Math.max(0,100-Math.floor(lTime/3)); let finalScore=Math.round(moveScore*0.7+timeScore*0.3); document.getElementById('l-score').innerText=finalScore; document.getElementById('l-msg').innerText="SOLVED"; saveGameStats('light',finalScore,lMoves,lTime); showGameCompleteModal('light','var(--light-accent)','LIGHT EM\' UP',finalScore,lMoves,lTime); } }
 
-        // ==================== SWITCHEROO (3x3/2 circles, 4x4/3 circles, 20% more generous) ====================
+        // ==================== SWITCHEROO (always 3x3, 2 circles, at least 2 walls, always solvable) ====================
         const swColors=['#ff1744','#00e5ff','#fdd835','#ff8c00','#a200ff','#76ff03','#ff6699','#00bcd4'];
         let swGridSize=3, swGrid=[], swChars=[], swDests=[], swActive=false, swTime=0, swMoves=0;
-        function startSwitcheroo(){ showScreen('switcheroo-game'); setSeedForToday(); swGridSize = Math.floor(random()*2) === 0 ? 3 : 4; let numPairs = swGridSize === 3 ? 2 : 3; document.getElementById('switcheroo-grid').style.gridTemplateColumns=`repeat(${swGridSize},1fr)`; document.getElementById('switcheroo-grid').style.gridTemplateRows=`repeat(${swGridSize},1fr)`; swGrid=Array(swGridSize*swGridSize).fill().map(()=>({type:'empty',char:-1,dest:-1})); for(let i=0;i<swGridSize*swGridSize;i++) if(random()<0.18)swGrid[i].type='wall'; swChars=[]; swDests=[]; let emptyCells=[]; for(let i=0;i<swGridSize*swGridSize;i++)if(swGrid[i].type==='empty')emptyCells.push(i); for(let i=emptyCells.length-1;i>0;i--){ const j=Math.floor(random()*(i+1)); [emptyCells[i],emptyCells[j]]=[emptyCells[j],emptyCells[i]]; } for(let p=0;p<numPairs;p++){ if(emptyCells.length<2)break; let charIdx=emptyCells.pop(), destIdx=emptyCells.pop(), colorIdx=p%swColors.length; swChars.push({r:Math.floor(charIdx/swGridSize),c:charIdx%swGridSize,colorIdx}); swDests.push({r:Math.floor(destIdx/swGridSize),c:destIdx%swGridSize,colorIdx}); swGrid[charIdx].char=p; swGrid[destIdx].dest=p; } swActive=true; swTime=0; swMoves=0; document.getElementById('sw-time').innerText='0'; document.getElementById('sw-moves').innerText='0'; document.getElementById('sw-score').innerText='---'; document.getElementById('sw-msg').innerText=''; renderSwitcheroo(); clearInterval(timerInterval); timerInterval=setInterval(()=>{ if(swActive){ swTime++; document.getElementById('sw-time').innerText=swTime; } },1000); }
-        function renderSwitcheroo(){ const container=document.getElementById('switcheroo-grid'); container.innerHTML=''; for(let i=0;i<swGridSize*swGridSize;i++){ let tile=document.createElement('div'); tile.className='s-tile'+(swGrid[i].type==='wall'?' wall':''); if(swGrid[i].dest!==-1){ let destDiv=document.createElement('div'); destDiv.className='s-dest'; destDiv.style.borderColor=swColors[swDests[swGrid[i].dest].colorIdx]; tile.appendChild(destDiv); } if(swGrid[i].char!==-1){ let charDiv=document.createElement('div'); charDiv.className='s-char'; charDiv.style.backgroundColor=swColors[swChars[swGrid[i].char].colorIdx]; charDiv.innerText='C'; tile.appendChild(charDiv); } container.appendChild(tile); } }
-        function swMove(dir){ if(!swActive)return; let dr=dir==='up'?-1:(dir==='down'?1:0), dc=dir==='left'?-1:(dir==='right'?1:0); let moves=[], occupiedTarget=new Set(); for(let c=0;c<swChars.length;c++){ let char=swChars[c], newR=char.r+dr, newC=char.c+dc, targetIdx=newR*swGridSize+newC; if(newR<0||newR>=swGridSize||newC<0||newC>=swGridSize)continue; if(swGrid[targetIdx].type==='wall')continue; let occupied=false; for(let o=0;o<swChars.length;o++)if(o!==c&&swChars[o].r===newR&&swChars[o].c===newC)occupied=true; if(occupied||occupiedTarget.has(targetIdx))continue; moves.push({fromIdx:char.r*swGridSize+char.c,toIdx:targetIdx,charIdx:c}); occupiedTarget.add(targetIdx); } if(moves.length===0)return; swMoves++; document.getElementById('sw-moves').innerText=swMoves; for(let m of moves){ swGrid[m.fromIdx].char=-1; swGrid[m.toIdx].char=m.charIdx; swChars[m.charIdx].r=Math.floor(m.toIdx/swGridSize); swChars[m.charIdx].c=m.toIdx%swGridSize; } renderSwitcheroo(); checkSwitcherooWin(); }
-        function checkSwitcherooWin(){ let solved=swChars.every((c,i)=>c.r===swDests[i].r&&c.c===swDests[i].c); if(solved){ swActive=false; clearInterval(timerInterval); let timeScore=Math.max(0,100-Math.floor(swTime/2)), moveScore=Math.max(0,100-swMoves*3); let rawScore=Math.round(timeScore*0.75+moveScore*0.25); let finalScore=Math.min(100,Math.round(rawScore*1.2)); document.getElementById('sw-score').innerText=finalScore; document.getElementById('sw-msg').innerText="SOLVED"; saveGameStats('switcheroo',finalScore,swMoves,swTime); showGameCompleteModal('switcheroo','var(--switcheroo-accent)','SWITCHEROO',finalScore,swMoves,swTime); } }
+        function isSwitcherooSolvable() {
+            // BFS over combined positions of the two characters
+            let start = swChars.map(c => c.r*swGridSize + c.c).sort((a,b)=>a-b);
+            let targets = swDests.map(d => d.r*swGridSize + d.c).sort((a,b)=>a-b);
+            if (start[0] === targets[0] && start[1] === targets[1]) return true;
+            let visited = new Set();
+            let queue = [start];
+            visited.add(start.join(','));
+            const dirs = [[-1,0],[1,0],[0,-1],[0,1]]; // up, down, left, right
+            while (queue.length) {
+                let cur = queue.shift();
+                for (let d of dirs) {
+                    let next = [];
+                    let occupied = new Set();
+                    for (let pos of cur) {
+                        let r = Math.floor(pos/swGridSize), c = pos%swGridSize;
+                        let nr = r + d[0], nc = c + d[1];
+                        if (nr < 0 || nr >= swGridSize || nc < 0 || nc >= swGridSize || swGrid[nr*swGridSize+nc].type === 'wall') {
+                            next.push(pos); // can't move, stay
+                        } else {
+                            next.push(nr*swGridSize+nc);
+                        }
+                    }
+                    // Check no two characters in same cell
+                    let newSet = [...new Set(next)];
+                    if (newSet.length < 2) continue; // collision
+                    newSet.sort((a,b)=>a-b);
+                    let key = newSet.join(',');
+                    if (!visited.has(key)) {
+                        if (newSet[0] === targets[0] && newSet[1] === targets[1]) return true;
+                        visited.add(key);
+                        queue.push(newSet);
+                    }
+                }
+            }
+            return false;
+        }
+        function generateSwitcherooPuzzle() {
+            while (true) {
+                swGrid = Array(9).fill().map(() => ({type:'empty',char:-1,dest:-1}));
+                // place at least 2 walls
+                let wallCells = [];
+                while (wallCells.length < 2) {
+                    let idx = Math.floor(random()*9);
+                    if (!wallCells.includes(idx)) wallCells.push(idx);
+                }
+                for (let idx of wallCells) swGrid[idx].type = 'wall';
+                swChars = []; swDests = [];
+                let emptyCells = [];
+                for (let i=0;i<9;i++) if (swGrid[i].type==='empty') emptyCells.push(i);
+                if (emptyCells.length < 4) continue; // not enough space
+                // shuffle
+                for (let i=emptyCells.length-1;i>0;i--) {
+                    let j = Math.floor(random()*(i+1));
+                    [emptyCells[i], emptyCells[j]] = [emptyCells[j], emptyCells[i]];
+                }
+                let charIdx1 = emptyCells.pop(), destIdx1 = emptyCells.pop();
+                let charIdx2 = emptyCells.pop(), destIdx2 = emptyCells.pop();
+                swChars.push({r:Math.floor(charIdx1/3), c:charIdx1%3, colorIdx:0});
+                swDests.push({r:Math.floor(destIdx1/3), c:destIdx1%3, colorIdx:0});
+                swChars.push({r:Math.floor(charIdx2/3), c:charIdx2%3, colorIdx:1});
+                swDests.push({r:Math.floor(destIdx2/3), c:destIdx2%3, colorIdx:1});
+                swGrid[charIdx1].char = 0;
+                swGrid[charIdx2].char = 1;
+                swGrid[destIdx1].dest = 0;
+                swGrid[destIdx2].dest = 1;
+                if (isSwitcherooSolvable()) return;
+            }
+        }
+        function startSwitcheroo() {
+            showScreen('switcheroo-game');
+            setSeedForToday();
+            swGridSize = 3;
+            document.getElementById('switcheroo-grid').style.gridTemplateColumns = `repeat(3,1fr)`;
+            document.getElementById('switcheroo-grid').style.gridTemplateRows = `repeat(3,1fr)`;
+            generateSwitcherooPuzzle();
+            swActive = true; swTime = 0; swMoves = 0;
+            document.getElementById('sw-time').innerText = '0';
+            document.getElementById('sw-moves').innerText = '0';
+            document.getElementById('sw-score').innerText = '100';
+            document.getElementById('sw-msg').innerText = '';
+            renderSwitcheroo();
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (swActive) {
+                    swTime++;
+                    document.getElementById('sw-time').innerText = swTime;
+                    let timeScore = Math.max(0, 100 - Math.floor(swTime/2));
+                    let moveScore = Math.max(0, 100 - swMoves*3);
+                    let rawScore = Math.round(timeScore*0.75 + moveScore*0.25);
+                    let finalScore = Math.min(100, Math.round(rawScore*1.2));
+                    document.getElementById('sw-score').innerText = finalScore;
+                }
+            }, 1000);
+        }
+        function renderSwitcheroo() {
+            const container = document.getElementById('switcheroo-grid');
+            container.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                let tile = document.createElement('div');
+                tile.className = 's-tile' + (swGrid[i].type === 'wall' ? ' wall' : '');
+                if (swGrid[i].dest !== -1) {
+                    let destDiv = document.createElement('div');
+                    destDiv.className = 's-dest';
+                    destDiv.style.borderColor = swColors[swDests[swGrid[i].dest].colorIdx];
+                    tile.appendChild(destDiv);
+                }
+                if (swGrid[i].char !== -1) {
+                    let charDiv = document.createElement('div');
+                    charDiv.className = 's-char';
+                    charDiv.style.backgroundColor = swColors[swChars[swGrid[i].char].colorIdx];
+                    charDiv.innerText = 'C';
+                    tile.appendChild(charDiv);
+                }
+                container.appendChild(tile);
+            }
+        }
+        function swMove(dir) {
+            if (!swActive) return;
+            let dr = dir === 'up' ? -1 : (dir === 'down' ? 1 : 0);
+            let dc = dir === 'left' ? -1 : (dir === 'right' ? 1 : 0);
+            let moves = [], occupiedTarget = new Set();
+            for (let c = 0; c < swChars.length; c++) {
+                let char = swChars[c];
+                let newR = char.r + dr, newC = char.c + dc;
+                if (newR < 0 || newR >= 3 || newC < 0 || newC >= 3) continue;
+                let targetIdx = newR * 3 + newC;
+                if (swGrid[targetIdx].type === 'wall') continue;
+                let occupied = false;
+                for (let o = 0; o < swChars.length; o++) {
+                    if (o !== c && swChars[o].r === newR && swChars[o].c === newC) occupied = true;
+                }
+                if (occupied || occupiedTarget.has(targetIdx)) continue;
+                moves.push({ fromIdx: char.r * 3 + char.c, toIdx: targetIdx, charIdx: c });
+                occupiedTarget.add(targetIdx);
+            }
+            if (moves.length === 0) return;
+            swMoves++;
+            document.getElementById('sw-moves').innerText = swMoves;
+            for (let m of moves) {
+                swGrid[m.fromIdx].char = -1;
+                swGrid[m.toIdx].char = m.charIdx;
+                swChars[m.charIdx].r = Math.floor(m.toIdx / 3);
+                swChars[m.charIdx].c = m.toIdx % 3;
+            }
+            renderSwitcheroo();
+            checkSwitcherooWin();
+        }
+        function checkSwitcherooWin() {
+            let solved = swChars.every((c, i) => c.r === swDests[i].r && c.c === swDests[i].c);
+            if (solved) {
+                swActive = false;
+                clearInterval(timerInterval);
+                let timeScore = Math.max(0, 100 - Math.floor(swTime/2));
+                let moveScore = Math.max(0, 100 - swMoves*3);
+                let rawScore = Math.round(timeScore*0.75 + moveScore*0.25);
+                let finalScore = Math.min(100, Math.round(rawScore*1.2));
+                document.getElementById('sw-score').innerText = finalScore;
+                document.getElementById('sw-msg').innerText = "SOLVED";
+                saveGameStats('switcheroo', finalScore, swMoves, swTime);
+                showGameCompleteModal('switcheroo', 'var(--switcheroo-accent)', 'SWITCHEROO', finalScore, swMoves, swTime);
+            }
+        }
 
-        // ==================== HINTWORDS (100+ puzzles, 3 per day, time-based scoring, sequential unlocking) ====================
+        // ==================== HINTWORDS (wrong guess: -1 point, reveal first letter and lock it, -1 point every 15s) ====================
         const hwPuzzles = [
             { clue1: "Santa", clue2: "Holiday", answer: "christmas" },
             { clue1: "Bark", clue2: "Tail", answer: "dog" },
@@ -406,61 +565,35 @@
             { clue1: "Crown", clue2: "Mane", answer: "lion" },
             { clue1: "Water", clue2: "Big", answer: "ocean" },
             { clue1: "Glass", clue2: "Open", answer: "window" },
-
-{ clue1: "Room", clue2: "Jail", answer: "cell"},
-
-{ clue1: "Food", clue2: "Room", answer: "cafeteria"},
-
-{ clue1: "Wall", clue2: "Mart", answer: "walmart"},
-
-{ clue1: "neigh", clue2: "saddle", answer: "horse"},
-
-{ clue1: "mine", clue2: "craft", answer: "minecraft"},
-
-{ clue1: "traffic", clue2: "cluster", answer: "jam"},
-
-{ clue1: "candy", clue2: "costumes", answer: "halloween"},
-
-{ clue1: "facial", clue2: "hair", answer: "beard"},
-
-{ clue1: "this", clue2: "game", answer: "mindflex2"},
-
-{ clue1: "taco", clue2: "country", answer: "mexico"},
-
-{ clue1: "yeehaw", clue2: "country", answer: "usa"},
-
-{ clue1: "baguette", clue2: "country", answer: "france"},
-
-{ clue1: "rainbow", clue2: "color", answer: "orange"},
- { clue1: "keyboard", clue2: "bottom", answer: "space"},
-
-{ clue1: "pasta", clue2: "country", answer: "italy"},
-
-{ clue1: "Dig", clue2: "Movie", answer: "holes"},
-
-{ clue1: "bowling", clue2: "roll", answer: "ball"},
-
-{ clue1: "baseball", clue2: "pitch", answer: "fastball"},
-
-{ clue1: "fire", clue2: "fighter", answer: "firefighter"},
-
-{ clue1: "ten", clue2: "nine", answer: "eight"},
-
-{ clue1: "ikea", clue2: "country", answer: "sweden"},
-
-{ clue1: "owns", clue2: "twitter", answer: "musk"},
-
-{ clue1: "sixteen", clue2: "president", answer: "lincoln"},
-
-{ clue1: "nba", clue2: "mamba", answer: "kobe"},
-
-{ clue1: "Star", clue2: "fish", answer: "starfish"},
-
-
-
-            { clue1: "Valuable", clue2: "Award", answer: "mvp"}
+            { clue1: "Room", clue2: "Jail", answer: "cell" },
+            { clue1: "Food", clue2: "Room", answer: "cafeteria" },
+            { clue1: "Wall", clue2: "Mart", answer: "walmart" },
+            { clue1: "neigh", clue2: "saddle", answer: "horse" },
+            { clue1: "mine", clue2: "craft", answer: "minecraft" },
+            { clue1: "traffic", clue2: "cluster", answer: "jam" },
+            { clue1: "candy", clue2: "costumes", answer: "halloween" },
+            { clue1: "facial", clue2: "hair", answer: "beard" },
+            { clue1: "this", clue2: "game", answer: "mindflex2" },
+            { clue1: "taco", clue2: "country", answer: "mexico" },
+            { clue1: "yeehaw", clue2: "country", answer: "usa" },
+            { clue1: "baguette", clue2: "country", answer: "france" },
+            { clue1: "rainbow", clue2: "color", answer: "orange" },
+            { clue1: "keyboard", clue2: "bottom", answer: "space" },
+            { clue1: "pasta", clue2: "country", answer: "italy" },
+            { clue1: "Dig", clue2: "Movie", answer: "holes" },
+            { clue1: "bowling", clue2: "roll", answer: "ball" },
+            { clue1: "baseball", clue2: "pitch", answer: "fastball" },
+            { clue1: "fire", clue2: "fighter", answer: "firefighter" },
+            { clue1: "ten", clue2: "nine", answer: "eight" },
+            { clue1: "ikea", clue2: "country", answer: "sweden" },
+            { clue1: "owns", clue2: "twitter", answer: "musk" },
+            { clue1: "sixteen", clue2: "president", answer: "lincoln" },
+            { clue1: "nba", clue2: "mamba", answer: "kobe" },
+            { clue1: "Star", clue2: "fish", answer: "starfish" },
+            { clue1: "Valuable", clue2: "Award", answer: "mvp" }
         ];
         let hwActive = false, hwTime = 0, hwGuesses = 0, hwDailyPuzzles = [], hwCurrentIndex = 0;
+        let hwFirstRevealed = false;
         function getHintWordsDailyPuzzles() {
             let d = new Date();
             let daySeed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
@@ -480,6 +613,7 @@
             hwActive = true;
             hwTime = 0;
             hwGuesses = 0;
+            hwFirstRevealed = false;
             document.getElementById('hw-time').innerText = '0';
             document.getElementById('hw-guesses').innerText = '0';
             document.getElementById('hw-score').innerText = '100';
@@ -492,7 +626,7 @@
                 if (hwActive) {
                     hwTime++;
                     document.getElementById('hw-time').innerText = hwTime;
-                    let score = Math.max(0, 100 - Math.floor(hwTime / 15));
+                    let score = Math.max(0, 100 - hwGuesses - Math.floor(hwTime / 15));
                     document.getElementById('hw-score').innerText = score;
                 }
             }, 1000);
@@ -501,10 +635,15 @@
             let puzzle = hwDailyPuzzles[hwCurrentIndex];
             document.getElementById('hw-clue1').innerText = puzzle.clue1.toUpperCase();
             document.getElementById('hw-clue2').innerText = puzzle.clue2.toUpperCase();
-            document.getElementById('hw-answer-input').value = '';
-            document.getElementById('hw-answer-input').disabled = false;
+            let input = document.getElementById('hw-answer-input');
+            input.value = '';
+            input.disabled = false;
             document.getElementById('hw-submit-btn').disabled = false;
-            document.getElementById('hw-answer-input').focus();
+            hwFirstRevealed = false;
+            input.removeAttribute('data-revealed');
+            input.focus();
+            // reset input event listener if any
+            input.oninput = null;
         }
         function hwSubmit() {
             if (!hwActive) return;
@@ -518,9 +657,9 @@
                 if (hwCurrentIndex >= hwDailyPuzzles.length) {
                     hwActive = false;
                     clearInterval(timerInterval);
-                    document.getElementById('hw-answer-input').disabled = true;
+                    input.disabled = true;
                     document.getElementById('hw-submit-btn').disabled = true;
-                    let finalScore = Math.max(0, 100 - Math.floor(hwTime / 15));
+                    let finalScore = Math.max(0, 100 - hwGuesses - Math.floor(hwTime / 15));
                     document.getElementById('hw-score').innerText = finalScore;
                     document.getElementById('hw-msg').innerText = 'ALL SOLVED!';
                     document.getElementById('hw-progress').innerText = 'COMPLETE';
@@ -533,9 +672,25 @@
             } else {
                 hwGuesses++;
                 document.getElementById('hw-guesses').innerText = hwGuesses;
-                document.getElementById('hw-feedback').innerText = 'WRONG - TRY AGAIN';
-                input.value = '';
-                input.focus();
+                let score = Math.max(0, 100 - hwGuesses - Math.floor(hwTime / 15));
+                document.getElementById('hw-score').innerText = score;
+                if (!hwFirstRevealed) {
+                    let firstLetter = currentPuzzle.answer.charAt(0).toUpperCase();
+                    input.value = firstLetter;
+                    hwFirstRevealed = true;
+                    input.setAttribute('data-revealed', 'true');
+                    // Prevent erasing the first letter
+                    input.oninput = function(e) {
+                        if (input.value.length === 0 || input.value.charAt(0) !== firstLetter) {
+                            input.value = firstLetter + input.value.slice(firstLetter.length);
+                        }
+                    };
+                    input.focus();
+                    input.setSelectionRange(1, 1);
+                    document.getElementById('hw-feedback').innerText = 'WRONG - FIRST LETTER REVEALED';
+                } else {
+                    document.getElementById('hw-feedback').innerText = 'WRONG - TRY AGAIN';
+                }
             }
         }
         document.addEventListener('DOMContentLoaded', function() {
